@@ -1,11 +1,15 @@
-var home = require('../app/controllers/home');
+'use strict';
 
-//you can include all your controllers
+/**
+ * call controllers
+ */
+var login = require('../app/controllers/login');
 
+
+/**
+ * set url 
+ */
 module.exports = function (app)
  {
-	 app.get('/editor', home.editor);
-     app.post('/savedata', home.savedata);
-   
-
+     app.get('/login', login.userLogin);
 }

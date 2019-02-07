@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<script src="{{ env.HOST_NAME }}js/jquery-3.2.1.min.js"></script>
+		<script src="{{ env.HOST_NAME }}ckeditor/ckeditor.js"></script>
+		<script src="{{ env.HOST_NAME }}ckeditor/samples/js/sample.js"></script>
+		<script>
+			$(document).ready(function() {
+				$("#txtEditor").Editor();
+			});
+		</script>
+		<link rel="stylesheet" href="{{ env.HOST_NAME }}ckeditor/samples/css/samples.css">
+	<link rel="stylesheet" href="{{ env.HOST_NAME }}ckeditor/samples/toolbarconfigurator/lib/codemirror/neo.css">
+		<title>Sync Editor</title>
+	</head>
+<body id="main">

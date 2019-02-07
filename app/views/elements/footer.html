@@ -1,0 +1,29 @@
+<script>
+var editor = CKEDITOR.replace( 'editor' );
+// The "change" event is fired whenever a change is made in the editor.
+editor.on( 'change', function( evt ) 
+{
+	console.log(evt.editor.getData());
+     $.ajax({
+     		 url: "{{ env.HOST_NAME }}/savedata", 
+     		  method: "POST",
+  			data: { editorData : evt.editor.getData()},
+  			//dataType: "html",
+  			 beforeSend: function() 
+  			 {
+  			 	//console.log("Before save");
+  			 },
+             success:function(data) {
+  			      //console.log(data);
+  			 //console.log(data);
+    	 },
+             error:function() {
+  			    console.log("error");
+    		 },
+    	});
+});
+initSample();
+</script>
+
+</body>
+</html>

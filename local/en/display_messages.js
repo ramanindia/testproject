@@ -9,6 +9,7 @@ var WEB_MESSAGES = {
 	LOGIN_TEXT:"Log in",
 	LOST_PASSWORD_TEXT:"Lost your password?",
 	ALL_RIGHT_RESERVED_TEXT:"All Rights Reserved. Admin! is a Bootstrap 3 template. Privacy and Terms",
+	LOGINPAGETITLE:"Login | Admin",
 	USER_NOT_EXITS: "Entered user name already exists please select another user name", 
 	LOGIN_ERROR: "Could not login, please try again", 
 	REQUIRED_DATA: "Body Data is required", 

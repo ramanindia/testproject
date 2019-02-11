@@ -11,10 +11,6 @@ let port = process.env.PORT || 3001;
 if (port === 3001) 
 {
     var connection = mysql.createPool({
-<<<<<<< HEAD
-		connectionLimit : dataBaseConfig.MAXCONNECTIONLIMIT,
-=======
->>>>>>> 34ed9113e08ebb2d8b83e14e966f8f2e7ffc5ca4
         host: dataBaseConfig.HOSTNAME,
         user: dataBaseConfig.DBUSERNAME,
         password: dataBaseConfig.DBPASSWORD,
@@ -25,10 +21,6 @@ if (port === 3001)
 } else 
 {
     var connection = mysql.createPool({
-<<<<<<< HEAD
-		connectionLimit : dataBaseConfig.MAXCONNECTIONLIMIT,
-=======
->>>>>>> 34ed9113e08ebb2d8b83e14e966f8f2e7ffc5ca4
        host: dataBaseConfig.HOSTNAME,
         user: dataBaseConfig.DBUSERNAME,
         password: dataBaseConfig.DBPASSWORD,
@@ -40,10 +32,7 @@ if (port === 3001)
 /**
  * create connection and return connetion string
  */
-<<<<<<< HEAD
-=======
- 
->>>>>>> 34ed9113e08ebb2d8b83e14e966f8f2e7ffc5ca4
+
 /*connection.connect(function(err) 
 {
   if (err) 
@@ -53,8 +42,6 @@ if (port === 3001)
   }
   console.log('connected as id ' + connection.threadId);
 });*/
-<<<<<<< HEAD
-=======
 
 connection.getConnection(function(err, connection)
  {
@@ -67,6 +54,4 @@ connection.getConnection(function(err, connection)
 
 });
 
-
->>>>>>> 34ed9113e08ebb2d8b83e14e966f8f2e7ffc5ca4
 module.exports = connection;

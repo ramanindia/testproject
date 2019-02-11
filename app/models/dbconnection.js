@@ -10,7 +10,8 @@ let port = process.env.PORT || 3001;
 
 if (port === 3001) 
 {
-    var connection = mysql.createConnection({
+    var connection = mysql.createPool({
+		connectionLimit : dataBaseConfig.MAXCONNECTIONLIMIT,
         host: dataBaseConfig.HOSTNAME,
         user: dataBaseConfig.DBUSERNAME,
         password: dataBaseConfig.DBPASSWORD,
@@ -19,7 +20,8 @@ if (port === 3001)
     });
 } else 
 {
-    var connection = mysql.createConnection({
+    var connection = mysql.createPool({
+		connectionLimit : dataBaseConfig.MAXCONNECTIONLIMIT,
        host: dataBaseConfig.HOSTNAME,
         user: dataBaseConfig.DBUSERNAME,
         password: dataBaseConfig.DBPASSWORD,
@@ -27,11 +29,10 @@ if (port === 3001)
         insecureAuth: true
     });
 }
-
 /**
  * create connection and return connetion string
  */
-connection.connect(function(err) 
+/*connection.connect(function(err) 
 {
   if (err) 
   {
@@ -39,7 +40,5 @@ connection.connect(function(err)
     return;
   }
   console.log('connected as id ' + connection.threadId);
-});
-
-
+});*/
 module.exports = connection;

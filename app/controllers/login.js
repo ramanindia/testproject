@@ -14,6 +14,6 @@ exports.userLogin = function(req, res)
 	
 	 res.render('layouts/login.html',
 					{
-						MESSAGE:LANGTEXT,currentYear: new Date().getFullYear()
+						MESSAGE:LANGTEXT,currentYear: new Date().getFullYear(),csrfToken: req.csrfToken()
 					});
 }

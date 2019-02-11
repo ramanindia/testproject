@@ -10,20 +10,22 @@ let port = process.env.PORT || 3001;
 
 if (port === 3001) 
 {
-    var connection = mysql.createConnection({
+    var connection = mysql.createPool({
         host: dataBaseConfig.HOSTNAME,
         user: dataBaseConfig.DBUSERNAME,
         password: dataBaseConfig.DBPASSWORD,
         database: dataBaseConfig.DBNAME,
+		connectionLimit : dataBaseConfig.MAXCONNECTIONLIMIT,
         insecureAuth: true
     });
 } else 
 {
-    var connection = mysql.createConnection({
+    var connection = mysql.createPool({
        host: dataBaseConfig.HOSTNAME,
         user: dataBaseConfig.DBUSERNAME,
         password: dataBaseConfig.DBPASSWORD,
         database: dataBaseConfig.DBNAME,
+		connectionLimit : dataBaseConfig.MAXCONNECTIONLIMIT,
         insecureAuth: true
     });
 }
@@ -31,7 +33,8 @@ if (port === 3001)
 /**
  * create connection and return connetion string
  */
-connection.connect(function(err) 
+ 
+/*connection.connect(function(err) 
 {
   if (err) 
   {
@@ -39,6 +42,17 @@ connection.connect(function(err)
     return;
   }
   console.log('connected as id ' + connection.threadId);
+});*/
+
+connection.getConnection(function(err, connection)
+ {
+    if (err) 
+  {
+    console.error('error connecting: ' ,err);
+    return;
+  }
+  console.log('connected as id ' ,connection.threadId);
+
 });
 
 

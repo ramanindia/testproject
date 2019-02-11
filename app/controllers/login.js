@@ -14,6 +14,6 @@ exports.userLogin = function(req, res)
 	
 	 res.render('layouts/login.html',
 					{
-						MESSAGE:LANGTEXT
+						MESSAGE:LANGTEXT,csrfToken: req.csrfToken()
 					});
 }

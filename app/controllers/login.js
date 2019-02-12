@@ -9,9 +9,11 @@
  
 exports.userLogin = function(req, res) 
 {   
-     console.log(req.body);
+     let requestData = req.body;
 	 
-	 user.authentication(req);
+	 let userAuthData = user.authentication(requestData.username,requestData.password);
+	 
+	 console.log(userAuthData);
 	  
 	
 	 res.render('layouts/login.html',

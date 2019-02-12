@@ -3,17 +3,26 @@
 var bcrypt = require('bcrypt');
 var db = require('../../app/models/dbconnection'); 
 
-exports.authentication = function(req) 
+
+exports.authentication = function(username,password) 
 {
-	let userData = req.body;
-	let userLoginQuery = 'select * from users where email= "'+userData.username+'" or username = "'+userData.username+'"';
+	//let userData = req.body;
+	let userLoginQuery = 'select * from users where email= "'+username+'" or username = "'+username+'"';
 	
 	console.log(userLoginQuery);
+	let returnData = [];
 	
 	db.query(userLoginQuery,function(err,results)
 	{
 		if(err)
 		{
+			returnData.push({
+				error:true,
+				message:LANGTEXT.LOGIN_ERROR
+			});
+			
+			//return returnData;
+			
 			/*res.json({
             status:false,
             message:LANGTEXT.LOGIN_ERROR
@@ -21,8 +30,48 @@ exports.authentication = function(req)
 			
 		}else
 		{
-			console.log(results[0]);
-			console.log(results.username);
+			if(results)
+			{
+				//console.log(results[0]);				
+				//console.log(results[0].username);				
+				//console.log(results[0].password);
+				
+				bcrypt.compare(password, results[0].password).then(function(res) 
+				{
+					if(res)
+					{
+						console.log("matched");
+						returnData.push({
+							error:false,
+							message:LANGTEXT.LOGIN_SUCCESS_MESSAGE
+						});
+							
+						    return returnData;
+					}
+					else
+					{
+						
+						console.log("not matched");
+							returnData.push({
+				error:true,
+				message:LANGTEXT.PASSWORD_INCORRECT
+			});
+			//return returnData;
+				
+					}
+				});
+			}
+			else
+			{
+				console.log("invalid Username");
+				
+				returnData.push({
+				error:true,
+				message:LANGTEXT.NOT_FOUND
+			});
+			//return returnData;
+			
+			}
 			/*bcrypt.compare('somePassword', hash, function(err, res) 
 			{
 			  if(res) {
@@ -32,8 +81,11 @@ exports.authentication = function(req)
 			  } 
 			});*/
 		}
+		console.log(returnData);
 		
 	});
+		//return ['d','d','dd','ddddyyy'];
+		
   
 };
 

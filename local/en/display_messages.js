@@ -3,13 +3,13 @@
  */
 var WEB_MESSAGES = {
 	//Form text Message
-	ADMIN_LOGIN_FORM_HEADING:"Admin Login",
+	ADMIN_LOGIN_FORM_HEADING:" Login",
 	LOGIN_FORM_USERNAME_PLACEHOLDER:"Username/email-id",
 	LOGIN_FORM_PASSWORD_PLACEHOLDER:"Password",
 	LOGIN_TEXT:"Log in",
 	LOST_PASSWORD_TEXT:"Lost your password?",
-	ALL_RIGHT_RESERVED_TEXT:"All Rights Reserved. Admin! is a Bootstrap 3 template. Privacy and Terms",
-	LOGINPAGETITLE:"Login | Admin",
+	ALL_RIGHT_RESERVED_TEXT:"All Rights Reserved. ! is a Bootstrap 3 template. Privacy and Terms",
+	LOGINPAGETITLE:"Login | ",
 	USER_NOT_EXITS: "Entered user name already exists please select another user name", 
 	LOGIN_ERROR: "Could not login, please try again", 
 	REQUIRED_DATA: "Body Data is required", 

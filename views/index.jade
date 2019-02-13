@@ -1,0 +1,12 @@
+block content
+    h3 Flash messages in Express 4
+    p <a href="http://localhost:4000/express-flash">Click here</a> for a flash message using the express-flash module.
+    p <a href="http://localhost:4000/session-flash">Click here</a> for a flash message using custom middleware
+    p Refresh to clear the flash message.
+
+    if expressFlash.length > 0
+        p <strong>FLASH! sx</strong> #{ expressFlash }
+
+    if sessionFlash && sessionFlash.message
+        div(class=sessionFlash.type)
+            p <strong>FLASH!</strong> #{ sessionFlash.message }

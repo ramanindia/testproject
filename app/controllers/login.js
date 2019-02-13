@@ -33,8 +33,11 @@ exports.userLogin = function(req, res)
 	 });
 	
 	  req.flash('error', 'Either username or password incorrect');
-	  
+	  // console.log(res);
+	 // console.log(res.error_flash);
 	//  console.log("request data",req);
+console.log(req.flash('message'));
+	
 	 res.render('layouts/login.html',
 					{
 						MESSAGE:LANGTEXT,currentYear: new Date().getFullYear(),csrfToken: req.csrfToken()

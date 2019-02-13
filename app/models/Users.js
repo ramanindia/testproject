@@ -12,7 +12,7 @@ exports.userAuthenticated = function(username,password,callback)
 	{
 		if(err)
 		{
-			return callback(LOGIN_ERROR);
+			return callback(LANGTEXT.LOGIN_ERROR);
         }else
 		{
 			if(results.length > 0)

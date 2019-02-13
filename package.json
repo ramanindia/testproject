@@ -21,7 +21,9 @@
     "esdoc": "^1.1.0",
     "express": "^4.16.4",
     "express-flash": "0.0.2",
+    "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
+    "jade": "^1.11.0",
     "mysql": "^2.16.0",
     "nunjucks": "^3.1.7",
     "path": "^0.12.7"

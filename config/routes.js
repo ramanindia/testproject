@@ -4,7 +4,6 @@
  * call controllers
  */
  
- var db = require('../app/models/dbconnection'); 
  var login = require('../app/controllers/login');
 /**
  * set url 

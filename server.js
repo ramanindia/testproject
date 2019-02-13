@@ -65,31 +65,35 @@ var app = express();
  */
 require('./config/routes.js')(app); 
 
-app.use(function(req, res, next) {
+/*app.use(function(req, res, next) {
 
+//console.log(req);
   //res.locals.SITR_URL = '';
  //res.locals.SESSION_VALUE = req.session.user;
-   res.locals.error_flash = req.flash('error')[0];
-   res.locals.success_flash = req.flash('success')[0]
+   //res.locals.error_flash = req.flash('error')[0];
+   //res.locals.success_flash = req.flash('success')[0]
 //  var current_url = req.url;
  // var url_actions = current_url.split("/");
  // res.locals.controller = url_actions[1];
  // res.locals.action = url_actions[2];
-  next();
+  //next();
 
-});
+});*/
 
 
 app.use(function (err, req, res, next)
  {
-	   res.locals.SESSION_VALUE = req.session.user;
+	 /*console.log("req",err);
+	  console.log("req",req);
+	  console.log("res",res);*/
+	  // res.locals.SESSION_VALUE = req.session.user;
    res.locals.error_flash = req.flash('error')[0];
    res.locals.success_flash = req.flash('success')[0]
 	 
   if (err.code !== 'EBADCSRFTOKEN') return next(err)
      // handle CSRF token errors here
      res.status(403)
-     res.send('Invalid csrf token')
+     res.send('Invalid csrf token');
 })
 
 

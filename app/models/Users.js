@@ -4,91 +4,39 @@ var bcrypt = require('bcrypt');
 var db = require('../../app/models/dbconnection'); 
 
 
-exports.authentication = function(username,password) 
+exports.userAuthenticated = function(username,password,callback) 
 {
-	//let userData = req.body;
-	let userLoginQuery = 'select * from users where email= "'+username+'" or username = "'+username+'"';
 	
-	console.log(userLoginQuery);
-	let returnData = [];
-	
+	let userLoginQuery = 'select * from users where email= "'+username+'" or username = "'+username+'" and status=1';
 	db.query(userLoginQuery,function(err,results)
 	{
 		if(err)
 		{
-			returnData.push({
-				error:true,
-				message:LANGTEXT.LOGIN_ERROR
-			});
-			
-			//return returnData;
-			
-			/*res.json({
-            status:false,
-            message:LANGTEXT.LOGIN_ERROR
-            });*/
-			
-		}else
+			return callback(LOGIN_ERROR);
+        }else
 		{
-			if(results)
+			if(results.length > 0)
 			{
-				//console.log(results[0]);				
-				//console.log(results[0].username);				
-				//console.log(results[0].password);
-				
 				bcrypt.compare(password, results[0].password).then(function(res) 
 				{
 					if(res)
 					{
-						console.log("matched");
-						returnData.push({
-							error:false,
-							message:LANGTEXT.LOGIN_SUCCESS_MESSAGE
-						});
-							
-						    return returnData;
+						return callback(null, results[0]);
 					}
 					else
-					{
-						
-						console.log("not matched");
-							returnData.push({
-				error:true,
-				message:LANGTEXT.PASSWORD_INCORRECT
-			});
-			//return returnData;
-				
+					{						
+						return callback(null, null, LANGTEXT.PASSWORD_INCORRECT);
 					}
 				});
 			}
 			else
 			{
-				console.log("invalid Username");
 				
-				returnData.push({
-				error:true,
-				message:LANGTEXT.NOT_FOUND
-			});
-			//return returnData;
-			
-			}
-			/*bcrypt.compare('somePassword', hash, function(err, res) 
-			{
-			  if(res) {
-			   // Passwords match
-			  } else {
-			   // Passwords don't match
-			  } 
-			});*/
-		}
-		console.log(returnData);
-		
+				return callback(null, null, LANGTEXT.NOT_FOUND);
+			}			
+		}		
 	});
-		//return ['d','d','dd','ddddyyy'];
-		
-  
 };
-
 
 exports.registration = function(req) 
 {
@@ -105,7 +53,7 @@ exports.registration = function(req)
 			return false;
 		}	  
 		console.log(hash);
-		return hash
+		//return hash
     });
 	
 	console.log("HashPassword==========="+HashPassword);

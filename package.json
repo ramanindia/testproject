@@ -18,6 +18,8 @@
     "cookie-parser": "^1.4.3",
     "csurf": "^1.9.0",
     "dotenv": "^6.2.0",
+    "ejs": "^2.6.1",
+    "ejs-mate": "^3.0.0",
     "esdoc": "^1.1.0",
     "express": "^4.16.4",
     "express-flash": "0.0.2",

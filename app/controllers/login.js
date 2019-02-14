@@ -8,38 +8,44 @@
  var User = require('../../app/models/Users'); 
  
 exports.userLogin = function(req, res) 
-{   
+{   //console.log(req.body);
+	
      let requestData = req.body;
+	if (Object.keys(requestData).length !==0)
+	{
 	 User.userAuthenticated(requestData.username, requestData.password, function(err, user, reason) 
 	 {
-	  if (err) 
-	  {
-        console.log('err', err)
-	  }
-	  else
-	  {
-		  if(user)
-		  {
-			   console.log("Looged",user);
+		  if (err) 
+		  {			
+			req.flash('error', LANGTEXT.LOGIN_ERROR);
 		  }
-		 else 
-		 {
-			 console.log("reason",reason);
-          //req.flash('error', 'Either username or password incorrect');
-          //res.redirect('login');
-        }
-	  }
-	 
-	 });
+		  else
+		  {
+			  if(user)
+			  {  
+				   req.flash('success', LANGTEXT.LOGIN_SUCCESS_MESSAGE);
+			       res.redirect('dashboard');
+			  }
+			 else 
+			 {
+				
+				 req.flash('error', reason);
+			}
+		  }
+		      res.render('layouts/login.html',
+			{
+				MESSAGE:LANGTEXT,currentYear: new Date().getFullYear(),csrfToken: req.csrfToken()
+			});
+		});
+	}
+	else
+	{
+		 
+		res.render('layouts/login.html',
+		{
+			MESSAGE:LANGTEXT,currentYear: new Date().getFullYear(),csrfToken: req.csrfToken()
+		});
+	}
 	
-	  req.flash('error', 'Either username or password incorrect');
-	  // console.log(res);
-	 // console.log(res.error_flash);
-	//  console.log("request data",req);
-console.log(req.flash('message'));
-	
-	 res.render('layouts/login.html',
-					{
-						MESSAGE:LANGTEXT,currentYear: new Date().getFullYear(),csrfToken: req.csrfToken()
-					});
+		
 }

@@ -29,7 +29,13 @@
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
-		  Raman kumar singh {{error_flash}}
+		  {% if (messages.error) %}
+		  <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <strong>Error ! </strong> {{ messages.error }}.
+                  </div>
+			{% endif %}
             <form action="/login" method="POST">
               <h1>{{MESSAGE.ADMIN_LOGIN_FORM_HEADING}}</h1>
               <div>
@@ -56,5 +62,13 @@
         </div>
       </div>
     </div>
+	<!-- jQuery -->
+    <script src="{{ env.HOST_NAME }}vendors/jquery/dist/jquery.min.js"></script>
+	<!-- Bootstrap -->
+    <script src="{{ env.HOST_NAME }}vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="{{ env.HOST_NAME }}js/custom.min.js"></script>
+	
   </body>
+  
 </html>

@@ -4,11 +4,12 @@
  * call controllers
  */
  
- var login = require('../app/controllers/login');
+ var user = require('../app/controllers/user');
 /**
  * set url 
  */
 module.exports = function (app)
  {
-     app.all('/login', parseForm,csrfProtection,login.userLogin);
+     app.all('/login', parseForm,csrfProtection,user.userLogin);
+	  app.get('/dashboard',user.userDashboard);
 }

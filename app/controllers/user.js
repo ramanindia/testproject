@@ -8,8 +8,7 @@
  var User = require('../../app/models/Users'); 
  
 exports.userLogin = function(req, res) 
-{   //console.log(req.body);
-	
+{  
      let requestData = req.body;
 	if (Object.keys(requestData).length !==0)
 	{
@@ -34,7 +33,7 @@ exports.userLogin = function(req, res)
 		  }
 		      res.render('layouts/login.html',
 			{
-				MESSAGE:LANGTEXT,currentYear: new Date().getFullYear(),csrfToken: req.csrfToken()
+				formData:requestData,MESSAGE:LANGTEXT,currentYear: new Date().getFullYear(),csrfToken: req.csrfToken()
 			});
 		});
 	}
@@ -46,6 +45,23 @@ exports.userLogin = function(req, res)
 			MESSAGE:LANGTEXT,currentYear: new Date().getFullYear(),csrfToken: req.csrfToken()
 		});
 	}
+
+}
+
+
+ /**
+ * define dashboard function
+  * @param {object} req - all request object.
+   * @param {object} res - all response object.
+ */
+exports.userDashboard = function(req, res) 
+{  
+   
+		 
+		res.render('users/dashboard.html',
+		{
+			MESSAGE:LANGTEXT
+		});
 	
-		
+
 }

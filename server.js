@@ -10,7 +10,8 @@ var path  = require('path');
 var bodyParser = require('body-parser');
 var flash = require('express-flash');
 var session = require('express-session');
-var cookieParser = require('cookie-parser')
+var cookieParser = require('cookie-parser');
+var expressValidator = require('express-validator');
  /**
  * load envirment file
  */
@@ -41,6 +42,7 @@ var app = express();
     app.use(express.static(path.join(__dirname, 'public')));	
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({extended: true}));
+	app.use(expressValidator());
 	app.use(cookieParser());
 	
      app.use(session({

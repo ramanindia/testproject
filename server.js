@@ -12,12 +12,16 @@ var flash = require('express-flash');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var expressValidator = require('express-validator');
+   global.FUNCTIONS = require('./app/functions');
+
  /**
  * load envirment file
  */
 require('dotenv').load();
+
 global.env = process.env;
 
+//global.HOST_URL = env.HOST_NAME;
 
 /**
  * Multilanguage configuration
@@ -38,8 +42,7 @@ global.parseForm = bodyParser.urlencoded({ extended: false })
 const port = process.env.PORT || 3001;
 
 var app = express();
-	
-    app.use(express.static(path.join(__dirname, 'public')));	
+
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({extended: true}));
 	app.use(expressValidator());
@@ -51,7 +54,7 @@ var app = express();
 					  saveUninitialized: true
 					  }));
 	app.use(flash());
-	
+	app.set('views', path.join(__dirname, 'views'));
 
 /**
  * Apply nunjucks and add custom filter and function. 
@@ -60,7 +63,7 @@ var app = express();
  nunjucks.configure(['app/views/'], { 
     autoescape: true, 
     express: app
-});
+}).addGlobal('HOST_URL', process.env.HOST_NAME);
 
 /**
  * configue routing
@@ -68,12 +71,23 @@ var app = express();
 require('./config/routes.js')(app); 
 
 app.use(function (err, req, res, next)
- {
+ {      console.log(1);
   if (err.code !== 'EBADCSRFTOKEN') return next(err)
      res.status(403)
      res.send('Invalid csrf token');
 });
 
+
+app.use(function(req, res, next) 
+{
+	console.log("Request session",req.session.user);
+	
+	 res.locals.SESSION_VALUE = req.session.user;
+     next();
+
+});
+
+  app.use(express.static(path.join(__dirname, 'public')));	
 /**
  *create express server with a specific port
  */

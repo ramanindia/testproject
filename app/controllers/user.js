@@ -23,18 +23,20 @@ exports.userLogin = function(req, res)
 			  if(user)
 			  {  
 				   req.flash('success', LANGTEXT.LOGIN_SUCCESS_MESSAGE);
-			       res.redirect('dashboard');
+				  FUNCTIONS.update_session(user, req, function() 
+					  {
+						res.redirect('/dashboard');
+					  });				  
 			  }
 			 else 
 			 {
-				
 				 req.flash('error', reason);
+				 res.render('layouts/login.html',
+				{
+					formData:requestData,MESSAGE:LANGTEXT,currentYear: new Date().getFullYear(),csrfToken: req.csrfToken()
+				});
 			}
 		  }
-		      res.render('layouts/login.html',
-			{
-				formData:requestData,MESSAGE:LANGTEXT,currentYear: new Date().getFullYear(),csrfToken: req.csrfToken()
-			});
 		});
 	}
 	else

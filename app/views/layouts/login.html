@@ -7,19 +7,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	
-    <title>{{MESSAGE.LOGINPAGETITLE}} </title>
-	
+    <title>{{MESSAGE.LOGINPAGETITLE}}</title>
+		
     <!-- Bootstrap -->
-    <link href="{{ env.HOST_NAME }}vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ HOST_URL }}vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="{{ env.HOST_NAME }}vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{ HOST_URL }}vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
-    <link href="{{ env.HOST_NAME }}vendors/nprogress/nprogress.css" rel="stylesheet">
+    <link href="{{ HOST_URL }}vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- Animate.css -->
-    <link href="{{ env.HOST_NAME }}vendors/animate.css/animate.min.css" rel="stylesheet">
+    <link href="{{ HOST_URL }}vendors/animate.css/animate.min.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
-    <link href="{{ env.HOST_NAME }}css/custom.min.css" rel="stylesheet">
+    <link href="{{ HOST_URL }}css/custom.min.css" rel="stylesheet">
   </head>
   <body class="login">
     <div>
@@ -36,7 +36,7 @@
                     <strong>Error ! </strong> {{ messages.error }}.
                   </div>
 			{% endif %}
-            <form action="/login" method="POST">
+            <form action="/login/" method="POST">
               <h1>{{MESSAGE.ADMIN_LOGIN_FORM_HEADING}}</h1>
               <div>
 			  <input type="hidden" name="_csrf" value="{{csrfToken}}">
@@ -63,11 +63,11 @@
       </div>
     </div>
 	<!-- jQuery -->
-    <script src="{{ env.HOST_NAME }}vendors/jquery/dist/jquery.min.js"></script>
+    <script src="{{ HOST_URL }}vendors/jquery/dist/jquery.min.js"></script>
 	<!-- Bootstrap -->
-    <script src="{{ env.HOST_NAME }}vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="{{ HOST_URL }}vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- Custom Theme Scripts -->
-    <script src="{{ env.HOST_NAME }}js/custom.min.js"></script>
+    <script src="{{ HOST_URL }}js/custom.min.js"></script>
 	
   </body>
   

@@ -48,7 +48,7 @@ var app = express();
 	app.use(expressValidator());
 	app.use(cookieParser());
 	
-     app.use(session({
+     app.use(session({ cookie: { maxAge: 60000 }, 
 					  secret: '57065d0113918ca402a0f2ad57065d0113918ca402a0f2ad',
 					  resave: false,
 					  saveUninitialized: true
@@ -71,7 +71,7 @@ var app = express();
 require('./config/routes.js')(app); 
 
 app.use(function (err, req, res, next)
- {      console.log(1);
+ {    
   if (err.code !== 'EBADCSRFTOKEN') return next(err)
      res.status(403)
      res.send('Invalid csrf token');
@@ -80,7 +80,6 @@ app.use(function (err, req, res, next)
 
 app.use(function(req, res, next) 
 {
-	console.log("Request session",req.session.user);
 	
 	 res.locals.SESSION_VALUE = req.session.user;
      next();

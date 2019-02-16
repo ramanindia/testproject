@@ -33,7 +33,7 @@ exports.userLogin = function(req, res)
 				 req.flash('error', reason);
 				 res.render('layouts/login.html',
 				{
-					formData:requestData,MESSAGE:LANGTEXT,currentYear: new Date().getFullYear(),csrfToken: req.csrfToken()
+					PAGETITLE:LANGTEXT.LOGINPAGETITLE,formData:requestData,MESSAGE:LANGTEXT,currentYear: new Date().getFullYear(),csrfToken: req.csrfToken()
 				});
 			}
 		  }
@@ -41,16 +41,21 @@ exports.userLogin = function(req, res)
 	}
 	else
 	{
-		 
 		res.render('layouts/login.html',
 		{
-			MESSAGE:LANGTEXT,currentYear: new Date().getFullYear(),csrfToken: req.csrfToken()
+			PAGETITLE:LANGTEXT.LOGINPAGETITLE,MESSAGE:LANGTEXT,currentYear: new Date().getFullYear(),csrfToken: req.csrfToken()
 		});
 	}
-
 }
 
-
+exports.logout = function(req, res, next)
+{       
+		 res.render('layouts/login.html',
+				{
+					PAGETITLE:LANGTEXT.LOGINPAGETITLE,messages:{success:LANGTEXT.LOGOUT_SUCCESS_MESSAGE},MESSAGE:LANGTEXT,currentYear: new Date().getFullYear(),csrfToken: req.csrfToken()
+				});
+				req.session.destroy();
+}
  /**
  * define dashboard function
   * @param {object} req - all request object.
@@ -62,8 +67,50 @@ exports.userDashboard = function(req, res)
 		 
 		res.render('users/dashboard.html',
 		{
-			MESSAGE:LANGTEXT
+			MESSAGE:LANGTEXT,
+			PAGETITLE:LANGTEXT.DASHBOARDTITLE
 		});
 	
+}
+
+ /**
+ * define loggedIn function
+  * @param {object} req - all request object.
+   * @param {object} res - all response object.
+ */
+exports.loggedIn = function(req, res, next)
+{
+	if (req.session.user) 
+	{ // req.session.passport._id
+		 var user = req.session.user;
+			 req.session.regenerate(function() 
+			 {
+			   req.session.user = user;
+			   next();
+			   });
+	} else {
+		
+		req.flash('error', LANGTEXT.NOT_AUTHORIZED);
+		res.redirect('/login');
+	}
 
 }
+ /**
+ * define notloggedIn function
+  * @param {object} req - all request object.
+   * @param {object} res - all response object.
+ */
+exports.notloggedIn = function(req, res, next)
+{
+	if (req.session.user) 
+	{ 
+		var user = req.session.user;
+		req.session.user = user;
+		res.redirect("/dashboard");
+
+	} else 
+	{
+		  next();
+	}
+}
+

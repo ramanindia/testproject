@@ -174,12 +174,10 @@ module.exports = {
   },
   update_session: function(UserData, req, callback) 
   {
-	  console.log("UserData",UserData);
-      req.session.regenerate(function() 
+	  req.session.regenerate(function() 
 	  {
         req.session.user = UserData;
-		console.log("session",req.session.user);
-        callback();
+		callback();
       });
   }
 };

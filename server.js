@@ -65,10 +65,6 @@ var app = express();
     express: app
 }).addGlobal('HOST_URL', process.env.HOST_NAME);
 
-/**
- * configue routing
- */
-require('./config/routes.js')(app); 
 
 app.use(function (err, req, res, next)
  {    
@@ -79,14 +75,50 @@ app.use(function (err, req, res, next)
 
 
 app.use(function(req, res, next) 
-{
-	
-	 res.locals.SESSION_VALUE = req.session.user;
-     next();
+{      
+	// console.log(req.session.user);
+	// res.locals.message = 'Hello World';	
+	res.locals.LANGMESSAGE = languageFile.WEB_MESSAGES;;
+	var current_url = req.url;
+    var url_actions = current_url.split("/");
+    res.locals.controller = url_actions[1];
+    res.locals.action = url_actions[2];
 
+	if(req.session.user)
+	{
+		res.locals.SESSIONDATA = req.session.user;
+	}else
+	{
+		res.locals.SESSIONDATA =''
+	}
+    next();
 });
+/**
+ * configue routing
+ */
+require('./config/routes.js')(app); 
+
+
 
   app.use(express.static(path.join(__dirname, 'public')));	
+  /**
+  *catch 404 and forward to error handler
+  */
+app.use(function (req, res, next) 
+{	
+    //console.log(req.session.user);
+    res.status(404).render('errors/404.html', {PAGETITLE: "Sorry, page not found"});
+});
+ /**
+  *catch 500 and forward to error handler
+  */
+app.use(function (req, res, next) {
+	
+	console.log("Yes 1");
+    res.status(500).render('errors/404.html', {PAGETITLE: "Sorry, page not found"});
+});
+
+
 /**
  *create express server with a specific port
  */
@@ -94,4 +126,6 @@ var server = app.listen(port, function ()
 {
     console.log('Node server is running at port no:- '+port);
 });
+
+
 

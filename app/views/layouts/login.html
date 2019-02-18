@@ -47,24 +47,24 @@
                   </div>
 			{% endif %}
             <form action="/login/" method="POST">
-              <h1>{{MESSAGE.ADMIN_LOGIN_FORM_HEADING}}</h1>
+              <h1>{{LANGMESSAGE.ADMIN_LOGIN_FORM_HEADING}}</h1>
               <div>
 			  <input type="hidden" name="_csrf" value="{{csrfToken}}">
-                <input type="text" class="form-control" name="username" value="{{formData.username}}" placeholder="{{MESSAGE.LOGIN_FORM_USERNAME_PLACEHOLDER}}" required="" />
+                <input type="text" class="form-control" name="username" value="{{formData.username}}" placeholder="{{LANGMESSAGE.LOGIN_FORM_USERNAME_PLACEHOLDER}}" required="" />
               </div>
               <div>
-                <input type="password" class="form-control" name="password" placeholder="{{MESSAGE.LOGIN_FORM_PASSWORD_PLACEHOLDER}}" required="" />
+                <input type="password" class="form-control" name="password" placeholder="{{LANGMESSAGE.LOGIN_FORM_PASSWORD_PLACEHOLDER}}" required="" />
               </div>
               <div>
-                <input type="submit"class="btn btn-default submit" value="{{MESSAGE.LOGIN_TEXT}}">
-                <a class="reset_pass" href="#">{{MESSAGE.LOST_PASSWORD_TEXT}}</a>
+                <input type="submit"class="btn btn-default submit" value="{{LANGMESSAGE.LOGIN_TEXT}}">
+                <a class="reset_pass" href="#">{{LANGMESSAGE.LOST_PASSWORD_TEXT}}</a>
               </div>
 
               <div class="clearfix"></div>
               <div class="separator">
                 <div>
-                  <h1><i class="fa fa-paw"></i> {{MESSAGE.ADMIN_LOGIN_FORM_HEADING}}</h1>
-                  <p>©{{currentYear}} {{MESSAGE.ALL_RIGHT_RESERVED_TEXT}}</p>
+                  <h1><i class="fa fa-paw"></i> {{LANGMESSAGE.ADMIN_LOGIN_FORM_HEADING}}</h1>
+                  <p>©{{currentYear}} {{LANGMESSAGE.ALL_RIGHT_RESERVED_TEXT}}</p>
                 </div>
               </div>
             </form>

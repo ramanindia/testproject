@@ -25,7 +25,7 @@ exports.userLogin = function(req, res)
 				   req.flash('success', LANGTEXT.LOGIN_SUCCESS_MESSAGE);
 				  FUNCTIONS.update_session(user, req, function() 
 					  {
-						res.redirect('/dashboard');
+						res.redirect('/');
 					  });				  
 			  }
 			 else 
@@ -33,7 +33,7 @@ exports.userLogin = function(req, res)
 				 req.flash('error', reason);
 				 res.render('layouts/login.html',
 				{
-					PAGETITLE:LANGTEXT.LOGINPAGETITLE,formData:requestData,MESSAGE:LANGTEXT,currentYear: new Date().getFullYear(),csrfToken: req.csrfToken()
+					PAGETITLE:LANGTEXT.LOGINPAGETITLE,formData:requestData,currentYear: new Date().getFullYear(),csrfToken: req.csrfToken()
 				});
 			}
 		  }
@@ -43,7 +43,7 @@ exports.userLogin = function(req, res)
 	{
 		res.render('layouts/login.html',
 		{
-			PAGETITLE:LANGTEXT.LOGINPAGETITLE,MESSAGE:LANGTEXT,currentYear: new Date().getFullYear(),csrfToken: req.csrfToken()
+			PAGETITLE:LANGTEXT.LOGINPAGETITLE,currentYear: new Date().getFullYear(),csrfToken: req.csrfToken()
 		});
 	}
 }
@@ -52,7 +52,7 @@ exports.logout = function(req, res, next)
 {       
 		 res.render('layouts/login.html',
 				{
-					PAGETITLE:LANGTEXT.LOGINPAGETITLE,messages:{success:LANGTEXT.LOGOUT_SUCCESS_MESSAGE},MESSAGE:LANGTEXT,currentYear: new Date().getFullYear(),csrfToken: req.csrfToken()
+					PAGETITLE:LANGTEXT.LOGINPAGETITLE,messages:{success:LANGTEXT.LOGOUT_SUCCESS_MESSAGE},currentYear: new Date().getFullYear(),csrfToken: req.csrfToken()
 				});
 				req.session.destroy();
 }
@@ -67,7 +67,6 @@ exports.userDashboard = function(req, res)
 		 
 		res.render('users/dashboard.html',
 		{
-			MESSAGE:LANGTEXT,
 			PAGETITLE:LANGTEXT.DASHBOARDTITLE
 		});
 	
@@ -106,7 +105,7 @@ exports.notloggedIn = function(req, res, next)
 	{ 
 		var user = req.session.user;
 		req.session.user = user;
-		res.redirect("/dashboard");
+		res.redirect("/");
 
 	} else 
 	{

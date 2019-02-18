@@ -1,5 +1,29 @@
+ <!-- start header file -->
 {% include "elements/header.html" %}
-{% block content %}
-{% endblock %}
+ <!-- end header file -->
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+			<!-- start left siderbar (left menu) file -->
+		  {% include "elements/left-sidebar.html" %}
+			<!-- end left siderbar (left menu) file -->
+			<!-- start footer menu content file -->
+			{% include "elements/footer-menu.html" %}
+			<!-- end footer menu content file -->
+          </div>
+        </div>
+		<!-- start top-navigation file -->
+		{% include "elements/top-navigation.html" %}      
+		<!-- end top-navigation file -->		
+		{% block content %}
+		{% endblock %}
+<!-- start footer-content file -->
+{% include "elements/footer-content.html" %}
+<!-- end footer-content file -->
+      </div>
+    </div>
+<!-- start footer file -->
 {% include "elements/footer.html" %}
+<!-- start footer file -->
        

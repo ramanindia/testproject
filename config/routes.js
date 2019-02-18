@@ -11,6 +11,6 @@
 module.exports = function (app)
  {
      app.all('/login',user.notloggedIn,parseForm,csrfProtection,user.userLogin);
-	 app.get('/dashboard',user.loggedIn,user.userDashboard);
+	 app.get('/',user.loggedIn,user.userDashboard);
 	 app.get('/logout',user.loggedIn,parseForm,csrfProtection,user.logout);
 }

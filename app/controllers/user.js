@@ -73,6 +73,38 @@ exports.userDashboard = function(req, res)
 }
 
  /**
+ * define dashboard function
+  * @param {object} req - all request object.
+   * @param {object} res - all response object.
+ */
+exports.addUser = function(req, res) 
+{  
+   
+		res.render('users/add-user.html',
+		{
+			PAGETITLE:LANGTEXT.ADDUSERTITLE
+		});
+	
+}
+
+
+ /**
+ * define dashboard function
+  * @param {object} req - all request object.
+   * @param {object} res - all response object.
+ */
+exports.allUsers = function(req, res) 
+{  
+   
+		 
+		res.render('users/users.html',
+		{
+			PAGETITLE:LANGTEXT.ALLUSERS
+		});
+	
+}
+
+ /**
  * define loggedIn function
   * @param {object} req - all request object.
    * @param {object} res - all response object.

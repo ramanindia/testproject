@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 18, 2019 at 04:22 AM
+-- Generation Time: Feb 21, 2019 at 04:27 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.23
 
@@ -27,11 +27,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `accounts` (
-  `account_id` int(21) NOT NULL,
-  `user_id` int(21) DEFAULT NULL,
+  `account_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
   `account_name` varchar(250) DEFAULT NULL,
   `code` varchar(50) DEFAULT NULL,
-  `account_group_id` int(11) DEFAULT NULL,
+  `account_group_id` char(36) DEFAULT NULL,
   `account_type` varchar(50) DEFAULT NULL,
   `gst_registration_type` varchar(50) DEFAULT NULL,
   `gst_type` varchar(50) DEFAULT NULL,
@@ -70,8 +70,8 @@ CREATE TABLE `accounts` (
 --
 
 CREATE TABLE `account_groups` (
-  `group_id` int(11) NOT NULL,
-  `user_id` int(21) DEFAULT NULL,
+  `group_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
   `group_name` varchar(240) DEFAULT NULL,
   `group_under` varchar(252) DEFAULT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
@@ -87,9 +87,9 @@ CREATE TABLE `account_groups` (
 --
 
 CREATE TABLE `account_opening_balances` (
-  `accunt_opening_balance_id` int(21) NOT NULL,
-  `account_id` int(21) DEFAULT NULL,
-  `user_id` int(21) DEFAULT NULL,
+  `accunt_opening_balance_id` char(36) NOT NULL,
+  `account_id` char(36) DEFAULT NULL,
+  `user_id` char(36) DEFAULT NULL,
   `bill_no` varchar(25) DEFAULT NULL,
   `bill_date` date DEFAULT NULL,
   `bill_type` varchar(250) DEFAULT NULL,
@@ -107,8 +107,8 @@ CREATE TABLE `account_opening_balances` (
 --
 
 CREATE TABLE `banks` (
-  `bank_id` int(21) NOT NULL,
-  `user_id` int(21) DEFAULT NULL,
+  `bank_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
   `bank_name` varchar(240) DEFAULT NULL,
   `bank_code` varchar(10) DEFAULT NULL,
   `account_no` int(15) DEFAULT NULL,
@@ -137,8 +137,8 @@ CREATE TABLE `banks` (
 --
 
 CREATE TABLE `cargos` (
-  `product_id` int(11) NOT NULL,
-  `user_id` int(21) DEFAULT NULL,
+  `product_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
   `product_name` varchar(240) DEFAULT NULL,
   `product_code` varchar(252) DEFAULT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
@@ -155,7 +155,7 @@ CREATE TABLE `cargos` (
 
 CREATE TABLE `cities` (
   `city_id` int(11) NOT NULL,
-  `user_id` int(21) DEFAULT NULL,
+  `user_id` char(36) DEFAULT NULL,
   `district_id` int(11) NOT NULL,
   `state_id` int(11) DEFAULT NULL,
   `country_id` int(11) DEFAULT NULL,
@@ -174,7 +174,7 @@ CREATE TABLE `cities` (
 
 CREATE TABLE `countries` (
   `country_id` int(11) NOT NULL,
-  `user_id` int(21) DEFAULT NULL,
+  `user_id` char(36) DEFAULT NULL,
   `country_name` varchar(240) DEFAULT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
@@ -190,7 +190,7 @@ CREATE TABLE `countries` (
 
 CREATE TABLE `districts` (
   `district_id` int(11) NOT NULL,
-  `user_id` int(21) DEFAULT NULL,
+  `user_id` char(36) DEFAULT NULL,
   `state_id` int(11) DEFAULT NULL,
   `country_id` int(11) DEFAULT NULL,
   `district_name` varchar(240) DEFAULT NULL,
@@ -207,8 +207,8 @@ CREATE TABLE `districts` (
 --
 
 CREATE TABLE `drivers` (
-  `driver_id` int(11) NOT NULL,
-  `user_id` int(21) DEFAULT NULL,
+  `driver_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
   `driver_name` varchar(100) DEFAULT NULL,
   `account_name` varchar(100) DEFAULT NULL,
   `local_address` varchar(250) DEFAULT NULL,
@@ -237,9 +237,9 @@ CREATE TABLE `drivers` (
 --
 
 CREATE TABLE `driver_licenses` (
-  `driver_license_id` int(21) NOT NULL,
-  `user_id` int(21) DEFAULT NULL,
-  `driver_id` int(21) DEFAULT NULL,
+  `driver_license_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `driver_id` char(36) DEFAULT NULL,
   `license_name` varchar(100) DEFAULT NULL,
   `license_no` varchar(40) DEFAULT NULL,
   `license_issue_date` date DEFAULT NULL,
@@ -257,8 +257,8 @@ CREATE TABLE `driver_licenses` (
 --
 
 CREATE TABLE `from-destinations` (
-  `from-destination_id` int(21) NOT NULL,
-  `user_id` int(21) DEFAULT NULL,
+  `from-destination_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
   `country_id` int(11) DEFAULT NULL,
   `state_id` int(11) DEFAULT NULL,
   `city_id` int(11) DEFAULT NULL,
@@ -277,14 +277,14 @@ CREATE TABLE `from-destinations` (
 --
 
 CREATE TABLE `lr_entries` (
-  `lr_entry_id` int(21) NOT NULL,
-  `user_id` int(21) DEFAULT NULL,
-  `vechile_id` int(21) DEFAULT NULL,
+  `lr_entry_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `vechile_id` char(36) DEFAULT NULL,
   `date` date DEFAULT NULL,
   `lr/gr_no` varchar(50) DEFAULT NULL,
   `reference_by` varchar(120) DEFAULT NULL,
-  `from_from_destination_id` int(21) DEFAULT NULL,
-  `to_from_destination_id` int(21) DEFAULT NULL,
+  `from_from_destination_id` char(36) DEFAULT NULL,
+  `to_from_destination_id` char(36) DEFAULT NULL,
   `cargo_id` int(21) DEFAULT NULL,
   `container_no` int(10) DEFAULT NULL,
   `load_weight` double DEFAULT NULL,
@@ -293,12 +293,12 @@ CREATE TABLE `lr_entries` (
   `gross_freight` float DEFAULT NULL,
   `net_freight` float DEFAULT NULL,
   `freight_paid_by` varchar(50) DEFAULT NULL,
-  `consignor_id` int(21) DEFAULT NULL,
-  `consignee_id` int(21) DEFAULT NULL,
+  `consignor_id` char(36) DEFAULT NULL,
+  `consignee_id` char(36) DEFAULT NULL,
   `insurance_company` varchar(120) DEFAULT NULL,
   `policy_no` varchar(100) DEFAULT NULL,
   `insurance_amount` float DEFAULT NULL,
-  `truck_owner_id` int(21) DEFAULT NULL,
+  `truck_owner_id` char(36) DEFAULT NULL,
   `truck_rate` float DEFAULT NULL,
   `truck_freight_calculation` float DEFAULT NULL,
   `truck_gross_freight` float DEFAULT NULL,
@@ -331,10 +331,10 @@ CREATE TABLE `lr_entries` (
 --
 
 CREATE TABLE `lr_entry_advance_receiveds` (
-  `lr_entry_advance_received_id` int(21) NOT NULL,
-  `user_id` int(21) DEFAULT NULL,
-  `lr_entry_id` int(21) DEFAULT NULL,
-  `account_id` int(21) DEFAULT NULL,
+  `lr_entry_advance_received_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `lr_entry_id` char(36) DEFAULT NULL,
+  `account_id` char(36) DEFAULT NULL,
   `slip_no` int(11) DEFAULT NULL,
   `rate` int(10) DEFAULT NULL,
   `liter` int(10) DEFAULT NULL,
@@ -357,11 +357,11 @@ CREATE TABLE `lr_entry_advance_receiveds` (
 --
 
 CREATE TABLE `lr_entry_advance_truck_receiveds` (
-  `lr_entry_advance_truck_received_id` int(21) NOT NULL,
-  `user_id` int(21) DEFAULT NULL,
-  `lr_entry_id` int(21) DEFAULT NULL,
-  `account_id` int(21) DEFAULT NULL,
-  `slip_no` int(11) DEFAULT NULL,
+  `lr_entry_advance_truck_received_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `lr_entry_id` char(36) DEFAULT NULL,
+  `account_id` char(36) DEFAULT NULL,
+  `slip_no` char(36) DEFAULT NULL,
   `rate` float DEFAULT NULL,
   `liter` float DEFAULT NULL,
   `paid_to` varchar(120) DEFAULT NULL,
@@ -383,9 +383,9 @@ CREATE TABLE `lr_entry_advance_truck_receiveds` (
 --
 
 CREATE TABLE `lr_entry_extra_details` (
-  `lr_entry_extra_detail_id` int(11) NOT NULL,
-  `user_id` int(21) DEFAULT NULL,
-  `lr_entry_id` int(21) DEFAULT NULL,
+  `lr_entry_extra_detail_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `lr_entry_id` char(36) DEFAULT NULL,
   `gross_weight` float DEFAULT NULL,
   `tare_weight` float DEFAULT NULL,
   `gst_pay_by` varchar(25) DEFAULT NULL,
@@ -405,8 +405,8 @@ CREATE TABLE `lr_entry_extra_details` (
 --
 
 CREATE TABLE `payments` (
-  `payment_id` int(21) NOT NULL,
-  `user_id` int(21) DEFAULT NULL,
+  `payment_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
   `date` date DEFAULT NULL,
   `voucher_no` varchar(50) DEFAULT NULL,
   `voucher_type` varchar(50) DEFAULT NULL,
@@ -429,7 +429,7 @@ CREATE TABLE `payments` (
 
 CREATE TABLE `roles` (
   `role_id` int(11) NOT NULL,
-  `user_id` int(21) DEFAULT NULL,
+  `user_id` char(36) DEFAULT NULL,
   `role_title` varchar(220) DEFAULT NULL,
   `alias` varchar(25) DEFAULT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
@@ -443,7 +443,7 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`role_id`, `user_id`, `role_title`, `alias`, `is_deleted`, `status`, `created`, `updated`) VALUES
-(1, 1, 'Admin', 'admin', 0, 1, '2019-01-17 18:44:50', '2019-01-17 18:45:25');
+(1, '1', 'Admin', 'admin', 0, 1, '2019-01-17 18:44:50', '2019-01-17 18:45:25');
 
 -- --------------------------------------------------------
 
@@ -453,7 +453,7 @@ INSERT INTO `roles` (`role_id`, `user_id`, `role_title`, `alias`, `is_deleted`, 
 
 CREATE TABLE `states` (
   `state_id` int(11) NOT NULL,
-  `user_id` int(21) DEFAULT NULL,
+  `user_id` char(36) DEFAULT NULL,
   `country_id` int(11) DEFAULT NULL,
   `state_name` varchar(240) DEFAULT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
@@ -469,34 +469,34 @@ CREATE TABLE `states` (
 --
 
 CREATE TABLE `users` (
-  `id` int(21) NOT NULL,
+  `id` char(36) NOT NULL,
   `role_id` int(3) NOT NULL DEFAULT '1',
-  `parent_id` int(11) NOT NULL,
-  `first_name` varchar(100) NOT NULL,
-  `last_name` varchar(100) NOT NULL,
-  `name` varchar(100) NOT NULL DEFAULT '',
-  `username` varchar(200) NOT NULL,
-  `email` varchar(100) NOT NULL DEFAULT '',
+  `parent_id` char(36) DEFAULT NULL,
+  `first_name` varchar(100) DEFAULT NULL,
+  `last_name` varchar(100) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `username` varchar(200) DEFAULT NULL,
+  `email` varchar(100) NOT NULL,
   `password` varchar(220) NOT NULL,
   `country_id` int(11) NOT NULL,
   `state_id` int(11) NOT NULL,
   `city_id` int(11) DEFAULT NULL,
   `district_id` int(11) DEFAULT NULL,
-  `zipcode` varchar(200) NOT NULL,
-  `phone` varchar(50) NOT NULL,
+  `zipcode` varchar(200) DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
   `mobile_no` varchar(15) DEFAULT NULL,
-  `image` varchar(220) NOT NULL,
-  `address` text NOT NULL,
-  `contact_detail` text NOT NULL,
-  `contact_person` varchar(220) NOT NULL,
-  `remarks` text NOT NULL,
+  `image` varchar(220) DEFAULT NULL,
+  `address` text,
+  `contact_detail` text,
+  `contact_person` varchar(220) DEFAULT NULL,
+  `remarks` text,
   `gender` enum('Male','Female') NOT NULL,
-  `age` int(5) NOT NULL,
-  `activation_key` varchar(200) NOT NULL,
+  `age` int(5) DEFAULT NULL,
+  `activation_key` varchar(200) DEFAULT NULL,
   `signup_type` enum('twitter','facebook','site','googleplus') NOT NULL DEFAULT 'site',
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `is_delete` tinyint(1) NOT NULL DEFAULT '0',
-  `token` varchar(220) NOT NULL,
+  `token` varchar(220) DEFAULT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_login` timestamp NULL DEFAULT NULL,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -507,7 +507,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `role_id`, `parent_id`, `first_name`, `last_name`, `name`, `username`, `email`, `password`, `country_id`, `state_id`, `city_id`, `district_id`, `zipcode`, `phone`, `mobile_no`, `image`, `address`, `contact_detail`, `contact_person`, `remarks`, `gender`, `age`, `activation_key`, `signup_type`, `status`, `is_delete`, `token`, `created`, `last_login`, `updated`) VALUES
-(1, 1, 0, 'Sunil', 'kumar', '', 'sunil', 'sunil@gmail.com', '$2b$10$oDmMzEq4GXeOykSsx9qJV.s0pJs4PfLfhuVR.86FLtrnHoO4MC7aO', 0, 0, NULL, NULL, '', '', NULL, '', '', '', '', '', '', 0, '', 'site', 1, 0, '', '2019-02-12 04:06:40', NULL, '2019-02-16 17:56:11');
+('1', 1, '0', 'Sunil', 'kumar', '', 'sunil', 'sunil@gmail.com', '$2b$10$oDmMzEq4GXeOykSsx9qJV.s0pJs4PfLfhuVR.86FLtrnHoO4MC7aO', 0, 0, NULL, NULL, '', '', NULL, '', '', '', '', '', '', 0, '', 'site', 1, 0, '', '2019-02-12 04:06:40', NULL, '2019-02-16 17:56:11');
 
 -- --------------------------------------------------------
 
@@ -516,13 +516,13 @@ INSERT INTO `users` (`id`, `role_id`, `parent_id`, `first_name`, `last_name`, `n
 --
 
 CREATE TABLE `vehicles` (
-  `vechile_id` int(21) NOT NULL,
-  `user_id` int(21) DEFAULT NULL,
+  `vechile_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
   `vechile_no` varchar(20) DEFAULT NULL,
   `owner_type` varchar(50) DEFAULT NULL,
-  `vechile_owner_id` int(21) DEFAULT NULL,
-  `account_id` int(21) DEFAULT NULL,
-  `vechile_group_id` int(21) DEFAULT NULL,
+  `vechile_owner_id` char(36) DEFAULT NULL,
+  `account_id` char(36) DEFAULT NULL,
+  `vechile_group_id` char(36) DEFAULT NULL,
   `capacity` int(10) DEFAULT NULL COMMENT 'in tone',
   `average` int(10) DEFAULT NULL,
   `vechile_type` varchar(10) DEFAULT NULL,
@@ -556,9 +556,9 @@ CREATE TABLE `vehicles` (
 --
 
 CREATE TABLE `vehicle_drivers` (
-  `vechile_driver_id` int(11) NOT NULL,
-  `user_id` int(21) DEFAULT NULL,
-  `driver_id` int(21) DEFAULT NULL,
+  `vechile_driver_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `driver_id` char(36) DEFAULT NULL,
   `from_date` date DEFAULT NULL,
   `remarks` varchar(250) DEFAULT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
@@ -574,8 +574,8 @@ CREATE TABLE `vehicle_drivers` (
 --
 
 CREATE TABLE `vehicle_groups` (
-  `vechile_type_id` int(11) NOT NULL,
-  `user_id` int(21) DEFAULT NULL,
+  `vechile_type_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
   `vehicle_group` varchar(240) DEFAULT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
@@ -590,9 +590,9 @@ CREATE TABLE `vehicle_groups` (
 --
 
 CREATE TABLE `vehicle_rto_details` (
-  `vechile_rto_detail_id` int(21) NOT NULL,
-  `user_id` int(21) DEFAULT NULL,
-  `vehicle_id` int(21) DEFAULT NULL,
+  `vechile_rto_detail_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `vehicle_id` char(36) DEFAULT NULL,
   `document_type` varchar(50) DEFAULT NULL,
   `due_date` date DEFAULT NULL,
   `document_no` varchar(50) DEFAULT NULL,
@@ -772,31 +772,6 @@ ALTER TABLE `vehicle_types`
 --
 
 --
--- AUTO_INCREMENT for table `accounts`
---
-ALTER TABLE `accounts`
-  MODIFY `account_id` int(21) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `account_groups`
---
-ALTER TABLE `account_groups`
-  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `account_opening_balances`
---
-ALTER TABLE `account_opening_balances`
-  MODIFY `accunt_opening_balance_id` int(21) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `banks`
---
-ALTER TABLE `banks`
-  MODIFY `bank_id` int(21) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `cargos`
---
-ALTER TABLE `cargos`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT for table `cities`
 --
 ALTER TABLE `cities`
@@ -812,46 +787,6 @@ ALTER TABLE `countries`
 ALTER TABLE `districts`
   MODIFY `district_id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `drivers`
---
-ALTER TABLE `drivers`
-  MODIFY `driver_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `driver_licenses`
---
-ALTER TABLE `driver_licenses`
-  MODIFY `driver_license_id` int(21) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `from-destinations`
---
-ALTER TABLE `from-destinations`
-  MODIFY `from-destination_id` int(21) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `lr_entries`
---
-ALTER TABLE `lr_entries`
-  MODIFY `lr_entry_id` int(21) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `lr_entry_advance_receiveds`
---
-ALTER TABLE `lr_entry_advance_receiveds`
-  MODIFY `lr_entry_advance_received_id` int(21) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `lr_entry_advance_truck_receiveds`
---
-ALTER TABLE `lr_entry_advance_truck_receiveds`
-  MODIFY `lr_entry_advance_truck_received_id` int(21) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `lr_entry_extra_details`
---
-ALTER TABLE `lr_entry_extra_details`
-  MODIFY `lr_entry_extra_detail_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `payments`
---
-ALTER TABLE `payments`
-  MODIFY `payment_id` int(21) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
@@ -861,31 +796,6 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `states`
   MODIFY `state_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `vehicles`
---
-ALTER TABLE `vehicles`
-  MODIFY `vechile_id` int(21) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `vehicle_drivers`
---
-ALTER TABLE `vehicle_drivers`
-  MODIFY `vechile_driver_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `vehicle_groups`
---
-ALTER TABLE `vehicle_groups`
-  MODIFY `vechile_type_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `vehicle_rto_details`
---
-ALTER TABLE `vehicle_rto_details`
-  MODIFY `vechile_rto_detail_id` int(21) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `vehicle_types`
 --

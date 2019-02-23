@@ -73,6 +73,32 @@ exports.userDashboard = function(req, res)
 }
 
  /**
+ * define checkUsername function
+  * @param {object} req - all request object.
+   * @param {object} res - all response object.
+ */
+exports.checkUsernameExits = function(req, res) 
+{  
+  console.log(req.body);
+	
+}
+
+ /**
+ * define dashboard function
+  * @param {object} req - all request object.
+   * @param {object} res - all response object.
+ */
+exports.checkEmailExits = function(req, res) 
+{  
+   let QureyData = req.query; 
+   	console.log(req.query);
+	res.send(['email',true]);
+	
+}
+
+
+
+ /**
  * define dashboard function
   * @param {object} req - all request object.
    * @param {object} res - all response object.
@@ -122,7 +148,7 @@ exports.loggedIn = function(req, res, next)
 	} else {
 		
 		req.flash('error', LANGTEXT.NOT_AUTHORIZED);
-		res.redirect('/login');
+		res.redirect('/users/login');
 	}
 
 }

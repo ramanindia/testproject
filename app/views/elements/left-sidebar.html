@@ -6,7 +6,7 @@
 			  <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+                <img src="{{ HOST_URL }}images/img.jpg" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <span>Welcome, </span>
@@ -29,11 +29,11 @@
                   </li>
 				    <li><a><i class="fa fa-users"></i> Users <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{{ HOST_URL }}add-user">Add User</a></li>
+                      <li><a href="{{ HOST_URL }}users/add-user">Add User</a></li>
                       <li><a href="{{ HOST_URL }}users/active">Active Users</a></li>
                       <li><a href="{{ HOST_URL }}users/deactive">Deactive Users</a></li>
 					  <li><a href="{{ HOST_URL }}users/delete">Deleted Users</a></li>
-					  <li><a href="{{ HOST_URL }}users">All Users</a></li>
+					  <li><a href="{{ HOST_URL }}users/index">All Users</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>

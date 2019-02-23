@@ -12,8 +12,10 @@ var flash = require('express-flash');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var expressValidator = require('express-validator');
+    global.UID = require('uuid/v4');
    global.FUNCTIONS = require('./app/functions');
 
+console.log(UID());
  /**
  * load envirment file
  */
@@ -80,7 +82,9 @@ app.use(function(req, res, next)
 	// res.locals.message = 'Hello World';	
 	res.locals.LANGMESSAGE = languageFile.WEB_MESSAGES;;
 	var current_url = req.url;
-    var url_actions = current_url.split("/");
+	// console.log("current_url===",current_url);
+     var url_actions = current_url.split("/");
+	   //console.log("url_actions===",url_actions);
     res.locals.controller = url_actions[1];
     res.locals.action = url_actions[2];
 

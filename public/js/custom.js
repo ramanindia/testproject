@@ -5,7 +5,20 @@
  * $(window).smartresize(function(){  
  *     // code here
  * });
- */
+ */  
+ function confirmCancle(confirTxt,returnURL)
+	{
+		var confirmed = confirm(confirTxt);
+		if(confirmed)
+		{
+			window.location.href = returnURL; 
+		}else
+		{
+		  return false;
+		}
+		//alert(confirTxt);
+	}
+
 (function($,sr){
     // debouncing function from John Hann
     // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
@@ -984,7 +997,8 @@ if (typeof NProgress != 'undefined') {
 			  validateFront();
 			});
 			var validateFront = function() {
-			  if (true === $('#demo-form2').parsley().isValid()) {
+			  if (true === $('#demo-form2').parsley().isValid()) 
+			  {
 				$('.bs-callout-info').removeClass('hidden');
 				$('.bs-callout-warning').addClass('hidden');
 			  } else {
@@ -5025,10 +5039,9 @@ if (typeof NProgress != 'undefined') {
 			}
 	   
 		}  
-	   
-	   
-	$(document).ready(function() {
-				
+		
+	$(document).ready(function()
+	{
 		init_sparklines();
 		init_flot_chart();
 		init_sidebar();

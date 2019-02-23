@@ -3,8 +3,14 @@
     <script src="{{ HOST_URL }}vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
     <script src="{{ HOST_URL }}vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- FastClick -->
-    <script src="{{ HOST_URL }}vendors/fastclick/lib/fastclick.js"></script>
+
+     {% if (controller) and  (action)%} 
+  	<script src="{{ HOST_URL }}vendors/jquery-validation-engine/languages/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8">
+	</script>
+	<script src="{{ HOST_URL }}vendors/jquery-validation-engine/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
+ {% else %} 
+  	 <!--FastClick-->
+	<script src="{{ HOST_URL }}vendors/fastclick/lib/fastclick.js"></script>
     <!-- NProgress -->
     <script src="{{ HOST_URL }}vendors/nprogress/nprogress.js"></script>
     <!-- Chart.js -->
@@ -36,9 +42,14 @@
     <!-- bootstrap-daterangepicker -->
     <script src="{{ HOST_URL }}vendors/moment/min/moment.min.js"></script>
     <script src="{{ HOST_URL }}vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-
-    <!-- Custom Theme Scripts -->
-    <script src="{{ HOST_URL }}js/custom.min.js"></script>
-	
+  {% endif %}
+  <script src="{{ HOST_URL }}js/custom.js" type="text/javascript" charset="utf-8"></script>
+  {% if (controller) and  (action)%} 
+	<script>
+	$(document).ready(function(){
+		$("#add-user").validationEngine({promptPosition : "topRight:-75"});
+	});
+	</script>
+	{% endif %}	
   </body>
 </html>

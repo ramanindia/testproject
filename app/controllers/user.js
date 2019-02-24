@@ -5,7 +5,10 @@
   * @param {object} req - all request object.
    * @param {object} res - all response object.
  */
+ var db = require('../../app/models/dbconnection'); 
  var User = require('../../app/models/Users'); 
+ var Generanal = require('../../app/models/Generanal'); 
+ var bcrypt = require('bcrypt');
  
 exports.userLogin = function(req, res) 
 {  
@@ -79,7 +82,21 @@ exports.userDashboard = function(req, res)
  */
 exports.checkUsernameExits = function(req, res) 
 {  
-  console.log(req.body);
+     let QureyData = req.query;
+	Generanal.checkUquieField(QureyData.fieldId, QureyData.fieldValue,'users', function(err, user) 
+	{
+		 if(err)
+		 {
+			res.send([QureyData.fieldId,false]);
+		 }
+		 else
+		 {
+			 if(user)
+			 {
+			 res.send([QureyData.fieldId,true]);
+			 }			 
+		 }
+	 });
 	
 }
 
@@ -90,13 +107,22 @@ exports.checkUsernameExits = function(req, res)
  */
 exports.checkEmailExits = function(req, res) 
 {  
-   let QureyData = req.query; 
-   	console.log(req.query);
-	res.send(['email',true]);
-	
+   let QureyData = req.query;
+	Generanal.checkUquieField(QureyData.fieldId, QureyData.fieldValue,'users', function(err, user) 
+	{
+		 if(err)
+		 {
+			res.send([QureyData.fieldId,false]);
+		 }
+		 else
+		 {
+			 if(user)
+			 {
+			 res.send([QureyData.fieldId,true]);
+			 }			 
+		 }
+	 });
 }
-
-
 
  /**
  * define dashboard function
@@ -105,11 +131,118 @@ exports.checkEmailExits = function(req, res)
  */
 exports.addUser = function(req, res) 
 {  
-   
+     let requestData = req.body;
+	// console.log("requestData",requestData);
+	if (Object.keys(requestData).length !==0)
+	{
+		 req.checkBody('email', 'Email is required.').notEmpty()
+		req.checkBody('username', 'Username is required.').notEmpty()
+		req.checkBody('email', 'Please enter a valid email address.').isEmail();
+		req.checkBody('password', 'Password length between 5 to 15 characters.').len(5,15);
+		req.checkBody('cpassword', 'Confirm password is required.').notEmpty();
+		req.checkBody('cpassword', 'Password and confirm password is not match.').equals(req.body.password);
+		
+		let errors = req.validationErrors();
+		if (errors)
+		{
+		res.render('users/add-user.html',
+			 {
+				formData :requestData,
+				PAGETITLE:LANGTEXT.ADDUSERTITLE,csrfToken: req.csrfToken(),
+				errordata : errors
+			});
+		}
+		else
+		{
+			Generanal.checkUquieField('email', requestData.email,'users', function(err, user) 
+			{
+				 if(err)
+				 {	//errordata : [ { msg: language.INVALID_TOKEN }],
+					//res.send([QureyData.fieldId,false]);
+					 res.render('users/add-user.html',
+					 {
+						formData :requestData,
+						PAGETITLE:LANGTEXT.ADDUSERTITLE,csrfToken: req.csrfToken(),
+						errordata : [ { msg: 'This email-id is already taken' }],
+					});
+				 }
+				 else
+				 {
+					 if(user)
+					 {
+					    Generanal.checkUquieField('username', requestData.username,'users', function(err, user) 
+						{
+							 if(err)
+							 {	//errordata : [ { msg: language.INVALID_TOKEN }],
+								//res.send([QureyData.fieldId,false]);
+								 res.render('users/add-user.html',
+								 {
+									formData :requestData,
+									PAGETITLE:LANGTEXT.ADDUSERTITLE,csrfToken: req.csrfToken(),
+									errordata : [ { msg: 'This username is already taken' }],
+								});
+							 }
+							 else
+							 {
+								 delete requestData.cpassword;
+								 delete requestData._csrf;
+								 requestData.id=UID();
+								 requestData.parent_id=req.session.user.id;
+								
+								const HashPassword = bcrypt.hash(requestData.password, 10, function(err, hash) 
+								{
+									if(err)
+									{
+										 res.render('users/add-user.html',
+										 {
+											formData :requestData,
+											PAGETITLE:LANGTEXT.ADDUSERTITLE,csrfToken: req.csrfToken(),
+											errordata : [ { msg: 'Pease try again' }],
+										});
+									}
+									else
+									{
+										requestData.password=hash;
+										 console.log("requestData",requestData);	
+								 
+										Generanal.save(requestData,'users',function(err,result)
+										{
+											if(err)
+											{
+												res.render('users/add-user.html',
+												 {
+													formData :requestData,
+													PAGETITLE:LANGTEXT.ADDUSERTITLE,csrfToken: req.csrfToken(),
+													errordata : [ { msg: 'Pease try again' }],
+												});
+										
+											}else
+											{
+											   req.flash('success', LANGTEXT.USERADDED);
+												res.redirect('/users/index');													 
+											}
+											
+										});
+									}
+									
+								});
+								
+								
+							 }
+						 });
+					 }			 
+				 }
+			 });
+		}
+	}
+	else
+	{
 		res.render('users/add-user.html',
 		{
-			PAGETITLE:LANGTEXT.ADDUSERTITLE
+			PAGETITLE:LANGTEXT.ADDUSERTITLE,csrfToken: req.csrfToken()
 		});
+	}
+		
 	
 }
 

@@ -37,7 +37,6 @@ exports.userAuthenticated = function(username,password,callback)
 		}		
 	});
 };
-
 exports.registration = function(req) 
 {
 	let userData = req.body;
@@ -55,6 +54,5 @@ exports.registration = function(req)
 		console.log(hash);
 		//return hash
     });
-	
 	console.log("HashPassword==========="+HashPassword);
 };

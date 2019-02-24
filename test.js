@@ -52,11 +52,11 @@ app.use(function(req, res, next) {
   });
   app.get('/addFlash', function (req, res) {
     req.flash('success', 'Flash Message Added');
-    //res.redirect('/');
+    res.redirect('/');
 	
-	 res.render('index.html', {
+	 /*res.render('index.html', {
       title: 'Home'
-    });
+    });*/
   });
   
   var server = app.listen(3000, function () {

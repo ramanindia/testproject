@@ -14,8 +14,6 @@ var cookieParser = require('cookie-parser');
 var expressValidator = require('express-validator');
     global.UID = require('uuid/v4');
    global.FUNCTIONS = require('./app/functions');
-
-console.log(UID());
  /**
  * load envirment file
  */
@@ -101,9 +99,6 @@ app.use(function(req, res, next)
  * configue routing
  */
 require('./config/routes.js')(app); 
-
-
-
   app.use(express.static(path.join(__dirname, 'public')));	
   /**
   *catch 404 and forward to error handler
@@ -117,8 +112,6 @@ app.use(function (req, res, next)
   *catch 500 and forward to error handler
   */
 app.use(function (req, res, next) {
-	
-	console.log("Yes 1");
     res.status(500).render('errors/404.html', {PAGETITLE: "Sorry, page not found"});
 });
 

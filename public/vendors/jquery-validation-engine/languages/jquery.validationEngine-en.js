@@ -146,7 +146,7 @@
                    "url":HOSTNAME+"users/checkUniqueUsername",
                     // you may want to pass extra data on the ajax call
                     //"extraData": "name=eric",
-                    "alertText": "* This user is already taken",
+                    "alertText": "* This username is already taken",
 					"alertTextOk": "* This username is available",
                     "alertTextLoad": "* Validating, please wait"
                 },

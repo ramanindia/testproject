@@ -42,7 +42,7 @@ global.parseForm = bodyParser.urlencoded({ extended: false })
 const port = process.env.PORT || 3001;
 
 var app = express();
-
+	app.use(flash());
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({extended: true}));
 	app.use(expressValidator());
@@ -53,7 +53,7 @@ var app = express();
 					  resave: false,
 					  saveUninitialized: true
 					  }));
-	app.use(flash());
+
 	app.set('views', path.join(__dirname, 'views'));
 
 /**
@@ -82,7 +82,7 @@ app.use(function(req, res, next)
 	var current_url = req.url;
 	// console.log("current_url===",current_url);
      var url_actions = current_url.split("/");
-	   //console.log("url_actions===",url_actions);
+	  // console.log("url_actions===",url_actions);
     res.locals.controller = url_actions[1];
     res.locals.action = url_actions[2];
 

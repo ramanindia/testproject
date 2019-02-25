@@ -130,9 +130,8 @@ exports.checkEmailExits = function(req, res)
    * @param {object} res - all response object.
  */
 exports.addUser = function(req, res) 
-{  
+{  								
      let requestData = req.body;
-	// console.log("requestData",requestData);
 	if (Object.keys(requestData).length !==0)
 	{
 		 req.checkBody('email', 'Email is required.').notEmpty()
@@ -157,8 +156,7 @@ exports.addUser = function(req, res)
 			Generanal.checkUquieField('email', requestData.email,'users', function(err, user) 
 			{
 				 if(err)
-				 {	//errordata : [ { msg: language.INVALID_TOKEN }],
-					//res.send([QureyData.fieldId,false]);
+				 {	
 					 res.render('users/add-user.html',
 					 {
 						formData :requestData,
@@ -173,8 +171,7 @@ exports.addUser = function(req, res)
 					    Generanal.checkUquieField('username', requestData.username,'users', function(err, user) 
 						{
 							 if(err)
-							 {	//errordata : [ { msg: language.INVALID_TOKEN }],
-								//res.send([QureyData.fieldId,false]);
+							 {	
 								 res.render('users/add-user.html',
 								 {
 									formData :requestData,
@@ -203,8 +200,6 @@ exports.addUser = function(req, res)
 									else
 									{
 										requestData.password=hash;
-										 console.log("requestData",requestData);	
-								 
 										Generanal.save(requestData,'users',function(err,result)
 										{
 											if(err)
@@ -242,8 +237,6 @@ exports.addUser = function(req, res)
 			PAGETITLE:LANGTEXT.ADDUSERTITLE,csrfToken: req.csrfToken()
 		});
 	}
-		
-	
 }
 
 
@@ -271,13 +264,14 @@ exports.allUsers = function(req, res)
 exports.loggedIn = function(req, res, next)
 {
 	if (req.session.user) 
-	{ // req.session.passport._id
-		 var user = req.session.user;
+	{  // req.session.passport._id
+		/* var user = req.session.user;
 			 req.session.regenerate(function() 
 			 {
 			   req.session.user = user;
 			   next();
-			   });
+			   });*/
+			   next();
 	} else {
 		
 		req.flash('error', LANGTEXT.NOT_AUTHORIZED);

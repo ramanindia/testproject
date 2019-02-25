@@ -30,12 +30,12 @@
                   </li>
 				    <li {% if (controller == 'users') %} class="active" {% endif %}><a><i class="fa fa-users"></i> Users <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li {% if (action == 'index') and (controller == 'users') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}users/add-user">Add User</a></li>
-                      <li {% if (action == 'index') and (controller == 'users') %} class="current-page" {% endif %}  ><a href="{{ HOST_URL }}users/index/active">Active Users</a></li>
-                      <li {% if (action == 'index') and (controller == 'users') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}users/index/deactive">Deactive Users</a></li>
-					  <li {% if (action == 'index') and (controller == 'users') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}users/index/deleted">Deleted Users</a></li>
-					  <li {% if (action == 'index') and (controller == 'users') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}users/index">All Users</a></li>
-                    </ul>
+                      <li {% if (action == 'add-user') and (controller == 'users') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}users/add-user">Add User</a></li>
+					  <li {% if (action == 'index') and (controller == 'users') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}users/index">All Users</a></li>         
+					 <li {% if (action == 'active') and (controller == 'users') %} class="current-page" {% endif %}  ><a href="{{ HOST_URL }}users/active">Active Users</a></li>
+                      <li {% if (action == 'deactive') and (controller == 'users') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}users/deactive">Deactive Users</a></li>
+					  <li {% if (action == 'deleted') and (controller == 'users') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}users/deleted">Deleted Users</a></li>
+					 </ul>
                   </li>
                   <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">

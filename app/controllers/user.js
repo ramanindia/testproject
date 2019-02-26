@@ -247,13 +247,42 @@ exports.addUser = function(req, res)
  */
 exports.allUsers = function(req, res) 
 {  
-   
-		 
-		res.render('users/users.html',
-		{
-			PAGETITLE:LANGTEXT.ALLUSERS
-		});
+	//console.log(req);
+     //console.log(req.query);
 	
+	 let post_per_page = process.env.PERPAGE; 
+	 let userStatusSlug  = req.params.UsersSlug;
+	 
+	 let conditions ="parent_id = '"+ req.session.user.id+"'";
+	 
+	 if(userStatusSlug=='index')
+	 {
+		 //conditions = 'role_id !=2';
+	 }
+	  
+	let query = "select * from users "+conditions;
+	
+	console.log(query);
+	
+	db.query(query,function(err,results)
+	{
+		if(err)
+		{
+			//return callback(LANGTEXT.LOGIN_ERROR);
+			 req.flash('error', LANGTEXT.DATABASESYSERROR);
+			res.render('users/users.html',
+			{
+				PAGETITLE:LANGTEXT.ALLUSERS
+			});
+        }else
+		{
+			//console.log(results);
+			res.render('users/users.html',
+			{
+				PAGETITLE:LANGTEXT.ALLUSERS
+			});
+		}
+	});	
 }
 
  /**

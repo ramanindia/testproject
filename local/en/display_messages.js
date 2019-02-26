@@ -25,6 +25,7 @@ var WEB_MESSAGES = {
 	LOGIN_SUCCESS_MESSAGE:'User loggedin successfully',
 	LOGOUT_SUCCESS_MESSAGE:'You have successfully logout',
 	NOT_FOUND:'Incorrect email and password',
+	DATABASESYSERROR:'Something missing.Please try again',
 	PASSWORD_INCORRECT:'Wrong password',	
 	NOT_AUTHORIZED: "You are not authorized for this page.Please login first", 
 	USERNAME_REQUIRED: "Username is required",

@@ -40,8 +40,6 @@ exports.save = function(requestData,table,callback)
    // console.log(setVar);
 	let finalQuery = insertQuery+striptags(setVar);
 
-   console.log(finalQuery);
-
 	db.query(finalQuery,function(err,results)
 	{
 		if(err)

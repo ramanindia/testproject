@@ -12,8 +12,10 @@ var flash = require('express-flash');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var expressValidator = require('express-validator');
+    global.uuidv4 = require('uuid/v4');
    global.FUNCTIONS = require('./app/functions');
-
+   
+console.log(uuidv4());
  /**
  * load envirment file
  */

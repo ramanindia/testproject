@@ -8,7 +8,9 @@
  var db = require('../../app/models/dbconnection'); 
  var User = require('../../app/models/Users'); 
  var Generanal = require('../../app/models/Generanal'); 
+ var Pagination = require('../../pagination');
  var bcrypt = require('bcrypt');
+ var Promise = require('promise');
  
 exports.userLogin = function(req, res) 
 {  
@@ -247,13 +249,41 @@ exports.addUser = function(req, res)
  */
 exports.allUsers = function(req, res) 
 {  
-	//console.log(req);
-     //console.log(req.query);
-	
-	 let post_per_page = process.env.PERPAGE; 
-	 let userStatusSlug  = req.params.UsersSlug;
+	 /**
+	 *define variable
+	 */
+	 let totalRecords;
+	 let totalNoPages;
+	 let start=0;
+	 let currentPage=1;
+	 let conditions;
+	 let records_per_page = process.env.PERPAGE; 
+	 let pageUri='users/index/'
 	 
-	 let conditions ="parent_id = '"+ req.session.user.id+"'";
+	  if (typeof req.query.page !== 'undefined') 
+	    {
+            currentPage = req.query.page;
+        }
+   
+      if(currentPage >1)
+	  {
+     
+       start = (currentPage - 1) * records_per_page;
+      }
+   
+     console.log("start====",start);
+     console.log("currentPage====",currentPage);
+	 console.log("post_per_page==========="+records_per_page);
+	 
+	 let userStatusSlug  = req.params.UsersSlug;
+	 if( req.session.user.role_id == 1)
+	 {
+		conditions ="where parent_id = '"+ req.session.user.id+"' and role_id=2";
+	 }
+	 else
+	 {
+		conditions ="where parent_id = '"+ req.session.user.id+"' and role_id=3";
+	 }
 	 
 	 if(userStatusSlug=='index')
 	 {
@@ -262,27 +292,52 @@ exports.allUsers = function(req, res)
 	  
 	let query = "select * from users "+conditions;
 	
-	console.log(query);
+	let totalCountQuery = "select count(*) as totalRecord from users "+conditions;
 	
-	db.query(query,function(err,results)
+	db.query(totalCountQuery,function(err,totalCountResults)
 	{
 		if(err)
 		{
-			//return callback(LANGTEXT.LOGIN_ERROR);
-			 req.flash('error', LANGTEXT.DATABASESYSERROR);
-			res.render('users/users.html',
-			{
-				PAGETITLE:LANGTEXT.ALLUSERS
-			});
-        }else
-		{
-			//console.log(results);
+			req.flash('error', LANGTEXT.DATABASESYSERROR);
 			res.render('users/users.html',
 			{
 				PAGETITLE:LANGTEXT.ALLUSERS
 			});
 		}
-	});	
+		else
+		{
+			//console.log(totalCountResults);
+			db.query(query,function(err,results)
+			{
+				if(err)
+				{
+					//return callback(LANGTEXT.LOGIN_ERROR);
+					 req.flash('error', LANGTEXT.DATABASESYSERROR);
+					res.render('users/users.html',
+					{
+						PAGETITLE:LANGTEXT.ALLUSERS
+					});
+				}else
+				{
+					  //console.log(totalCountResults);
+					  let totalRecords = totalCountResults[0].totalRecord;
+					  console.log("totalRecords12===",totalRecords);
+					  
+					  totalNoPages = Math.ceil(totalRecords / records_per_page);
+					   const Paginate = new Pagination(totalRecords,currentPage,pageUri,records_per_page);
+
+					//console.log(totalNoPages);
+					res.render('users/users.html',
+					{
+						PAGETITLE:LANGTEXT.ALLUSERS,
+						 pages : Paginate.links()
+					});
+				}
+			});	
+		}
+	});
+	
+	
 }
 
  /**

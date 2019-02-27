@@ -14,8 +14,6 @@ var cookieParser = require('cookie-parser');
 var expressValidator = require('express-validator');
     global.uuidv4 = require('uuid/v4');
    global.FUNCTIONS = require('./app/functions');
-   
-console.log(uuidv4());
  /**
  * load envirment file
  */
@@ -44,7 +42,7 @@ global.parseForm = bodyParser.urlencoded({ extended: false })
 const port = process.env.PORT || 3001;
 
 var app = express();
-
+	app.use(flash());
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({extended: true}));
 	app.use(expressValidator());
@@ -55,7 +53,7 @@ var app = express();
 					  resave: false,
 					  saveUninitialized: true
 					  }));
-	app.use(flash());
+
 	app.set('views', path.join(__dirname, 'views'));
 
 /**
@@ -82,7 +80,9 @@ app.use(function(req, res, next)
 	// res.locals.message = 'Hello World';	
 	res.locals.LANGMESSAGE = languageFile.WEB_MESSAGES;;
 	var current_url = req.url;
-    var url_actions = current_url.split("/");
+	// console.log("current_url===",current_url);
+     var url_actions = current_url.split("/");
+	  // console.log("url_actions===",url_actions);
     res.locals.controller = url_actions[1];
     res.locals.action = url_actions[2];
 
@@ -99,9 +99,6 @@ app.use(function(req, res, next)
  * configue routing
  */
 require('./config/routes.js')(app); 
-
-
-
   app.use(express.static(path.join(__dirname, 'public')));	
   /**
   *catch 404 and forward to error handler
@@ -115,8 +112,6 @@ app.use(function (req, res, next)
   *catch 500 and forward to error handler
   */
 app.use(function (req, res, next) {
-	
-	console.log("Yes 1");
     res.status(500).render('errors/404.html', {PAGETITLE: "Sorry, page not found"});
 });
 

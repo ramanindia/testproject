@@ -1,9 +1,171 @@
 {% extends "layouts/default.html" %}
 {% block content %}
    <!-- page content -->
-        <div class="right_col" role="main">
-       
-	   </div>
+         <div class="right_col" role="main">
+		 <div class="">
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+				<div class="row x_title">
+                  <div class="col-md-8">
+                    <h3>All users</h3>
+                  </div>
+                  <div class="col-md-4">
+                    <div id="reportrange" class="pull-right">
+					<form>
+						 <div class="input-group">
+						<input type="text" class="form-control" placeholder="Search for...">
+						<span class="input-group-btn">
+						  <button class="btn btn-default" type="submit">Go!</button>
+						</span>
+					  </div>
+				  </form>
+                    </div>
+                  </div>
+                </div>
+				<div class="x_content">
+				     {% if (messages.success) %}
+					<div class="alert alert-success alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <strong>Success ! </strong> {{ messages.success }}.
+                  </div>
+					{% endif %}		  
+		
+				  
+					{% if (messages.error) %}
+					<div class="alert alert-danger alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <strong>Error ! </strong> {{ messages.error }}.
+					</div>
+					{% endif %}
+			  </div>
+			 <div id="no-more-tables">
+		  <table class="col-md-12 table-bordered table-striped table-condensed cf">
+        		<thead class="cf">
+        			<tr>
+        				<th>Code</th>
+        				<th>Company</th>
+        				<th class="numeric">Price</th>
+        				<th class="numeric">Change</th>
+        				<th class="numeric">Change %</th>
+        				<th class="numeric">Open</th>
+        				<th class="numeric">High</th>
+        				<th class="numeric">Low</th>
+        				<th class="numeric">Volume</th>
+						<th class="numeric">Action</th>
+        			</tr>
+        		</thead>
+        		<tbody>
+        			<tr>
+        				<td data-title="Code">AAC</td>
+        				<td data-title="Company">AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</td>
+        				<td data-title="Price" class="numeric">$1.38</td>
+        				<td data-title="Change" class="numeric">-0.01</td>
+        				<td data-title="Change %" class="numeric">-0.36%</td>
+        				<td data-title="Open" class="numeric">$1.39</td>
+        				<td data-title="High" class="numeric">$1.39</td>
+        				<td data-title="Low" class="numeric">$1.38</td>
+        				<td data-title="Volume" class="numeric">9,395</td>
+						 <td  data-title="Action" class="numeric">
+                              <a class="btn btn-default"><em class="fa fa-pencil"></em></a>
+                              <a class="btn btn-danger"><em class="fa fa-trash"></em></a>
+                            </td>
+        			</tr>
+        			<tr>
+        				<td data-title="Code">AAD</td>
+        				<td data-title="Company">ARDENT LEISURE GROUP</td>
+        				<td data-title="Price" class="numeric">$1.15</td>
+        				<td data-title="Change" class="numeric">+0.02</td>
+        				<td data-title="Change %" class="numeric">1.32%</td>
+        				<td data-title="Open" class="numeric">$1.14</td>
+        				<td data-title="High" class="numeric">$1.15</td>
+        				<td data-title="Low" class="numeric">$1.13</td>
+        				<td data-title="Volume" class="numeric">56,431</td>
+						 <td data-title="Action" class="numeric">
+                              <a class="btn btn-default"><em class="fa fa-pencil"></em></a>
+                              <a class="btn btn-danger"><em class="fa fa-trash"></em></a>
+                            </td>
+        			</tr>
+        			<tr>
+        				<td data-title="Code">AAX</td>
+        				<td data-title="Company">AUSENCO LIMITED</td>
+        				<td data-title="Price" class="numeric">$4.00</td>
+        				<td data-title="Change" class="numeric">-0.04</td>
+        				<td data-title="Change %" class="numeric">-0.99%</td>
+        				<td data-title="Open" class="numeric">$4.01</td>
+        				<td data-title="High" class="numeric">$4.05</td>
+        				<td data-title="Low" class="numeric">$4.00</td>
+        				<td data-title="Volume" class="numeric">90,641</td>
+						 <td data-title="Action" class="numeric">
+                              <a class="btn btn-default"><em class="fa fa-pencil"></em></a>
+                              <a class="btn btn-danger"><em class="fa fa-trash"></em></a>
+                            </td>
+        			</tr>
+        			<tr>
+        				<td data-title="Code">ABC</td>
+        				<td data-title="Company">ADELAIDE BRIGHTON LIMITED</td>
+        				<td data-title="Price" class="numeric">$3.00</td>
+        				<td data-title="Change" class="numeric">+0.06</td>
+        				<td data-title="Change %" class="numeric">2.04%</td>
+        				<td data-title="Open" class="numeric">$2.98</td>
+        				<td data-title="High" class="numeric">$3.00</td>
+        				<td data-title="Low" class="numeric">$2.96</td>
+        				<td data-title="Volume" class="numeric">862,518</td>
+						 <td data-title="Action" class="numeric">
+                              <a class="btn btn-default"><em class="fa fa-pencil"></em></a>
+                              <a class="btn btn-danger"><em class="fa fa-trash"></em></a>
+                            </td>
+        			</tr>
+        			<tr>
+        				<td data-title="Code">ABP</td>
+        				<td data-title="Company">ABACUS PROPERTY GROUP</td>
+        				<td data-title="Price" class="numeric">$1.91</td>
+        				<td data-title="Change" class="numeric">0.00</td>
+        				<td data-title="Change %" class="numeric">0.00%</td>
+        				<td data-title="Open" class="numeric">$1.92</td>
+        				<td data-title="High" class="numeric">$1.93</td>
+        				<td data-title="Low" class="numeric">$1.90</td>
+        				<td data-title="Volume" class="numeric">595,701</td>
+						 <td data-title="Action" class="numeric">
+                              <a class="btn btn-default"><em class="fa fa-pencil"></em></a>
+                              <a class="btn btn-danger"><em class="fa fa-trash"></em></a>
+                            </td>
+        			</tr>
+        			
+        			
+        		</tbody>
+        	</table>
+        </div>  
+		
+				 {{ pages |safe}}
+	<nav aria-label="...">
+	  <ul class="pagination">
+		<li class="page-item disabled">
+		  <span class="page-link">Previous</span>
+		</li>
+		<li class="page-item"><a class="page-link" href="#">1</a></li>
+		<li class="page-item active">
+		  <span class="page-link">
+			2
+			<span class="sr-only">(current)</span>
+		  </span>
+		</li>
+		<li class="page-item"><a class="page-link" href="#">3</a></li>
+		<li class="page-item">
+		  <a class="page-link" href="#">Next</a>
+		</li>
+	    </ul>
+	  </nav> 
+				</div>
+			 </div>
+		</div>
+	  </div>
         <!-- /page content -->
-
+	</div>
+		
+<style>
+</style>
 {% endblock %}

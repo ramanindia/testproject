@@ -6,7 +6,7 @@
 			  <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+                <img src="{{ HOST_URL }}images/img.jpg" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <span>Welcome, </span>
@@ -15,6 +15,7 @@
             </div>
             <!-- /menu profile quick info -->
 			<br />
+			
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
@@ -27,14 +28,14 @@
                       <li><a href="index3.html">Dashboard3</a></li>
                     </ul>
                   </li>
-				    <li><a><i class="fa fa-users"></i> Users <span class="fa fa-chevron-down"></span></a>
+				    <li {% if (controller == 'users') %} class="active" {% endif %}><a><i class="fa fa-users"></i> Users <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{{ HOST_URL }}add-user">Add User</a></li>
-                      <li><a href="{{ HOST_URL }}users/active">Active Users</a></li>
-                      <li><a href="{{ HOST_URL }}users/deactive">Deactive Users</a></li>
-					  <li><a href="{{ HOST_URL }}users/delete">Deleted Users</a></li>
-					  <li><a href="{{ HOST_URL }}users">All Users</a></li>
-                    </ul>
+                      <li {% if (action == 'add-user') and (controller == 'users') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}users/add-user">Add User</a></li>
+					  <li {% if (action == 'index') and (controller == 'users') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}users/index">All Users</a></li>         
+					 <li {% if (action == 'active') and (controller == 'users') %} class="current-page" {% endif %}  ><a href="{{ HOST_URL }}users/active">Active Users</a></li>
+                      <li {% if (action == 'deactive') and (controller == 'users') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}users/deactive">Deactive Users</a></li>
+					  <li {% if (action == 'deleted') and (controller == 'users') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}users/deleted">Deleted Users</a></li>
+					 </ul>
                   </li>
                   <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">

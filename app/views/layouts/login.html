@@ -46,7 +46,7 @@
                     <strong>Error ! </strong> {{ messages.error }}.
                   </div>
 			{% endif %}
-            <form action="/login/" method="POST">
+            <form action="/users/login/" method="POST">
               <h1>{{LANGMESSAGE.ADMIN_LOGIN_FORM_HEADING}}</h1>
               <div>
 			  <input type="hidden" name="_csrf" value="{{csrfToken}}">

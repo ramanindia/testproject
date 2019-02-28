@@ -8,7 +8,7 @@
  var db = require('../../app/models/dbconnection'); 
  var User = require('../../app/models/Users'); 
  var Generanal = require('../../app/models/Generanal'); 
- var Pagination = require('../../pagination');
+ var Pagination = require('../../app/controllers/Component/pagination');
  var bcrypt = require('bcrypt');
  var Promise = require('promise');
  
@@ -250,7 +250,8 @@ exports.addUser = function(req, res)
 exports.allUsers = function(req, res) 
 {  
 	 /**
-	 *define variable
+	 *define variable for pagination
+	 *start code for pagination
 	 */
 	 let totalRecords;
 	 let totalNoPages;
@@ -258,29 +259,51 @@ exports.allUsers = function(req, res)
 	 let currentPage=1;
 	 let conditions;
 	 let records_per_page = process.env.PERPAGE; 
-	 let pageUri='users/index/'
+	 let pageUri='/users/index/';
+	 let limit;
 	 
 	  if (typeof req.query.page !== 'undefined') 
 	    {
             currentPage = req.query.page;
         }
-   
       if(currentPage >1)
 	  {
      
        start = (currentPage - 1) * records_per_page;
       }
+	  	limit = ' limit '+start+','+records_per_page;
+	
+	  /**
+	 *end code for pagination
+	 */
    
-     console.log("start====",start);
-     console.log("currentPage====",currentPage);
-	 console.log("post_per_page==========="+records_per_page);
-	 
+     let searchkeycondition='';
+      /**
+	 *check search key
+	 */
+	  if (typeof req.query.search !== 'undefined') 
+		{
+			let searchkey = req.query.search;
+			searchkeycondition = " and CONCAT_ws('', first_name, last_name, email,username) LIKE '%"+searchkey.replace(/\s\s+/g, ' ')+"%'";
+		}
+		
+		
+	/**
+    * check order by
+	*/	
+	let defaultorderBY = ' order by updated desc ';
+	if(typeof req.query.orderby !== 'undefined') 
+	    {
+            let orderBy = req.query.orderby;
+			defaultorderBY = ' order by '+orderBy+' desc ';
+        }
+    
 	 let userStatusSlug  = req.params.UsersSlug;
 	 if( req.session.user.role_id == 1)
 	 {
 		conditions ="where parent_id = '"+ req.session.user.id+"' and role_id=2";
 	 }
-	 else
+	 else if( req.session.user.role_id == 2)
 	 {
 		conditions ="where parent_id = '"+ req.session.user.id+"' and role_id=3";
 	 }
@@ -289,10 +312,13 @@ exports.allUsers = function(req, res)
 	 {
 		 //conditions = 'role_id !=2';
 	 }
-	  
-	let query = "select * from users "+conditions;
+
+	let query = "select * from users "+conditions+searchkeycondition+defaultorderBY+limit;
 	
-	let totalCountQuery = "select count(*) as totalRecord from users "+conditions;
+	console.log(query);
+	
+	let totalCountQuery = "select count(*) as totalRecord from users "+conditions+searchkeycondition;
+	console.log(totalCountQuery);
 	
 	db.query(totalCountQuery,function(err,totalCountResults)
 	{
@@ -319,25 +345,22 @@ exports.allUsers = function(req, res)
 					});
 				}else
 				{
-					  //console.log(totalCountResults);
+					  console.log(totalCountResults);
+					   console.log(results);
 					  let totalRecords = totalCountResults[0].totalRecord;
-					  console.log("totalRecords12===",totalRecords);
-					  
 					  totalNoPages = Math.ceil(totalRecords / records_per_page);
-					   const Paginate = new Pagination(totalRecords,currentPage,pageUri,records_per_page);
-
-					//console.log(totalNoPages);
+					   const Paginate = new Pagination(totalRecords,currentPage,pageUri,records_per_page,req.query);
 					res.render('users/users.html',
 					{
 						PAGETITLE:LANGTEXT.ALLUSERS,
-						 pages : Paginate.links()
+						 pages : Paginate.links(),
+						 results :results,
+						 QueryStringData:req.query
 					});
 				}
 			});	
 		}
-	});
-	
-	
+	});	
 }
 
  /**

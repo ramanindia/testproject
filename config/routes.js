@@ -14,7 +14,7 @@ module.exports = function (app)
 	 app.get('/',user.loggedIn,user.userDashboard);
 	 app.get('/users/logout',user.loggedIn,parseForm,csrfProtection,user.logout);
 	 app.all('/users/add-user',user.loggedIn,parseForm,csrfProtection,user.addUser);
-	 app.get('/users/:UsersSlug',user.loggedIn,parseForm,csrfProtection,user.allUsers);
+	 app.get('/users/:UsersSlug/',user.loggedIn,parseForm,csrfProtection,user.allUsers);
 	 app.get('/users/checkUniqueUsername',user.loggedIn,user.checkUsernameExits);
 	 app.get('/users/checkUniqueEmail',user.loggedIn,user.checkEmailExits);
 }

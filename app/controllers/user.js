@@ -5,7 +5,7 @@
   * @param {object} req - all request object.
    * @param {object} res - all response object.
  */
- var db = require('../../app/models/dbconnection'); 
+ var dbConnection = require('../../app/models/dbconnection'); 
  var User = require('../../app/models/Users'); 
  var Generanal = require('../../app/models/Generanal'); 
  var Pagination = require('../../app/controllers/Component/pagination');
@@ -76,7 +76,47 @@ exports.userDashboard = function(req, res)
 		});
 	
 }
-
+/**
+ * define CheckUniqueName function
+  * @param {object} req - all request object.
+   * @param {object} res - all response object.
+ */
+exports.CheckUniqueName = function(req, res) 
+{  
+	//console.log("req.params===",req.params);
+     let QureyData = req.query;
+	 
+	 //console.log("QureyData==",QureyData);
+	// console.log(QureyData);
+	 
+	 let recordId='';
+	 let recordField='';
+	 
+	 if(typeof req.query.record_id !== 'undefined' || typeof req.query.field_name !=='undefined')
+	 {
+		 recordId = QureyData.record_id;
+		 recordField = QureyData.field_name;
+	 }
+	 //console.log("recordId==",recordId);
+	// console.log("recordField==",recordField);
+	 
+	 let controllerName = QureyData.controller_name;
+	Generanal.checkUquieFieldWithUser(QureyData.fieldId, QureyData.fieldValue,controllerName,req.session.user.id,recordId,recordField,function(err, user) 
+	{
+		 if(err)
+		 {
+			res.send([QureyData.fieldId,false]);
+		 }
+		 else
+		 {
+			 if(user)
+			 {
+			 res.send([QureyData.fieldId,true]);
+			 }			 
+		 }
+	 });
+	
+}
  /**
  * define checkUsername function
   * @param {object} req - all request object.
@@ -85,6 +125,7 @@ exports.userDashboard = function(req, res)
 exports.checkUsernameExits = function(req, res) 
 {  
      let QureyData = req.query;
+	 
 	Generanal.checkUquieField(QureyData.fieldId, QureyData.fieldValue,'users', function(err, user) 
 	{
 		 if(err)
@@ -128,6 +169,186 @@ exports.checkEmailExits = function(req, res)
 
  /**
  * define dashboard function
+  * @param {object} req - all request object.
+   * @param {object} res - all response object.
+ */
+exports.changeStatus = function(req, res) 
+{  								
+     let requestData = req.body;
+	if (Object.keys(requestData).length !==0)
+	{
+		let updateIds = requestData.records_id;
+		
+		 if(updateIds !== undefined)
+		 {
+			Generanal.updateStatus(requestData,'users','id',req.session.user.id, function(err, results) 
+			{
+				 if(err)
+				 {
+					req.flash('error', 'Something went wrong.Please try again.');
+					res.redirect(requestData.reirectURL); 
+				 }
+				 else
+				 {
+					 if(results)
+					 {
+					   req.flash('success', 'successfully changed status');
+						res.redirect(requestData.reirectURL); 
+					 }			 
+				 }
+			 });
+		 }
+		 else
+		 {
+			req.flash('error', 'Please select atleast one record');
+			res.redirect(requestData.reirectURL); 
+		 }
+	}
+	else
+	{
+		req.flash('error', 'Invalid request. Please try again');
+		res.redirect(requestData.reirectURL); 
+	}
+}
+ /**
+ * define EditUser function
+  * @param {object} req - all request object.
+   * @param {object} res - all response object.
+ */
+exports.userEdit = function(req, res) 
+{  			
+	 let UserID  = req.params.userId;
+	 let QueryRedirectURL = req.query.redirectURL;
+	 Generanal.findByFieldSingleRecord('id',UserID,'users',req.session.user.id, function(err, user) 
+		{
+			if(err)
+			{
+				 req.flash('error', '12Something missing wrong. Invalid request. please try again');
+				res.redirect('/users/index');		
+			}
+			else
+			{
+				var actualredirectURL='users/index';
+				if(typeof QueryRedirectURL !== 'undefined' || QueryRedirectURL !=='')
+				{	
+					try
+					{
+						var b = Buffer.from(QueryRedirectURL, 'base64')
+						 actualredirectURL = b.toString();
+					}
+					catch (err)
+					{
+						req.flash('error', '123Something missing wrong. Invalid request. please try again');
+						res.redirect('/users/index');
+						 return false;
+						// return, callback or whatever else you want to happen
+					}    
+				}
+				else
+				{
+				   req.flash('error', '21213Something missing wrong. Invalid request. please try again');
+				   res.redirect('/users/index');
+				   return false;
+				  
+				}
+				//console.log("redirectURL464645===========",actualredirectURL);
+				//console.log("user===",user);
+				if(user)
+				{
+						let requestData = req.body;		
+						if (Object.keys(requestData).length !==0)
+						{
+							if(requestData.password  !='' || requestData.cpassword  !='')
+							{
+								req.checkBody('password', 'Password length between 5 to 15 characters.').len(5,15);
+								req.checkBody('cpassword', 'Confirm password is required.').notEmpty();
+								req.checkBody('cpassword', 'Password and confirm password is not match.').equals(req.body.password);
+							}
+							let errors = req.validationErrors();
+							if (errors)
+							{
+								res.render('users/edit-user.html',
+							    {
+									formData :requestData,
+									PAGETITLE:LANGTEXT.EDITUSERTITLE,
+									csrfToken: req.csrfToken(),
+									errordata : errors
+								});
+							}
+							else
+							{
+								delete requestData.cpassword;
+								delete requestData._csrf;
+								const HashPassword = bcrypt.hash(requestData.password, 10, function(err, hash) 
+								{
+									if(err)
+									{
+										 res.render('users/edit-user.html',
+										 {
+											formData :requestData,
+											PAGETITLE:LANGTEXT.EDITUSERTITLE,
+											csrfToken: req.csrfToken(),
+											errordata : [ { msg: 'Pease try again' }],
+										});
+									}
+									else
+									{
+										if(requestData.password  !='' && requestData.cpassword  !='')
+											{
+												requestData.password=hash;
+											}
+											else
+											{
+												delete requestData.password;
+											}
+											
+										let conditions = {id:UserID,parent_id:req.session.user.id};
+										Generanal.update(requestData,'users',conditions,function(err,result)
+										{
+											if(err)
+											{
+												res.render('users/edit-user.html',
+												 {
+													formData :requestData,
+													PAGETITLE:LANGTEXT.EDITUSERTITLE,csrfToken: req.csrfToken(),
+													errordata : [ { msg: 'Pease try again' }],
+												});
+										
+											}else
+											{
+											   req.flash('success', LANGTEXT.USEREDITED);
+												res.redirect(actualredirectURL);													 
+											}
+											
+										});
+									}
+									
+								});
+													
+							}
+						} 
+						else 
+						{
+							res.render('users/edit-user.html',
+							{
+								PAGETITLE:LANGTEXT.EDITUSERTITLE,
+								csrfToken: req.csrfToken(),
+								formData :user,
+							});
+						}
+				}
+				else
+				{
+				   req.flash('error', '12313Something missing wrong. Invalid request. please try again');
+				   res.redirect(actualredirectURL);
+				}
+			}
+			
+		});
+}
+
+ /**
+ * define addUser function
   * @param {object} req - all request object.
    * @param {object} res - all response object.
  */
@@ -202,6 +423,10 @@ exports.addUser = function(req, res)
 									else
 									{
 										requestData.password=hash;
+										if(req.session.user.role_id ==2)
+										{
+											requestData.role_id = 3;
+										}
 										Generanal.save(requestData,'users',function(err,result)
 										{
 											if(err)
@@ -259,9 +484,8 @@ exports.allUsers = function(req, res)
 	 let currentPage=1;
 	 let conditions;
 	 let records_per_page = process.env.PERPAGE; 
-	 let pageUri='/users/index/';
-	 let limit;
 	 
+	 let limit;
 	  if (typeof req.query.page !== 'undefined') 
 	    {
             currentPage = req.query.page;
@@ -291,12 +515,22 @@ exports.allUsers = function(req, res)
 	/**
     * check order by
 	*/	
-	let defaultorderBY = ' order by updated desc ';
-	if(typeof req.query.orderby !== 'undefined') 
+	//let defaultorderBY = ' order by updated desc ';
+	let defaultorderBY;
+	let orderBy ='created';
+	let orderType= 'desc';
+	
+	if(typeof req.query.orderBy !== 'undefined' && typeof req.query.orderType !== 'undefined') 
 	    {
-            let orderBy = req.query.orderby;
-			defaultorderBY = ' order by '+orderBy+' desc ';
+             orderBy = req.query.orderBy;
+			 orderType= req.query.orderType;
+			defaultorderBY = ' order by '+orderBy+' '+orderType;
         }
+		else
+		{
+			defaultorderBY = ' order by '+orderBy+' '+orderType;
+		}
+		
     
 	 let userStatusSlug  = req.params.UsersSlug;
 	 if( req.session.user.role_id == 1)
@@ -307,60 +541,105 @@ exports.allUsers = function(req, res)
 	 {
 		conditions ="where parent_id = '"+ req.session.user.id+"' and role_id=3";
 	 }
-	 
-	 if(userStatusSlug=='index')
+	  var pageTitle ='All Users';
+	 if(userStatusSlug=='active')
 	 {
-		 //conditions = 'role_id !=2';
+		 pageTitle = "Active Users";
+		 conditions =conditions+ ' and status=1';
 	 }
-
-	let query = "select * from users "+conditions+searchkeycondition+defaultorderBY+limit;
+	 else if(userStatusSlug=='deactive')
+	 {
+		 pageTitle = "Deactive Users";
+		 conditions =conditions+ ' and status=0';
+	 }
+	  else if(userStatusSlug=='deleted')
+	 {
+		  pageTitle = "Deleted Users";
+		 conditions =conditions+ ' and is_delete=1';
+	 }
+	let query = "select id,first_name,is_delete,last_name,username,email,status,created from users "+conditions+searchkeycondition+defaultorderBY+limit;
 	
-	console.log(query);
 	
 	let totalCountQuery = "select count(*) as totalRecord from users "+conditions+searchkeycondition;
-	console.log(totalCountQuery);
 	
-	db.query(totalCountQuery,function(err,totalCountResults)
+	let pageUri='/users/'+userStatusSlug;
+	/**
+	*start sorting functionality
+	*/
+	 let setSortingQueryString='';
+	 let QuertyData= req.query;
+	 delete QuertyData.page;
+	 delete QuertyData.orderBy;
+	 delete QuertyData.orderType;
+	 if(JSON.stringify(QuertyData)!='{}')
+	 {
+		  for(var key in QuertyData) 
+		  {    
+			   setSortingQueryString = setSortingQueryString+ key+"="+QuertyData[key]+'&';
+		   }
+		 setSortingQueryString = '&'+setSortingQueryString.substring(0, setSortingQueryString.length-1);
+	 }
+	 
+	 /**
+	*end sorting functionality
+	*/
+	
+	req.query.orderType=orderType;
+	req.query.orderBy=orderBy;
+	dbConnection.getConnection(function(err, db)
 	{
-		if(err)
+		if (err) throw err;	
+		db.query(totalCountQuery,function(err,totalCountResults)
 		{
-			req.flash('error', LANGTEXT.DATABASESYSERROR);
-			res.render('users/users.html',
+			
+			if(err)
 			{
-				PAGETITLE:LANGTEXT.ALLUSERS
-			});
-		}
-		else
-		{
-			//console.log(totalCountResults);
-			db.query(query,function(err,results)
+				req.flash('error', LANGTEXT.DATABASESYSERROR);
+				res.render('users/users.html',
+				{
+					PAGETITLE:pageTitle,
+				});
+			}
+			else
 			{
-				if(err)
-				{
-					//return callback(LANGTEXT.LOGIN_ERROR);
-					 req.flash('error', LANGTEXT.DATABASESYSERROR);
-					res.render('users/users.html',
+				//console.log(totalCountResults);
+				db.query(query,function(err,results)
+				{  db.release();
+					if(err)
 					{
-						PAGETITLE:LANGTEXT.ALLUSERS
-					});
-				}else
-				{
-					  console.log(totalCountResults);
-					   console.log(results);
-					  let totalRecords = totalCountResults[0].totalRecord;
-					  totalNoPages = Math.ceil(totalRecords / records_per_page);
-					   const Paginate = new Pagination(totalRecords,currentPage,pageUri,records_per_page,req.query);
-					res.render('users/users.html',
-					{
-						PAGETITLE:LANGTEXT.ALLUSERS,
-						 pages : Paginate.links(),
-						 results :results,
-						 QueryStringData:req.query
-					});
-				}
-			});	
-		}
-	});	
+						//return callback(LANGTEXT.LOGIN_ERROR);
+						 req.flash('error', LANGTEXT.DATABASESYSERROR);
+						res.render('users/users.html',
+						{
+							PAGETITLE:pageTitle
+						});
+					}else
+					{   
+				           var bufferURL = new Buffer(req.originalUrl);
+						   var redirectURL = bufferURL.toString('base64');
+						   
+						   //console.log("req.query",req.query);
+						  let totalRecords = totalCountResults[0].totalRecord;
+						  totalNoPages = Math.ceil(totalRecords / records_per_page);
+						   const Paginate = new Pagination(totalRecords,currentPage,pageUri,records_per_page,req.query);
+						res.render('users/users.html',
+						{
+							PAGETITLE:pageTitle,
+							 pages : Paginate.links(),
+							 results :results,
+							 QueryStringData:req.query,
+							 moment:moment,
+							 setSortingQueryString:setSortingQueryString,
+							 csrfToken: req.csrfToken(),
+							 redirectOriginalUrl:req.originalUrl,
+							 redirctURL:redirectURL,
+							 userStatusSlug:userStatusSlug
+						});
+					}
+				});	
+			}
+		});	
+	});
 }
 
  /**

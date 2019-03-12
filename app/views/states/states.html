@@ -9,16 +9,16 @@
                 <div class="x_panel">
 				<div class="row x_title">
                   <div class="col-md-6">
-                    <h3>{{PAGETITLE}}</h3>
+                    <h3>{{PAGETITLE}}</h3> 
                   </div>
-				    <div class="col-md-2">
-                    <a href="/users/add-user" class="btn btn-primary"> Add New User<i class="icon-plus icon-white"></i></a>
+				   <div class="col-md-2">
+                    <a href="/states/add-state" class="btn btn-primary"> Add New State<i class="icon-plus icon-white"></i></a>
                   </div>
                   <div class="col-md-4">
                     <div id="reportrange" class="pull-right">
-					<form method='get' action="{{ HOST_URL }}users/{{userStatusSlug}}">
+					<form method='get' action="{{ HOST_URL }}states/{{PageSlug}}">
 						 <div class="input-group">
-						<input type="text" class="form-control" value="{{QueryStringData.search}}" name="search" placeholder="Search for...">
+						<input type="text" class="form-control" value="{{QueryStringData.search}}" name="search" placeholder="Search for country ,state name...">
 					<span class="input-group-btn">
 						  <button class="btn btn-default" type="submit">Go!</button>
 						</span>
@@ -59,80 +59,49 @@
 					    <th class="numeric"> 
 						<input type="checkbox" id="selectall" value="all">
 						</th>
+						<th class="numeric">Country name</th>
         				<th class="numeric">
-						<a href="{{ HOST_URL }}users/{{userStatusSlug}}?
-						orderBy=first_name&orderType={{sortType}}{{setSortingQueryString}}">
+						<a href="{{ HOST_URL }}states/{{PageSlug}}?
+						orderBy=state_name&orderType={{sortType}}{{setSortingQueryString}}">
 						
-						{% if QueryStringData.orderBy=='first_name' %}
+						{% if QueryStringData.orderBy=='state_name' %}
 						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
 						{% endif %}	
-						First name</a>
+						State name</a>
 						</th>
-        				<th class="numeric" >
-						<a title="Click for sort results" href="{{ HOST_URL }}users/{{userStatusSlug}}?
-						orderBy=last_name&orderType={{sortType}}{{setSortingQueryString}}">
-							{% if QueryStringData.orderBy=='last_name' %}
-						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
-						{% endif %}
-						Last name</a>				
-						</th>
-        				<th class="numeric"><a title="Click for sort results" href="{{ HOST_URL }}users/{{userStatusSlug}}?
-						orderBy=email&orderType={{sortType}}{{setSortingQueryString}}">
-						{% if QueryStringData.orderBy=='email' %}
-						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
-						{% endif %}
-						
-						Email</a></th>
-        				<th class="numeric"><a title="Click for sort results" href="{{ HOST_URL }}users/{{userStatusSlug}}?
-						orderBy=username&orderType={{sortType}}{{setSortingQueryString}}">
-						
-							{% if QueryStringData.orderBy=='username' %}
-						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
-						{% endif %}
-						
-						
-						Username</a></th>
-						<th class="numeric"><a title="Click for sort results" title="Click for sort results" href="{{ HOST_URL }}users/{{userStatusSlug}}?
-						orderBy=created&orderType={{sortType}}{{setSortingQueryString}}">
-						{% if QueryStringData.orderBy=='created' %}
-						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
-						{% endif %}						
-						Created at</a></th>
-						<th class="numeric"><a title="Click for sort results" href="{{ HOST_URL }}users/{{userStatusSlug}}?
+								<th class="numeric"><a title="Click for sort results" href="{{ HOST_URL }}states/{{PageSlug}}?
 						orderBy=status&orderType={{sortType}}{{setSortingQueryString}}">
 						{% if QueryStringData.orderBy=='status' %}
 						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
 						{% endif %}						
 						Status </th>
-						<th class="numeric"><a title="Click for sort results" href="{{ HOST_URL }}users/{{userStatusSlug}}?
-						orderBy=is_delete&orderType={{sortType}}{{setSortingQueryString}}">
-						{% if QueryStringData.orderBy=='is_delete' %}
+						<th class="numeric"><a title="Click for sort results" title="Click for sort results" href="{{ HOST_URL }}states/{{PageSlug}}?
+						orderBy=created&orderType={{sortType}}{{setSortingQueryString}}">
+						{% if QueryStringData.orderBy=='created' %}
 						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
 						{% endif %}						
-						Delete Status </th>
+						Created at</a></th>
 						
 						<th class="numeric">Action</th>
         			</tr>
         		</thead>
         		<tbody>
 				 {% if results|length %}
-				  <form method='post' id="statusChangeform" action="/users/change-status">	
+				  <form method='post' id="statusChangeform" action="/states/change-status">	
 				  <input type="hidden" name="_csrf" value="{{csrfToken}}">
 				  <input type="hidden" name="reirectURL" value="{{redirectOriginalUrl}}">
 					{% for item in results %}
 					 <tr>					    
 						<td data-title="Status Change">
-						<input type="checkbox" class="records_id" name="records_id" value="{{item.id}}"></td>
-        				<td data-title="First Name">{{item.first_name}}</td>
-						<td data-title="Last Name">{{item.last_name}}</td>
-						<td data-title="Email">{{item.email}}</td>
-						<td data-title="Username">{{item.username}}</td>	
-						<td data-title="Username">{{ moment(item.created).format('DD-MM-YYYY hh:mm a')}}</td>	
-						<td data-title="Username">{{Status[item.status]}}</td>
-						<td data-title="Username">{{deleteStatus[item.is_delete]}}</td>							
+						<input type="checkbox" class="records_id" name="records_id" value="{{item.state_id}}"></td>
+						<td data-title="Country Name">{{item.country_name}}</td>
+        				<td data-title="State Name">{{item.state_name}}</td>
+						<td data-title="Status">{{Status[item.STATESTATUS]}}</td>
+						<td data-title="Created at">{{ moment(item.STATECREATED).format('DD-MM-YYYY hh:mm a')}}</td>							
 						<td  data-title="Action" class="numeric">
-                        <a class="btn btn-default" href="{{ HOST_URL }}users/edit/{{item.id}}?redirectURL={{redirctURL}}" title="edit user"><em class="fa fa-pencil"></em></a>
-                        </td>
+                        <a class="btn btn-default" href="{{ HOST_URL }}states/edit/{{item.state_id}}?redirectURL={{redirctURL}}" title="Edit item"><em class="fa fa-pencil"></em></a>
+                        <a class="btn btn-danger"  href="{{ HOST_URL }}states/delete-record/{{item.state_id}}?redirectURL={{redirctURL}}" onclick="return confirmDelete('Are you sure want to delete this item?');" title="Delete item"><em class="fa fa-trash"></em></a>
+						</td>
         			</tr>
 					{% endfor %}
 					{% else %} 
@@ -148,8 +117,8 @@
                   <div class="col-md-12 ol-sm-12 col-xs-12 button_status">
 						  <button type="submit"  title="Click for Active" class="btn btn-success" onclick="return changeConfirmation('Are you sure want to active this records?');" name ="change_active" value="active">Active</button>
                            <button type="submit" title="Click for Deactive"class="btn btn-warning"  onclick="return changeConfirmation('Are you sure want to deactive this records?');"name ="change_deactive" value="deactive">Deactive</button>
-						   <button type="submit" title="Click for Delete" class="btn btn-danger"  onclick="return changeConfirmation('Are you sure want to delete this records?');" name ="change_delete" value="delete">Delete</button>
-                  </div>
+						  <!--  <button type="submit" title="Click for Delete" class="btn btn-danger"  onclick="return changeConfirmation('Are you sure want to delete this records?');" name ="change_delete" value="delete">Delete</button>
+             -->      </div>
                 </div>
 		  </form>
 	   <div class="center-block text-center">

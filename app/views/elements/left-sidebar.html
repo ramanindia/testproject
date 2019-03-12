@@ -37,6 +37,43 @@
 					  <li {% if (action == 'deleted') and (controller == 'users') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}users/deleted">Deleted Users</a></li>
 					 </ul>
                   </li>
+				    <li {% if (controller == 'countries') %} class="active" {% endif %}><a><i class="fa fa-sitemap"></i> Countries <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li {% if (action == 'add-country') and (controller == 'countries') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}countries/add-country">Add Country</a></li>
+					  <li {% if (action == 'index') and (controller == 'countries') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}countries/index">All countries</a></li>         
+					 <li {% if (action == 'active') and (controller == 'countries') %} class="current-page" {% endif %}  ><a href="{{ HOST_URL }}countries/active">Active countries</a></li>
+                      <li {% if (action == 'deactive') and (controller == 'countries') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}countries/deactive">Deactive countries</a></li>
+					   </ul>
+                  </li>
+				  
+				  <li {% if (controller == 'states') %} class="active" {% endif %}><a><i class="fa fa-sitemap"></i> States <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li {% if (action == 'add-state') and (controller == 'states') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}states/add-state">Add state</a></li>
+					  <li {% if (action == 'index') and (controller == 'states') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}states/index">All states</a></li>         
+					 <li {% if (action == 'active') and (controller == 'states') %} class="current-page" {% endif %}  ><a href="{{ HOST_URL }}states/active">Active states</a></li>
+                      <li {% if (action == 'deactive') and (controller == 'states') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}states/deactive">Deactive states</a></li>
+					   </ul>
+                  </li>
+				  
+				    <li {% if (controller == 'districts') %} class="active" {% endif %}><a><i class="fa fa-sitemap"></i> Districts <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li {% if (action == 'add-district') and (controller == 'districts') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}districts/add-district">Add district</a></li>
+					  <li {% if (action == 'index') and (controller == 'districts') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}districts/index">All districts</a></li>         
+					 <li {% if (action == 'active') and (controller == 'districts') %} class="current-page" {% endif %}  ><a href="{{ HOST_URL }}districts/active">Active districts</a></li>
+                      <li {% if (action == 'deactive') and (controller == 'districts') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}districts/deactive">Deactive districts</a></li>
+					   </ul>
+                  </li>
+				    
+				    <li {% if (controller == 'cities') %} class="active" {% endif %}><a><i class="fa fa-sitemap"></i> Cities <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li {% if (action == 'add-city') and (controller == 'cities') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}cities/add-city">Add City</a></li>
+					  <li {% if (action == 'index') and (controller == 'cities') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}cities/index">All cities</a></li>         
+					 <li {% if (action == 'active') and (controller == 'cities') %} class="current-page" {% endif %}  ><a href="{{ HOST_URL }}cities/active">Active Cities</a></li>
+                      <li {% if (action == 'deactive') and (controller == 'cities') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}cities/deactive">Deactive Cities</a></li>
+					   </ul>
+                  </li>
+				  
+				  
                   <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="form.html">General Form</a></li>

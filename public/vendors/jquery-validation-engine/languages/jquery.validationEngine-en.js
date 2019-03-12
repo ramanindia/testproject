@@ -133,7 +133,15 @@
                     "alertText": "* No special characters allowed"
                 },
                 // --- CUSTOM RULES -- Those are specific to the demos, they can be removed or changed to your likings
-                
+                 "ajaxCheckUniqueName": {
+                    "url": HOSTNAME+"users/CheckUniqueName",
+                    // you may want to pass extra data on the ajax call
+                     "extraData": "controller_name="+ControllerName,
+					"extraDataDynamic": ['#record_id',"#field_name"],
+					 "alertTextOk": "* This name is available",
+                    "alertText": "* This name is already taken",
+                    "alertTextLoad": "* Validating, please wait"
+                },
 				 "ajaxCheckUniqueEmail": {
                     "url": HOSTNAME+"users/checkUniqueEmail",
                     // you may want to pass extra data on the ajax call

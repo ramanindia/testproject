@@ -8,7 +8,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Add New User</h2>
+                    <h2>Edit User</small></h2>
 					<a href="/users/index" class="btn btn-primary align-right"> All Users<i class="icon-plus icon-white"></i></a>
                     <div class="clearfix"></div>
                   </div>
@@ -23,8 +23,7 @@
 				  	{% endfor %}	
 				 {% endif %}
                     <br />
-                    <form id="add-user" method="post" class="form-horizontal  form-label-left" 
-					action="/users/add-user/" >
+                    <form id="add-user" method="post" class="form-horizontal  form-label-left" >
 					<input type="hidden" name="_csrf" value="{{csrfToken}}">
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">First Name 
@@ -45,48 +44,50 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="email" id="email" name="email"  value="{{formData.email}}" placeholder="Enter Email" class="form-control col-md-7 col-xs-12 validate[required,custom[email],ajax[ajaxCheckUniqueEmail]]">
-                        </div>
+						<span  readonly="" value="suman" 
+						class="form-control col-md-7 col-xs-12">{{formData.email}}</span>
+                           </div>
                       </div>
 					   <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="username">Username <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="username" name="username"  value="{{formData.username}}" placeholder="Enter Username" class="form-control col-md-7 col-xs-12 validate[required,,ajax[ajaxCheckUniqueUsername]]">
+                          <span  readonly="" value="suman" 
+						class="form-control col-md-7 col-xs-12">{{formData.username}}</span>
                         </div>
                       </div>
 					   <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password">Password <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="password" id="password" name="password" placeholder="Enter Password" class="form-control col-md-7 col-xs-12 validate[required,minSize[6]]">
+                          <input type="password" id="password" name="password" placeholder="Enter Password" class="form-control col-md-7 col-xs-12 validate[minSize[6]]">
                         </div>
                       </div>
 					   <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="cpassword">Confirm Password <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="password" id="cpassword" name="cpassword"  placeholder="Enter Confirm Password" class="form-control col-md-7 col-xs-12 validate[required,equals[password]]">
+                          <input type="password" id="cpassword" name="cpassword"  placeholder="Enter Confirm Password" class="form-control col-md-7 col-xs-12 validate[equals[password]]">
                         </div>
                       </div>
-					  
-					    <div class="form-group">
+					   <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="cpassword">Status
                         </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
+					   <div class="col-md-6 col-sm-6 col-xs-12">
 							<select class="form-control" name="status">
 							{% for statusitem in Status %}
-							<option value="{{loop.index0}}" {% if loop.index0==1 %} selected  {% endif %}>{{statusitem}}</option>
+							<option value="{{loop.index0}}" {% if loop.index0==formData.status %} selected  {% endif %}>{{statusitem}}</option>
 							{% endfor %}
 							</select>
                           </div>
-                      </div>
+						  </div>
+						  
+						  
 					  
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <button class="btn btn-primary" type="button" onclick="return confirmCancle('Are you sure want to cancel','{{ HOST_URL }}users/index');">Cancel</button>
-						  <button class="btn btn-primary" type="reset">Reset</button>
                           <button type="submit" class="btn btn-success">Submit</button>
                         </div>
                       </div>

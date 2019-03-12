@@ -5,8 +5,144 @@
  * $(window).smartresize(function(){  
  *     // code here
  * });
- */  
- function confirmCancle(confirTxt,returnURL)
+ */ 
+
+function getDataList(recordValue,recordkey,recordSlug,returnData1,returnData2,HTMLRENDERID,BlankMessage)
+{
+	var selectOption='<option value="">'+BlankMessage+'</option>';
+		if(recordValue.value !='')
+		{
+			 var sendData = { recordID :recordValue.value, recordField :recordkey, recordataSlug : recordSlug,field1:returnData1,field2:returnData2}
+			  $.ajax({
+						 type: "POST",
+						 dataType: "json",
+						 credentials: 'same-origin',
+						 url: HOSTNAME+'ajax/getlisting',
+						 data: sendData,
+						 cache: false, 
+						//contentType: "application/json",
+						  beforeSend: function()
+						  {
+							console.log("before send");
+							$(".loader").show();
+						},
+						success: function(resultData) 
+						{
+							$(".loader").hide();	
+								if(!resultData.error)
+								{
+									let results = resultData.data;
+									if(results.length > 0)
+									{
+									for (i in results) 
+									{
+										let optionsData = results[i];
+										/*console.log("ji''==",optionsData[returnData1]);
+										let optioName ='';
+										let optionvalue='';
+										for(var item in optionsData)
+										 {
+											 optioName=optionsData[returnData2];
+											  optionvalue=optionsData[returnData1];											 
+										 }*/
+									    selectOption = selectOption+'<option value="'+optionsData[returnData1]+'">'+optionsData[returnData2]+'</option>';
+									}
+									   $("#"+HTMLRENDERID).html(selectOption);
+									}else
+									{
+										 $("#"+HTMLRENDERID).html('<option value="">'+resultData.message+'</option>');
+									}
+								}
+								else
+								{
+									 $("#"+HTMLRENDERID).html('<option value="">'+resultData.message+'</option>');
+								}
+						},
+						error: function(error)
+						{
+							console.log("error",error);
+						},
+						complete: function() 
+						{
+							console.log("Complete send");
+							$(".loader").hide();
+						},
+					});
+		}
+		else
+		{
+			   $("#"+HTMLRENDERID).html(selectOption);
+		}
+	
+}	
+ /*$("#dropdown_country_id").on('change', function()
+ {
+      var val = $(this).val();   
+		if(val !='')
+		{
+			
+			  console.log(val); 
+			 var Senddata = { recordID : val, recordKey : 5, recordsslug : 2}
+			  $.ajax({
+						type: "POST",
+						 dataType: "json",
+						 credentials: 'same-origin',
+						url: HOSTNAME+'ajax/getlisting',
+						data: myKeyVals,
+						 cache: false, 
+						//contentType: "application/json",
+						  beforeSend: function()
+						  {
+							console.log("before send");
+						},
+						success: function(results) 
+						{
+							console.log("results===",results);
+						},
+						error: function(error)
+						{
+							console.log("error",error);
+						},
+						complete: function() 
+						{
+							console.log("Complete send");
+						},
+					});
+		}
+		else
+		{
+			  console.log('nhi hai'); 
+		}
+    
+	
+});*/
+
+
+  function changeConfirmation(confirTxt)
+	{
+		 if ($('input:checkbox').filter('.records_id:checked').length < 1)
+			{
+				alert("Check at least one record!");
+				return false;
+			}
+		else
+		{
+			var confirmed = confirm(confirTxt);
+			if(confirmed)
+			{
+				
+				return true;
+			
+			}else
+			{
+			  return false;
+			}
+		}
+
+	
+	}
+	
+	function confirmCancle(confirTxt,returnURL)
 	{
 		var confirmed = confirm(confirTxt);
 		if(confirmed)
@@ -18,6 +154,18 @@
 		}
 		//alert(confirTxt);
 	}
+	
+function confirmDelete(confirTxt)
+{
+	var confirmed = confirm(confirTxt);
+	if(confirmed)
+	{
+		return true;
+	}else
+	{
+	  return false;
+	}
+}
 
 (function($,sr){
     // debouncing function from John Hann

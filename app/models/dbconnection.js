@@ -43,7 +43,7 @@ if (port === 3001)
   console.log('connected as id ' + connection.threadId);
 });*/
 
-connection.getConnection(function(err, connection)
+/*connection.getConnection(function(err, connection)
  {
     if (err) 
   {
@@ -52,6 +52,6 @@ connection.getConnection(function(err, connection)
   }
   console.log('connected as id ' ,connection.threadId);
 
-});
+});*/
 
 module.exports = connection;

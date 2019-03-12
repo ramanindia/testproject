@@ -12,8 +12,9 @@ var flash = require('express-flash');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var expressValidator = require('express-validator');
-    global.uuidv4 = require('uuid/v4');
+    global.UID = require('uuid/v4');
    global.FUNCTIONS = require('./app/functions');
+   global.moment = require('moment');
  /**
  * load envirment file
  */
@@ -47,11 +48,11 @@ var app = express();
 	app.use(bodyParser.urlencoded({extended: true}));
 	app.use(expressValidator());
 	app.use(cookieParser());
-	
-     app.use(session({ cookie: { maxAge: 60000 }, 
+     app.use(session({ 
 					  secret: '57065d0113918ca402a0f2ad57065d0113918ca402a0f2ad',
 					  resave: false,
-					  saveUninitialized: true
+					  saveUninitialized: true,
+					  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 },
 					  }));
 
 	app.set('views', path.join(__dirname, 'views'));
@@ -73,7 +74,6 @@ app.use(function (err, req, res, next)
      res.send('Invalid csrf token');
 });
 
-
 app.use(function(req, res, next) 
 {      
 	// console.log(req.session.user);
@@ -85,6 +85,7 @@ app.use(function(req, res, next)
 	  // console.log("url_actions===",url_actions);
     res.locals.controller = url_actions[1];
     res.locals.action = url_actions[2];
+	res.locals.STATUS = env.STATUS;
 
 	if(req.session.user)
 	{

@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+	
      <title> {% if (PAGETITLE) %}{{ PAGETITLE }}	{% endif %}	|  {% if (LANGMESSAGE.WEBTITLE) %}{{ LANGMESSAGE.WEBTITLE }}	{% endif %}</title>
  
     <!-- Bootstrap -->
@@ -20,6 +20,8 @@
   {% if (controller) and  (action)%} 
   	<link rel="stylesheet" href="{{ HOST_URL }}vendors/jquery-validation-engine/css/validationEngine.jquery.css" type="text/css"/>
 	<link rel="stylesheet" href="{{ HOST_URL }}vendors/jquery-validation-engine/css/template.css" type="text/css"/>
+	 <link href="{{ HOST_URL }}vendors/select2/dist/css/select2.min.css" rel="stylesheet"> 
+  
  {% else %} 
   	 <!-- NProgress -->
      <link href="{{ HOST_URL }}vendors/nprogress/nprogress.css" rel="stylesheet">
@@ -33,6 +35,8 @@
   {% endif %}
   <script>
   var HOSTNAME = '{{ HOST_URL }}';
+  var ControllerName = '{{ controller }}';
+
 
   </script>
   </head>

@@ -8,6 +8,7 @@
   	<script src="{{ HOST_URL }}vendors/jquery-validation-engine/languages/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8">
 	</script>
 	<script src="{{ HOST_URL }}vendors/jquery-validation-engine/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
+	<script src="{{ HOST_URL }}vendors/select2/dist/js/select2.full.min.js" type="text/javascript" charset="utf-8"></script>
  {% else %} 
   	 <!--FastClick-->
 	<script src="{{ HOST_URL }}vendors/fastclick/lib/fastclick.js"></script>
@@ -42,12 +43,35 @@
     <!-- bootstrap-daterangepicker -->
     <script src="{{ HOST_URL }}vendors/moment/min/moment.min.js"></script>
     <script src="{{ HOST_URL }}vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+	
   {% endif %}
   <script src="{{ HOST_URL }}js/custom.js" type="text/javascript" charset="utf-8"></script>
   {% if (controller) and  (action)%} 
 	<script>
 	$(document).ready(function(){
-		//$("#add-user").validationEngine({promptPosition : "topRight:-75"});
+	
+	 $(".listing-select2").select2({
+  tags: true
+});
+	// add multiple select / deselect functionality
+	$("#selectall").click(function () {
+		  $('.records_id').prop('checked', this.checked);
+	});
+
+	// if all checkbox are selected, check the selectall checkbox
+	// and viceversa
+	$(".records_id").click(function(){
+
+		if($(".records_id").length == $(".records_id:checked").length)
+		{
+			$("#selectall").prop("checked", "checked");
+		} else {
+			$("#selectall").removeAttr("checked");
+		}
+
+	});
+		$("#add-user").validationEngine({promptPosition : "topRight:-75"});
+		$("#add-country").validationEngine({promptPosition : "topRight:-75"});
 	});
 	</script>
 	{% endif %}	

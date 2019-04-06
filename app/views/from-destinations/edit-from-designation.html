@@ -7,13 +7,10 @@
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
-                  <div class="row x_title">
-				     <div class="col-md-6">
-                    <h3>Add New City</h3>
-					</div>
-					 <div class="col-md-6">
-                    <a href="/cities/index" class="btn btn-primary align-right"> All Cities<i class="icon-plus icon-white"></i></a>
-					</div>
+                  <div class="x_title">
+                    <h2>Edit Form Destination</small></h2>
+					 <a href="/from-destinations/index" class="btn btn-primary"> All From Destination<i class="icon-plus icon-white"></i></a>
+                    <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
 					   {% if errordata %}
@@ -26,14 +23,15 @@
 				  	{% endfor %}	
 				 {% endif %}
                     <br />
-                    <form id="add-country" method="post" class="form-horizontal  form-label-left" 
-					action="/cities/add-city/" >
+                    <form id="add-country9787" method="post" class="form-horizontal  form-label-left">
 					<input type="hidden" name="_csrf" value="{{csrfToken}}">
-					  <div class="form-group">
+					<input type="hidden" name="record_id" id="record_id" value="{{formData.from_destination_id}}">
+					<input type="hidden" name="field_name" id="field_name" value="from_destination_id">
+					 <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">Select Country<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-							<select name="country_id" id="dropdown_country_id" onchange="getDataList(this,'country_id','states','state_id','state_name','state_id','Select state')" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
+							<select class="listing-select2 form-control col-md-7 col-xs-12 validate[required]" id="country_id" name="country_id" onchange="getDataList(this,'country_id','states','state_id','state_name','state_id','Select state')">
 							<option value="">Select Country</option>
 							{% for countryitem in countries %}
 							<option value="{{countryitem.country_id}}" {% if countryitem.country_id==formData.country_id %} selected  {% endif %}>{{countryitem.country_name}}</option>
@@ -41,13 +39,13 @@
 							</select>
                           </div>
                       </div>
-					  <div class="loader" id="ajax_loader" style="display:none"></div>
+						 <div class="loader" id="ajax_loader" style="display:none"></div>
 					    <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">Select State<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
 							<select name="state_id" id="state_id"  onchange="getDataList(this,'state_id','districts','district_id','district_name','district_id','Select District')" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">>
-							<option value="">Select State</option>
+							<option value="{{formData.state_id}}">{{formData.state_name}}</option>n>
 							</select>
                           </div>
                       </div>
@@ -55,26 +53,37 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">Select District<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-							<select name="district_id" id="district_id" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
-							<option value="">Select District</option>
+							<select name="district_id" id="district_id" onchange="getDataList(this,'district_id','cities','city_id','city_name','city_id','Select City')" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
+							<option value="{{formData.district_id}}">{{formData.district_name}}</option>
 							</select>
                           </div>
                       </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="country_name-name">City Name 
+                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">Select City<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+							<select name="city_id" id="city_id" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
+							<option value="{{formData.city_id}}">{{formData.city_name}}</option>
+							</select>
+                          </div>
+                      </div>
+					  
+					   <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="country_name-name">Name 
 						<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="city_name"  value="{{formData.city_name}}" id="city_name" placeholder="Enter City Name" class="form-control col-md-7 col-xs-12 validate[required,minSize[3],ajax[ajaxCheckUniqueName]]">
+                          <input type="text" name="name"  value="{{formData.name}}" id="name" placeholder="Enter Name" class="form-control col-md-7 col-xs-12 validate[required,minSize[3],ajax[ajaxCheckUniqueName]]">
                         </div>
                       </div>
+					  
 					    <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">Status
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
 							<select class="form-control" name="status">
 							{% for statusitem in Status %}
-							<option value="{{loop.index0}}" {% if loop.index0==1 %} selected  {% endif %}>{{statusitem}}</option>
+							<option value="{{loop.index0}}" {% if loop.index0==formData.status %} selected  {% endif %}>{{statusitem}}</option>
 							{% endfor %}
 							</select>
                           </div>
@@ -82,7 +91,7 @@
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button class="btn btn-primary" type="button" onclick="return confirmCancle('Are you sure want to cancel','{{ HOST_URL }}cities/index');">Cancel</button>
+                          <button class="btn btn-primary" type="button" onclick="return confirmCancle('Are you sure want to cancel','{{ HOST_URL }}districts/index');">Cancel</button>
 						  <button class="btn btn-primary" type="reset">Reset</button>
                           <button type="submit" class="btn btn-success">Submit</button>
                         </div>

@@ -8,8 +8,8 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Edit District</small></h2>
-					 <a href="/states/index" class="btn btn-primary"> All Districts<i class="icon-plus icon-white"></i></a>
+                    <h2>Edit City</small></h2>
+					 <a href="/cities/index" class="btn btn-primary"> All Cities<i class="icon-plus icon-white"></i></a>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -25,8 +25,8 @@
                     <br />
                     <form id="add-country" method="post" class="form-horizontal  form-label-left">
 					<input type="hidden" name="_csrf" value="{{csrfToken}}">
-					<input type="hidden" name="record_id" id="record_id" value="{{formData.district_id}}">
-					<input type="hidden" name="field_name" id="field_name" value="district_id">
+					<input type="hidden" name="record_id" id="record_id" value="{{formData.city_id}}">
+					<input type="hidden" name="field_name" id="field_name" value="city_id">
 					 <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">Select Country<span class="required">*</span>
                         </label>
@@ -39,22 +39,31 @@
 							</select>
                           </div>
                       </div>
-                      <div class="loader" id="ajax_loader" style="display:none"></div>
+						 <div class="loader" id="ajax_loader" style="display:none"></div>
 					    <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">Select State<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-							<select name="state_id" id="state_id" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
-							<option value="{{formData.state_id}}">{{formData.state_name}}</option>
+							<select name="state_id" id="state_id"  onchange="getDataList(this,'state_id','districts','district_id','district_name','district_id','Select District')" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">>
+							<option value="{{formData.state_id}}">{{formData.state_name}}</option>n>
+							</select>
+                          </div>
+                      </div>
+					    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">Select District<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+							<select name="district_id" id="district_id" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
+							<option value="{{formData.district_id}}">{{formData.district_name}}</option>
 							</select>
                           </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="country_name-name">District Name 
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="country_name-name">City Name 
 						<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="district_name"  value="{{formData.district_name}}" id="district_name" placeholder="Enter District Name" class="form-control col-md-7 col-xs-12 validate[required,minSize[3],ajax[ajaxCheckUniqueName]]">
+                          <input type="text" name="city_name"  value="{{formData.city_name}}" id="city_name" placeholder="Enter City Name" class="form-control col-md-7 col-xs-12 validate[required,minSize[3],ajax[ajaxCheckUniqueName]]">
                         </div>
                       </div>
 					    <div class="form-group">

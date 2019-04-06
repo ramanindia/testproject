@@ -6,7 +6,7 @@
    * @param {object} res - all response object.
  */
  var dbConnection = require('../../app/models/dbconnection'); 
- var Genernal = require('../../app/models/Generanal'); 
+ var Genernal = require('../../app/models/Genernal'); 
  var Pagination = require('../../app/controllers/Component/pagination');
   var Promise = require('promise');
 

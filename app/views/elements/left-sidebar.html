@@ -73,6 +73,40 @@
 					   </ul>
                   </li>
 				  
+				    <li {% if (controller == 'cargos') %} class="active" {% endif %}><a><i class="fa fa-sitemap"></i> Cargos/Products <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li {% if (action == 'add-cargo') and (controller == 'cargos') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}cargos/add-cargo">Add cargo/Products</a></li>
+					  <li {% if (action == 'index') and (controller == 'cargos') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}cargos/index">All cargos/Products</a></li>         
+					 <li {% if (action == 'active') and (controller == 'cargos') %} class="current-page" {% endif %}  ><a href="{{ HOST_URL }}cargos/active">Active cargos/Products</a></li>
+                      <li {% if (action == 'deactive') and (controller == 'cargos') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}cargos/deactive">Deactive cargos/Products</a></li>
+					   </ul>
+                  </li>
+				    <li {% if (controller == 'account-groups') %} class="active" {% endif %}><a><i class="fa fa-sitemap"></i> Account Groups<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li {% if (action == 'add-group') and (controller == 'account-groups') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}account-groups/add-group">Add Group</a></li>
+					  <li {% if (action == 'index') and (controller == 'account-groups') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}account-groups/index">All Account Groups</a></li>         
+					 <li {% if (action == 'active') and (controller == 'account-groups') %} class="current-page" {% endif %}  ><a href="{{ HOST_URL }}account-groups/active">Active Account Groups</a></li>
+                      <li {% if (action == 'deactive') and (controller == 'account-groups') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}account-groups/deactive">Deactive Account Groups</a></li>
+					   </ul>
+                  </li>
+				  
+				    <li {% if (controller == 'vehicle-types') %} class="active" {% endif %}><a><i class="fa fa-sitemap"></i> Vehicle Type<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li {% if (action == 'add-type') and (controller == 'vehicle-types') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}vehicle-types/add-type">Add Type</a></li>
+					  <li {% if (action == 'index') and (controller == 'vehicle-types') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}vehicle-types/index">All Type</a></li>         
+					 <li {% if (action == 'active') and (controller == 'vehicle-types') %} class="current-page" {% endif %}  ><a href="{{ HOST_URL }}vehicle-types/active">Active Type</a></li>
+                      <li {% if (action == 'deactive') and (controller == 'vehicle-types') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}vehicle-types/deactive">Deactive Type</a></li>
+					   </ul>
+                  </li>
+				  
+				  <li {% if (controller == 'from-destinations') %} class="active" {% endif %}><a><i class="fa fa-sitemap"></i> From Destinations<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li {% if (action == 'add-from-destination') and (controller == 'from-destinations') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}from-destinations/add-from-destination">Add From Destination</a></li>
+					  <li {% if (action == 'index') and (controller == 'from-destinations') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}from-destinations/index">All From Destination</a></li>         
+					 <li {% if (action == 'active') and (controller == 'from-destinations') %} class="current-page" {% endif %}  ><a href="{{ HOST_URL }}from-destinations/active">Active From Destination</a></li>
+                      <li {% if (action == 'deactive') and (controller == 'from-destinations') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}from-destinations/deactive">Deactive From Destination</a></li>
+					   </ul>
+                  </li>
 				  
                   <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">

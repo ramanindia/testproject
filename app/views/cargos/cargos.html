@@ -1,0 +1,146 @@
+{% extends "layouts/default.html" %}
+{% block content %}
+   <!-- page content -->
+         <div class="right_col" role="main">
+		 <div class="">
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+				<div class="row x_title">
+                  <div class="col-md-6">
+                    <h3>{{PAGETITLE}}</h3>
+                  </div>
+				    <div class="col-md-2">
+                    <a href="/cargos/add-cargo" class="btn btn-primary"> Add New Cargo<i class="icon-plus icon-white"></i></a>
+                  </div>
+                  <div class="col-md-4">
+                    <div id="reportrange" class="pull-right">
+					<form method='get' action="{{ HOST_URL }}cargos/{{PageSlug}}">
+						 <div class="input-group">
+						<input type="text" class="form-control" value="{{QueryStringData.search}}" name="search" placeholder="Search for...">
+					<span class="input-group-btn">
+						  <button class="btn btn-default" type="submit">Go!</button>
+						</span>
+					  </div>
+					  </form>
+                    </div>
+                  </div>
+                </div>
+				<div class="x_content">
+				     {% if (messages.success) %}
+					<div class="alert alert-success alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <strong>Success ! </strong> {{ messages.success }}.
+                  </div>
+					{% endif %}		  
+		
+				  
+					{% if (messages.error) %}
+					<div class="alert alert-danger alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <strong>Error ! </strong> {{ messages.error }}.
+					</div>
+					{% endif %}
+					{% if QueryStringData.orderType=='desc' %}
+					  {% set sortType = 'asc' %}
+					  {% set className = 'up' %}
+					  {% else %}			
+					  {% set sortType = 'desc' %}
+					  {% set className = 'down' %}					  
+					  {% endif %}				
+			  </div>
+			  <div id="no-more-tables">
+		      <table class="col-md-12  col-sm-12 col-xs-12 table-bordered table-striped table-condensed cf">
+        		<thead class="cf">
+        			<tr>
+					    <th class="numeric"> 
+						<input type="checkbox" id="selectall" value="all">
+						</th>
+        				<th class="numeric">
+						<a href="{{ HOST_URL }}cargos/{{PageSlug}}?
+						orderBy=product_name&orderType={{sortType}}{{setSortingQueryString}}">
+						
+						{% if QueryStringData.orderBy=='product_name' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}	
+						Product name</a>
+						</th>
+						<th class="numeric">
+						<a href="{{ HOST_URL }}cargos/{{PageSlug}}?
+						orderBy=product_code&orderType={{sortType}}{{setSortingQueryString}}">
+						
+						{% if QueryStringData.orderBy=='product_code' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}	
+						Product Code</a>
+						</th>
+								<th class="numeric"><a title="Click for sort results" href="{{ HOST_URL }}cargos/{{PageSlug}}?
+						orderBy=status&orderType={{sortType}}{{setSortingQueryString}}">
+						{% if QueryStringData.orderBy=='status' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}						
+						Status </th>
+						<th class="numeric"><a title="Click for sort results" title="Click for sort results" href="{{ HOST_URL }}cargos/{{PageSlug}}?
+						orderBy=created&orderType={{sortType}}{{setSortingQueryString}}">
+						{% if QueryStringData.orderBy=='created' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}						
+						Created at</a></th>
+						
+						<th class="numeric">Action</th>
+        			</tr>
+        		</thead>
+        		<tbody>
+				 {% if results|length %}
+				  <form method='post' id="statusChangeform" action="/cargos/change-status">	
+				  <input type="hidden" name="_csrf" value="{{csrfToken}}">
+				  <input type="hidden" name="reirectURL" value="{{redirectOriginalUrl}}">
+					{% for item in results %}
+					 <tr>					    
+						<td data-title="Status Change">
+						<input type="checkbox" class="records_id" name="records_id" value="{{item.cargo_id}}"></td>
+        				<td data-title="Product Name">{{item.product_name}}</td>
+						<td data-title="Product Cpde">{{item.product_code}}</td>
+						<td data-title="Status">{{Status[item.status]}}</td>
+						<td data-title="Created at">{{ moment(item.created).format('DD-MM-YYYY hh:mm a')}}</td>							
+						<td  data-title="Action" class="numeric">
+                        <a class="btn btn-default" href="{{ HOST_URL }}cargos/edit/{{item.cargo_id}}?redirectURL={{redirctURL}}" title="Edit Cargo"><em class="fa fa-pencil"></em></a>
+                        <a class="btn btn-danger"  href="{{ HOST_URL }}cargos/delete-record/{{item.cargo_id}}?redirectURL={{redirctURL}}" onclick="return confirmDelete('Are you sure want to delete this item?');" title="Delete Cargo"><em class="fa fa-trash"></em></a>
+						</td>
+        			</tr>
+					{% endfor %}
+					{% else %} 
+					 <tr>
+					  <td colspan="9" >Records not found.</td>
+					 </tr>
+				 	{% endif %}  				
+        		</tbody>
+        	</table>
+        </div>  
+		{% if results|length %}
+			<div class="row x_top">
+                  <div class="col-md-12 ol-sm-12 col-xs-12 button_status">
+						  <button type="submit"  title="Click for Active" class="btn btn-success" onclick="return changeConfirmation('Are you sure want to active this records?');" name ="change_active" value="active">Active</button>
+                           <button type="submit" title="Click for Deactive"class="btn btn-warning"  onclick="return changeConfirmation('Are you sure want to deactive this records?');"name ="change_deactive" value="deactive">Deactive</button>
+						  <!--  <button type="submit" title="Click for Delete" class="btn btn-danger"  onclick="return changeConfirmation('Are you sure want to delete this records?');" name ="change_delete" value="delete">Delete</button>
+             -->      </div>
+                </div>
+		  </form>
+	   <div class="center-block text-center">
+	   {{ pages |safe}} 
+	   </div>
+		{% endif %}  	
+	    
+				</div>
+			 </div>
+		</div>
+	  </div>
+	  </div>
+        <!-- /page content -->
+	</div>	
+{% endblock %}
+
+

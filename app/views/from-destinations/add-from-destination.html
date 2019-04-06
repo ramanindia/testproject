@@ -9,10 +9,10 @@
                 <div class="x_panel">
                   <div class="row x_title">
 				     <div class="col-md-6">
-                    <h3>Add New City</h3>
+                    <h3>Add New From Destination</h3>
 					</div>
 					 <div class="col-md-6">
-                    <a href="/cities/index" class="btn btn-primary align-right"> All Cities<i class="icon-plus icon-white"></i></a>
+                    <a href="/from-destinations/index" class="btn btn-primary align-right"> All From Destination<i class="icon-plus icon-white"></i></a>
 					</div>
                   </div>
                   <div class="x_content">
@@ -27,7 +27,7 @@
 				 {% endif %}
                     <br />
                     <form id="add-country" method="post" class="form-horizontal  form-label-left" 
-					action="/cities/add-city/" >
+					action="/from-destinations/add-from-destination/" >
 					<input type="hidden" name="_csrf" value="{{csrfToken}}">
 					  <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">Select Country<span class="required">*</span>
@@ -55,17 +55,28 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">Select District<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-							<select name="district_id" id="district_id" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
+							<select name="district_id" id="district_id" onchange="getDataList(this,'district_id','cities','city_id','city_name','city_id','Select City')" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
 							<option value="">Select District</option>
 							</select>
                           </div>
                       </div>
+					  
+					    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">Select City<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+							<select name="city_id" id="city_id" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
+							<option value="">Select City</option>
+							</select>
+                          </div>
+                      </div>
+					  
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="country_name-name">City Name 
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="country_name-name">Name 
 						<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="city_name"  value="{{formData.city_name}}" id="city_name" placeholder="Enter City Name" class="form-control col-md-7 col-xs-12 validate[required,minSize[3],ajax[ajaxCheckUniqueName]]">
+                          <input type="text" name="name"  value="{{formData.name}}" id="name" placeholder="Enter Name" class="form-control col-md-7 col-xs-12 validate[required,minSize[3],ajax[ajaxCheckUniqueName]]">
                         </div>
                       </div>
 					    <div class="form-group">

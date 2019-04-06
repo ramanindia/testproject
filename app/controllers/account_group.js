@@ -17,14 +17,13 @@
  */
 exports.changeStatus = function(req, res) 
 {  								
-     let requestData = req.body;
+    let requestData = req.body;
 	if (Object.keys(requestData).length !==0)
 	{
 		let updateIds = requestData.records_id;
-		
 		 if(updateIds !== undefined)
 		 {
-			Genernal.updateStatus(requestData,'countries','country_id',req.session.user.id, function(err, results) 
+			Genernal.updateStatus(requestData,'account_groups','account_group_id',req.session.user.id, function(err, results) 
 			{
 				 if(err)
 				 {
@@ -64,7 +63,7 @@ exports.deleteRecord = function(req, res)
 	  let deleteID  = req.params.deleteRecordId;
 	  
 	 let QueryRedirectURL = req.query.redirectURL;
-	 let actualredirectURL ='/countries/index';
+	 let actualredirectURL ='/account-groups/index';
 		 try
 			{
 			var b = Buffer.from(QueryRedirectURL, 'base64')
@@ -73,17 +72,17 @@ exports.deleteRecord = function(req, res)
 			catch (err)
 			{
 				req.flash('error', 'Something missing wrong. Invalid request. please try again');
-				res.redirect('/countries/index');
+				res.redirect('/account-groups/index');
 				 return false;
 			}
 		if(QueryRedirectURL !== 'undefined')
 		{
 					
-			 Genernal.checkRecords('country_id', deleteID,'states',req.session.user.id, function(err, results) 
+			 Genernal.checkRecords('account_group_id', deleteID,'accounts',req.session.user.id, function(err, results) 
 			{
 				 if(err)
 				 {		
-			           console.log(err);			 
+			           //console.log(err);			 
 						req.flash('error', err);
 						res.redirect(actualredirectURL); 
 				 }				 
@@ -91,13 +90,13 @@ exports.deleteRecord = function(req, res)
 				 {
 					// console.log("res==",actualredirectURL);
 					 
-					 console.log("results==",results);
+					 //console.log("results==",results);
 					 
-					 Genernal.deleteDeactiveRecord('country_id',deleteID,'countries',req.session.user.id, function(err, delresults) 
+					 Genernal.deleteDeactiveRecord('account_group_id',deleteID,'account_groups',req.session.user.id, function(err, delresults) 
 						{
 							 if(err)
 							 {
-								 console.log("results==",err);
+								 //console.log("results==",err);
 								req.flash('error', err);
 								res.redirect(actualredirectURL); 
 							 }
@@ -126,13 +125,13 @@ exports.deleteRecord = function(req, res)
   * @param {object} req - all request object.
    * @param {object} res - all response object.
  */
-exports.countryEdit = function(req, res) 
+exports.GroupEdit = function(req, res) 
 {  			
 	 let recordID  = req.params.recordId;
 	 let QueryRedirectURL = req.query.redirectURL;
-	 let errorRedirectURL = '/countries/index';
-	 let renderHtml = 'countries/edit-country.html';
-	 let actualredirectURL='/countries/index';
+	 let errorRedirectURL = '/account-groups/index';
+	 let renderHtml = 'account-groups/edit-group.html';
+	 let actualredirectURL='/account-groups/index';
 	 
 	 	 try
 			{
@@ -145,7 +144,7 @@ exports.countryEdit = function(req, res)
 				res.redirect(errorRedirectURL);
 				 return false;
 			}
-	 Genernal.findByFieldSingleRecord('country_id', recordID,'countries',req.session.user.id,function(err, results) 
+	 Genernal.findByFieldSingleRecord('account_group_id', recordID,'account_groups',req.session.user.id,function(err, results) 
 		{
 			if(err)
 			{
@@ -161,8 +160,8 @@ exports.countryEdit = function(req, res)
 						 let requestData = req.body;		
 						if (Object.keys(requestData).length !==0)
 						{
-							 req.checkBody('country_name', 'Country Name is required.').notEmpty()
-								req.checkBody('country_name', 'Country name length between 3 to 100 characters.').len(3,100);
+							 req.checkBody('group_name', 'Group Name is required.').notEmpty();
+							 req.checkBody('group_under', 'Group Under is required.').notEmpty();
 		
 							let errors = req.validationErrors();
 							if (errors)
@@ -170,39 +169,41 @@ exports.countryEdit = function(req, res)
 								res.render(renderHtml,
 								 {
 									formData :requestData,
-									PAGETITLE:LANGTEXT.EDITCOUNTRYTITLE,csrfToken: req.csrfToken(),
+									PAGETITLE:LANGTEXT.EDITGROUPTITLE,csrfToken: req.csrfToken(),
 									errordata : errors
 								});
 							}
 							else
 							{
 								
-							Genernal.checkUquieFieldWithUser('country_name	',requestData.country_name	,'countries',req.session.user.id,recordID,'country_id',function(err, countries) 
+							Genernal.checkUquieFieldWithUser('group_name',requestData.group_name,'account_groups',req.session.user.id,recordID,'account_group_id',function(err, countries) 
 							{
 								 if(err)
 								 {	
 									 res.render(renderHtml,
 									 {
 										formData :requestData,
-										PAGETITLE:LANGTEXT.EDITCOUNTRYTITLE,csrfToken: req.csrfToken(),
+										PAGETITLE:LANGTEXT.EDITGROUPTITLE,csrfToken: req.csrfToken(),
 										errordata : [ { msg: 'This name is already taken' }],
 									});
 								 }
 								 else
 								 {
 									 if(countries)
-									 {					 delete requestData._csrf;
+									 {		
+
+														delete requestData._csrf;
 														 delete requestData.record_id;
 														 delete requestData.field_name;
-														let conditions = {country_id:recordID,user_id:req.session.user.id};
-														Genernal.update(requestData,'countries',conditions,function(err,resultdata)
+														let conditions = {account_group_id:recordID,user_id:req.session.user.id};
+														Genernal.update(requestData,'account_groups',conditions,function(err,resultdata)
 														{
 															if(err)
 															{
 																res.render(renderHtml,
 																 {
 																	formData :requestData,
-																	PAGETITLE:LANGTEXT.EDITCOUNTRYTITLE,csrfToken: req.csrfToken(),
+																	PAGETITLE:LANGTEXT.EDITGROUPTITLE,csrfToken: req.csrfToken(),
 																	errordata : [ { msg: 'Pease try again' }],
 																});
 														
@@ -214,6 +215,7 @@ exports.countryEdit = function(req, res)
 															
 															
 														});
+														
 										
 									 }
 									  else
@@ -221,7 +223,7 @@ exports.countryEdit = function(req, res)
 										 res.render(renderHtml,
 										 {
 											formData :requestData,
-											PAGETITLE:LANGTEXT.ADDCOUNTRYTITLE,csrfToken: req.csrfToken(),
+											PAGETITLE:LANGTEXT.EDITGROUPTITLE,csrfToken: req.csrfToken(),
 											errordata : [ { msg: 'Something went wrong. Please try again.' }],
 										}); 
 									 }	
@@ -235,7 +237,7 @@ exports.countryEdit = function(req, res)
 						  	res.render(renderHtml,
 								 {
 									formData :results,
-									PAGETITLE:LANGTEXT.EDITCOUNTRYTITLE,csrfToken: req.csrfToken(),
+									PAGETITLE:LANGTEXT.EDITGROUPTITLE,csrfToken: req.csrfToken(),
 								});
 						}
 							
@@ -267,56 +269,55 @@ exports.countryEdit = function(req, res)
   * @param {object} req - all request object.
    * @param {object} res - all response object.
  */
-exports.addCountry = function(req, res) 
+exports.addGroup = function(req, res) 
 {  								
      let requestData = req.body;
-	 let redirectURL = '/countries/index';
-	 let renderHtml = 'countries/add-country.html';
+	 let redirectURL = '/account-groups/index';
+	 let renderHtml = 'account-groups/add-group.html';
 	if (Object.keys(requestData).length !==0)
 	{
-		 req.checkBody('country_name', 'Country Name is required.').notEmpty()
-		 req.checkBody('country_name', 'Country name length between 3 to 100 characters.').len(3,100);
-		
+		 req.checkBody('group_name', 'Group Name is required.').notEmpty();
+		 req.checkBody('group_under', 'Group under is required.').notEmpty();
+		 
 		let errors = req.validationErrors();
 		if (errors)
 		{
 		res.render(renderHtml,
 			 {
 				formData :requestData,
-				PAGETITLE:LANGTEXT.ADDCOUNTRYTITLE,csrfToken: req.csrfToken(),
+				PAGETITLE:LANGTEXT.ADDGROUPTITLE,csrfToken: req.csrfToken(),
 				errordata : errors
 			});
 		}
 		else
 		{
-			Genernal.checkUquieFieldWithUser('country_name	', requestData.country_name	,'countries',req.session.user.id,'','', function(err, countries) 
+			Genernal.checkUquieFieldWithUser('group_name', requestData.group_name	,'account_groups',req.session.user.id,'','', function(err, checkresults) 
 			{
 				 if(err)
 				 {	
 					 res.render(renderHtml,
 					 {
 						formData :requestData,
-						PAGETITLE:LANGTEXT.ADDCOUNTRYTITLE,csrfToken: req.csrfToken(),
+						PAGETITLE:LANGTEXT.ADDGROUPTITLE,csrfToken: req.csrfToken(),
 						errordata : [ { msg: 'This name is already taken' }],
 					});
 				 }
 				 else
 				 {
-					 if(countries)
-					 {		
-						
-								 delete requestData._csrf;
-								 requestData.country_id=UID();
+					 if(checkresults)
+					 {	
+								delete requestData._csrf;
+								 requestData.account_group_id=UID();
 								 requestData.user_id = req.session.user.id;
 								 
-						Genernal.save(requestData,'countries',function(err,result)
+						Genernal.save(requestData,'account_groups',function(err,result)
 							{
 								if(err)
 								{
 									res.render(renderHtml,
 									{
 										formData :requestData,
-										PAGETITLE:LANGTEXT.ADDCOUNTRYTITLE,csrfToken: req.csrfToken(),
+										PAGETITLE:LANGTEXT.ADDGROUPTITLE,csrfToken: req.csrfToken(),
 										errordata : [ { msg: 'Pease try again' }],
 									});
 							
@@ -326,14 +327,14 @@ exports.addCountry = function(req, res)
 									res.redirect(redirectURL);													 
 								}
 								
-							});									 
-					 }
+							});					 
+						}
 					 else
 					 {
 						 res.render(renderHtml,
 						 {
 							formData :requestData,
-							PAGETITLE:LANGTEXT.ADDCOUNTRYTITLE,csrfToken: req.csrfToken(),
+							PAGETITLE:LANGTEXT.ADDGROUPTITLE,csrfToken: req.csrfToken(),
 							errordata : [ { msg: 'Something went wrong. Please try again.' }],
 						}); 
 					 }					 
@@ -346,7 +347,7 @@ exports.addCountry = function(req, res)
 	{
 		res.render(renderHtml,
 		{
-			PAGETITLE:LANGTEXT.ADDCOUNTRYTITLE,csrfToken: req.csrfToken()
+			PAGETITLE:LANGTEXT.ADDGROUPTITLE,csrfToken: req.csrfToken()
 		});
 	}
 }
@@ -357,7 +358,7 @@ exports.addCountry = function(req, res)
   * @param {object} req - all request object.
    * @param {object} res - all response object.
  */
-exports.allCountries = function(req, res) 
+exports.allGroup = function(req, res) 
 {  
 	 /**
 	 *define variable for pagination
@@ -369,9 +370,9 @@ exports.allCountries = function(req, res)
 	 let currentPage=1;
 	 let conditions;
 	 let records_per_page = process.env.PERPAGE; 
-	 let renderHtml = 'countries/countries.html';
+	 let renderHtml = 'account-groups/account-groups.html';
 	 let limit;
-	  let tableName='countries';
+	  let tableName='account_groups';
 	  if (typeof req.query.page !== 'undefined') 
 	    {
             currentPage = req.query.page;
@@ -394,7 +395,7 @@ exports.allCountries = function(req, res)
 	  if (typeof req.query.search !== 'undefined') 
 		{
 			let searchkey = req.query.search;
-			searchkeycondition = " and CONCAT_ws('', country_name) LIKE '%"+searchkey.replace(/\s\s+/g, ' ')+"%'";
+			searchkeycondition = " and CONCAT_ws('', group_name,group_under) LIKE '%"+searchkey.replace(/\s\s+/g, ' ')+"%'";
 		}
 		
 		
@@ -422,19 +423,19 @@ exports.allCountries = function(req, res)
 	
 		conditions ="where user_id = '"+ req.session.user.id+"'";
 		
-	  var pageTitle ='All Countries';
+	  var pageTitle ='All Account Groups';
 	 if(PageSlug=='active')
 	 {
-		 pageTitle = "Active Countries";
+		 pageTitle = "Active Account Groups";
 		 conditions =conditions+ ' and status=1';
 	 }
 	 else if(PageSlug=='deactive')
 	 {
-		 pageTitle = "Deactive Countries";
+		 pageTitle = "Deactive Account Groups";
 		 conditions =conditions+ ' and status=0';
 	 }
 	 
-	let query = "select country_id,country_name,is_delete,user_id,status,created from "+tableName+" "+conditions+searchkeycondition+defaultorderBY+limit;
+	let query = "select account_group_id,group_name,group_under,is_delete,user_id,status,created from "+tableName+" "+conditions+searchkeycondition+defaultorderBY+limit;
 	let totalCountQuery = "select count(*) as totalRecord from "+tableName+" "+conditions+searchkeycondition;	
 	let pageUri='/'+tableName+'/'+PageSlug;
 	/**
@@ -492,9 +493,14 @@ exports.allCountries = function(req, res)
 				           var bufferURL = Buffer.from(req.originalUrl);
 						   var redirectURL = bufferURL.toString('base64');
 						   
-						   //console.log("req.query",req.query);
+						   /*console.log("req.query",req.query);
+						   console.log("currentPage",currentPage);
+						   console.log("pageUri",pageUri);*/
+						   
+						     pageUri = pageUri.replace('_','-');
 						  let totalRecords = totalCountResults[0].totalRecord;
 						  totalNoPages = Math.ceil(totalRecords / records_per_page);
+						  
 						   const Paginate = new Pagination(totalRecords,currentPage,pageUri,records_per_page,req.query);
 						res.render(renderHtml,
 						{

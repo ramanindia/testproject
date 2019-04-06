@@ -6,7 +6,7 @@
    * @param {object} res - all response object.
  */
  var dbConnection = require('../../app/models/dbconnection'); 
- var Genernal = require('../../app/models/Generanal'); 
+ var Genernal = require('../../app/models/Genernal'); 
  var Pagination = require('../../app/controllers/Component/pagination');
 
  /**
@@ -78,7 +78,7 @@ exports.deleteRecord = function(req, res)
 		if(QueryRedirectURL !== 'undefined')
 		{
 					
-			Genernal.checkRecords('city_id', deleteID,'from-destinations',req.session.user.id, function(err, results) 
+			Genernal.checkRecords('city_id', deleteID,'from_destination',req.session.user.id, function(err, results) 
 			{
 				 if(err)
 				 {			 
@@ -150,7 +150,7 @@ exports.CityEdit = function(req, res)
 				res.redirect(errorRedirectURL);
 				 return false;
 			}
-			let getDataQuery = 'select districts.district_id,districts.state_id,districts.country_id,districts.user_id,districts.district_name,districts.status,states.state_name from districts INNER join states on districts.state_id= states.state_id where districts.district_id="'+recordID+'" and districts.user_id="'+req.session.user.id+'"';
+			let getDataQuery = 'select city_id,city_name,cities.district_id,cities.state_id,cities.country_id,cities.user_id,districts.district_name,states.state_name from cities INNER join districts on cities.district_id= districts.district_id INNER JOIN states on states.state_id=cities.state_id where cities.city_id="'+recordID+'" and districts.user_id="'+req.session.user.id+'"';
 			//console.log(getDataQuery);
 	 Genernal.findByQuery(getDataQuery,function(err, results) 
 		{
@@ -170,7 +170,7 @@ exports.CityEdit = function(req, res)
 						{
 							req.checkBody('country_id', 'Country is required.').notEmpty()
 							req.checkBody('state_id', 'State is required.').notEmpty()
-							req.checkBody('city_id', 'City is required.').notEmpty()
+							req.checkBody('district_id', 'City is required.').notEmpty()
 							req.checkBody('city_name', 'City Name is required.').notEmpty()
 							req.checkBody('city_name', 'City name length between 3 to 100 characters.').len(3,100);
 		
@@ -180,7 +180,7 @@ exports.CityEdit = function(req, res)
 								res.render(renderHtml,
 								 {
 									formData :requestData,
-									PAGETITLE:LANGTEXT.EDITDISTRICTTITLE,csrfToken: req.csrfToken(),
+									PAGETITLE:LANGTEXT.EDITCITYTITLE,csrfToken: req.csrfToken(),
 									errordata : errors,
 									countries:dataResults
 								});
@@ -195,7 +195,7 @@ exports.CityEdit = function(req, res)
 									 res.render(renderHtml,
 									 {
 										formData :requestData,
-										PAGETITLE:LANGTEXT.EDITDISTRICTTITLE,csrfToken: req.csrfToken(),
+										PAGETITLE:LANGTEXT.EDITCITYTITLE,csrfToken: req.csrfToken(),
 										errordata : [ { msg: 'This name is already taken' }],
 										countries:dataResults
 									});
@@ -206,7 +206,7 @@ exports.CityEdit = function(req, res)
 									 {					 delete requestData._csrf;
 														 delete requestData.record_id;
 														 delete requestData.field_name;
-														let conditions = {district_id:recordID,user_id:req.session.user.id};
+														let conditions = {city_id:recordID,user_id:req.session.user.id};
 														Genernal.update(requestData,'cities',conditions,function(err,resultdata)
 														{
 															if(err)
@@ -214,7 +214,7 @@ exports.CityEdit = function(req, res)
 																res.render(renderHtml,
 																 {
 																	formData :requestData,
-																	PAGETITLE:LANGTEXT.EDITDISTRICTTITLE,csrfToken: req.csrfToken(),
+																	PAGETITLE:LANGTEXT.EDITCITYTITLE,csrfToken: req.csrfToken(),
 																	errordata : [ { msg: 'Pease try again' }],
 																	countries:dataResults
 																});
@@ -234,7 +234,7 @@ exports.CityEdit = function(req, res)
 										 res.render(renderHtml,
 										 {
 											formData :requestData,
-											PAGETITLE:LANGTEXT.EDITDISTRICTTITLE,csrfToken: req.csrfToken(),
+											PAGETITLE:LANGTEXT.EDITCITYTITLE,csrfToken: req.csrfToken(),
 											errordata : [ { msg: 'Something went wrong. Please try again.' }],
 											countries:dataResults
 										}); 
@@ -249,7 +249,7 @@ exports.CityEdit = function(req, res)
 							res.render(renderHtml,
 								 {
 									formData :results[0],
-									PAGETITLE:LANGTEXT.EDITDISTRICTTITLE,csrfToken: req.csrfToken(),
+									PAGETITLE:LANGTEXT.EDITCITYTITLE,csrfToken: req.csrfToken(),
 									countries:dataResults
 								});
 						}

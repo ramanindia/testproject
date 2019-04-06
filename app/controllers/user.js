@@ -7,7 +7,7 @@
  */
  var dbConnection = require('../../app/models/dbconnection'); 
  var User = require('../../app/models/Users'); 
- var Generanal = require('../../app/models/Generanal'); 
+ var Genernal = require('../../app/models/Genernal'); 
  var Pagination = require('../../app/controllers/Component/pagination');
  var bcrypt = require('bcrypt');
  var Promise = require('promise');
@@ -101,7 +101,7 @@ exports.CheckUniqueName = function(req, res)
 	// console.log("recordField==",recordField);
 	 
 	 let controllerName = QureyData.controller_name;
-	Generanal.checkUquieFieldWithUser(QureyData.fieldId, QureyData.fieldValue,controllerName,req.session.user.id,recordId,recordField,function(err, user) 
+	Genernal.checkUquieFieldWithUser(QureyData.fieldId, QureyData.fieldValue,controllerName,req.session.user.id,recordId,recordField,function(err, user) 
 	{
 		 if(err)
 		 {
@@ -126,7 +126,7 @@ exports.checkUsernameExits = function(req, res)
 {  
      let QureyData = req.query;
 	 
-	Generanal.checkUquieField(QureyData.fieldId, QureyData.fieldValue,'users', function(err, user) 
+	Genernal.checkUquieField(QureyData.fieldId, QureyData.fieldValue,'users', function(err, user) 
 	{
 		 if(err)
 		 {
@@ -151,7 +151,7 @@ exports.checkUsernameExits = function(req, res)
 exports.checkEmailExits = function(req, res) 
 {  
    let QureyData = req.query;
-	Generanal.checkUquieField(QureyData.fieldId, QureyData.fieldValue,'users', function(err, user) 
+	Genernal.checkUquieField(QureyData.fieldId, QureyData.fieldValue,'users', function(err, user) 
 	{
 		 if(err)
 		 {
@@ -181,7 +181,7 @@ exports.changeStatus = function(req, res)
 		
 		 if(updateIds !== undefined)
 		 {
-			Generanal.updateStatus(requestData,'users','id',req.session.user.id, function(err, results) 
+			Genernal.updateStatus(requestData,'users','id',req.session.user.id, function(err, results) 
 			{
 				 if(err)
 				 {
@@ -219,7 +219,7 @@ exports.userEdit = function(req, res)
 {  			
 	 let UserID  = req.params.userId;
 	 let QueryRedirectURL = req.query.redirectURL;
-	 Generanal.findByFieldSingleRecord('id',UserID,'users',req.session.user.id, function(err, user) 
+	 Genernal.findByFieldSingleRecord('id',UserID,'users',req.session.user.id, function(err, user) 
 		{
 			if(err)
 			{
@@ -303,7 +303,7 @@ exports.userEdit = function(req, res)
 											}
 											
 										let conditions = {id:UserID,parent_id:req.session.user.id};
-										Generanal.update(requestData,'users',conditions,function(err,result)
+										Genernal.update(requestData,'users',conditions,function(err,result)
 										{
 											if(err)
 											{
@@ -376,7 +376,7 @@ exports.addUser = function(req, res)
 		}
 		else
 		{
-			Generanal.checkUquieField('email', requestData.email,'users', function(err, user) 
+			Genernal.checkUquieField('email', requestData.email,'users', function(err, user) 
 			{
 				 if(err)
 				 {	
@@ -391,7 +391,7 @@ exports.addUser = function(req, res)
 				 {
 					 if(user)
 					 {
-					    Generanal.checkUquieField('username', requestData.username,'users', function(err, user) 
+					    Genernal.checkUquieField('username', requestData.username,'users', function(err, user) 
 						{
 							 if(err)
 							 {	
@@ -427,7 +427,7 @@ exports.addUser = function(req, res)
 										{
 											requestData.role_id = 3;
 										}
-										Generanal.save(requestData,'users',function(err,result)
+										Genernal.save(requestData,'users',function(err,result)
 										{
 											if(err)
 											{

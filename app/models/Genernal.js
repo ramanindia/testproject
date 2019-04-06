@@ -159,9 +159,9 @@ exports.findByFieldSingleRecord = function(field,value,table,userID,callback)
 			 {
 				 userField ='parent_id';
 			 }
-			let sqlQuery = 'select * from '+table+' where '+field+'= "'+value+'" and '+userField+' = "'+userID+'" limit 0,1';
-			console.log("sqlQuery===",sqlQuery);
 			
+			let sqlQuery = 'select * from '+table+' where '+field+'= "'+value+'" and '+userField+' = "'+userID+'" limit 0,1';
+			//console.log("sqlQuery===",sqlQuery);			
 			db.query(sqlQuery,function(err,results)
 			{	db.release();
 				if(err)

@@ -26,6 +26,20 @@ var WEB_MESSAGES = {
 	ALLCITIES:"All Cities",
 	ADDCITYTITLE:"Add City",
 	EDITCITYTITLE:"Edit City",
+	ALLCAROS:"All Cargos",
+	ADDCAROTITLE:"Add Cargo",
+	EDITCAROTITLE:"Edit Cargo",
+	ALLGROUP:"All Account Groups",
+	ADDGROUPTITLE:"Add Account Group",
+	EDITGROUPTITLE:"Edit Account Group",
+	
+	ALLType:"All Vehicles",
+	ADDVEHICLETITLE:"Add Vehicle Type",
+	EDITVEHICLETITLE:"Edit Vehicle Type",
+	
+	ALLFROMDESTINATION:"All From Destination",
+	ADDFROMDESTINATIONTITLE:"Add From Destination",
+	EDITFROMDESTINATIONTITLE:"Edit From Destination",
 	
 	ALLCOUNTRIES:"All Users",
 	USERADDED: "Successfully added",

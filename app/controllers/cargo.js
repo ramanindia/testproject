@@ -24,7 +24,7 @@ exports.changeStatus = function(req, res)
 		
 		 if(updateIds !== undefined)
 		 {
-			Genernal.updateStatus(requestData,'countries','country_id',req.session.user.id, function(err, results) 
+			Genernal.updateStatus(requestData,'cargos','cargo_id',req.session.user.id, function(err, results) 
 			{
 				 if(err)
 				 {
@@ -64,7 +64,7 @@ exports.deleteRecord = function(req, res)
 	  let deleteID  = req.params.deleteRecordId;
 	  
 	 let QueryRedirectURL = req.query.redirectURL;
-	 let actualredirectURL ='/countries/index';
+	 let actualredirectURL ='/cargos/index';
 		 try
 			{
 			var b = Buffer.from(QueryRedirectURL, 'base64')
@@ -73,13 +73,13 @@ exports.deleteRecord = function(req, res)
 			catch (err)
 			{
 				req.flash('error', 'Something missing wrong. Invalid request. please try again');
-				res.redirect('/countries/index');
+				res.redirect('/cargos/index');
 				 return false;
 			}
 		if(QueryRedirectURL !== 'undefined')
 		{
 					
-			 Genernal.checkRecords('country_id', deleteID,'states',req.session.user.id, function(err, results) 
+			 Genernal.checkRecords('cargo_id', deleteID,'lr_entries',req.session.user.id, function(err, results) 
 			{
 				 if(err)
 				 {		
@@ -91,13 +91,13 @@ exports.deleteRecord = function(req, res)
 				 {
 					// console.log("res==",actualredirectURL);
 					 
-					 console.log("results==",results);
+					 //console.log("results==",results);
 					 
-					 Genernal.deleteDeactiveRecord('country_id',deleteID,'countries',req.session.user.id, function(err, delresults) 
+					 Genernal.deleteDeactiveRecord('cargo_id',deleteID,'cargos',req.session.user.id, function(err, delresults) 
 						{
 							 if(err)
 							 {
-								 console.log("results==",err);
+								 //console.log("results==",err);
 								req.flash('error', err);
 								res.redirect(actualredirectURL); 
 							 }
@@ -126,13 +126,13 @@ exports.deleteRecord = function(req, res)
   * @param {object} req - all request object.
    * @param {object} res - all response object.
  */
-exports.countryEdit = function(req, res) 
+exports.CargoEdit = function(req, res) 
 {  			
 	 let recordID  = req.params.recordId;
 	 let QueryRedirectURL = req.query.redirectURL;
-	 let errorRedirectURL = '/countries/index';
-	 let renderHtml = 'countries/edit-country.html';
-	 let actualredirectURL='/countries/index';
+	 let errorRedirectURL = '/cargos/index';
+	 let renderHtml = 'cargos/edit-cargo.html';
+	 let actualredirectURL='/cargos/index';
 	 
 	 	 try
 			{
@@ -145,7 +145,7 @@ exports.countryEdit = function(req, res)
 				res.redirect(errorRedirectURL);
 				 return false;
 			}
-	 Genernal.findByFieldSingleRecord('country_id', recordID,'countries',req.session.user.id,function(err, results) 
+	 Genernal.findByFieldSingleRecord('cargo_id', recordID,'cargos',req.session.user.id,function(err, results) 
 		{
 			if(err)
 			{
@@ -161,8 +161,8 @@ exports.countryEdit = function(req, res)
 						 let requestData = req.body;		
 						if (Object.keys(requestData).length !==0)
 						{
-							 req.checkBody('country_name', 'Country Name is required.').notEmpty()
-								req.checkBody('country_name', 'Country name length between 3 to 100 characters.').len(3,100);
+							 req.checkBody('product_name', 'Product Name is required.').notEmpty()
+								req.checkBody('product_name', 'Product Name length between 3 to 100 characters.').len(3,100);
 		
 							let errors = req.validationErrors();
 							if (errors)
@@ -170,39 +170,60 @@ exports.countryEdit = function(req, res)
 								res.render(renderHtml,
 								 {
 									formData :requestData,
-									PAGETITLE:LANGTEXT.EDITCOUNTRYTITLE,csrfToken: req.csrfToken(),
+									PAGETITLE:LANGTEXT.EDITCAROTITLE,csrfToken: req.csrfToken(),
 									errordata : errors
 								});
 							}
 							else
 							{
 								
-							Genernal.checkUquieFieldWithUser('country_name	',requestData.country_name	,'countries',req.session.user.id,recordID,'country_id',function(err, countries) 
+							Genernal.checkUquieFieldWithUser('product_name',requestData.product_name,'cargos',req.session.user.id,recordID,'cargo_id',function(err, countries) 
 							{
 								 if(err)
 								 {	
 									 res.render(renderHtml,
 									 {
 										formData :requestData,
-										PAGETITLE:LANGTEXT.EDITCOUNTRYTITLE,csrfToken: req.csrfToken(),
+										PAGETITLE:LANGTEXT.EDITCAROTITLE,csrfToken: req.csrfToken(),
 										errordata : [ { msg: 'This name is already taken' }],
 									});
 								 }
 								 else
 								 {
 									 if(countries)
-									 {					 delete requestData._csrf;
+									 {		
+
+								Genernal.checkUquieFieldWithUser('product_code',requestData.product_code,'cargos',req.session.user.id,recordID,'cargo_id',function(err, resultcheckData) 
+							{
+								 if(err)
+								 {	
+									 res.render(renderHtml,
+									 {
+										formData :requestData,
+										PAGETITLE:LANGTEXT.EDITCAROTITLE,csrfToken: req.csrfToken(),
+										errordata : [ { msg: 'This code is already taken' }],
+									});
+								 }
+								 else
+								 {
+									 if(resultcheckData)
+									 {
+
+
+
+
+														delete requestData._csrf;
 														 delete requestData.record_id;
 														 delete requestData.field_name;
-														let conditions = {country_id:recordID,user_id:req.session.user.id};
-														Genernal.update(requestData,'countries',conditions,function(err,resultdata)
+														let conditions = {cargo_id:recordID,user_id:req.session.user.id};
+														Genernal.update(requestData,'cargos',conditions,function(err,resultdata)
 														{
 															if(err)
 															{
 																res.render(renderHtml,
 																 {
 																	formData :requestData,
-																	PAGETITLE:LANGTEXT.EDITCOUNTRYTITLE,csrfToken: req.csrfToken(),
+																	PAGETITLE:LANGTEXT.EDITCAROTITLE,csrfToken: req.csrfToken(),
 																	errordata : [ { msg: 'Pease try again' }],
 																});
 														
@@ -214,6 +235,10 @@ exports.countryEdit = function(req, res)
 															
 															
 														});
+														
+										}
+								 }
+							});
 										
 									 }
 									  else
@@ -221,7 +246,7 @@ exports.countryEdit = function(req, res)
 										 res.render(renderHtml,
 										 {
 											formData :requestData,
-											PAGETITLE:LANGTEXT.ADDCOUNTRYTITLE,csrfToken: req.csrfToken(),
+											PAGETITLE:LANGTEXT.EDITCAROTITLE,csrfToken: req.csrfToken(),
 											errordata : [ { msg: 'Something went wrong. Please try again.' }],
 										}); 
 									 }	
@@ -235,7 +260,7 @@ exports.countryEdit = function(req, res)
 						  	res.render(renderHtml,
 								 {
 									formData :results,
-									PAGETITLE:LANGTEXT.EDITCOUNTRYTITLE,csrfToken: req.csrfToken(),
+									PAGETITLE:LANGTEXT.EDITCAROTITLE,csrfToken: req.csrfToken(),
 								});
 						}
 							
@@ -267,15 +292,16 @@ exports.countryEdit = function(req, res)
   * @param {object} req - all request object.
    * @param {object} res - all response object.
  */
-exports.addCountry = function(req, res) 
+exports.addCargo = function(req, res) 
 {  								
      let requestData = req.body;
-	 let redirectURL = '/countries/index';
-	 let renderHtml = 'countries/add-country.html';
+	 let redirectURL = '/cargos/index';
+	 let renderHtml = 'cargos/add-cargo.html';
 	if (Object.keys(requestData).length !==0)
 	{
-		 req.checkBody('country_name', 'Country Name is required.').notEmpty()
-		 req.checkBody('country_name', 'Country name length between 3 to 100 characters.').len(3,100);
+		 req.checkBody('product_name', 'Product Name is required.').notEmpty();
+		 req.checkBody('product_code', 'Product Code is required.').notEmpty();
+		 req.checkBody('product_name', 'Product Name length between 3 to 100 characters.').len(3,100);
 		
 		let errors = req.validationErrors();
 		if (errors)
@@ -283,40 +309,53 @@ exports.addCountry = function(req, res)
 		res.render(renderHtml,
 			 {
 				formData :requestData,
-				PAGETITLE:LANGTEXT.ADDCOUNTRYTITLE,csrfToken: req.csrfToken(),
+				PAGETITLE:LANGTEXT.ADDCAROTITLE,csrfToken: req.csrfToken(),
 				errordata : errors
 			});
 		}
 		else
 		{
-			Genernal.checkUquieFieldWithUser('country_name	', requestData.country_name	,'countries',req.session.user.id,'','', function(err, countries) 
+			Genernal.checkUquieFieldWithUser('product_name', requestData.product_name	,'cargos',req.session.user.id,'','', function(err, checkresults) 
 			{
 				 if(err)
 				 {	
 					 res.render(renderHtml,
 					 {
 						formData :requestData,
-						PAGETITLE:LANGTEXT.ADDCOUNTRYTITLE,csrfToken: req.csrfToken(),
+						PAGETITLE:LANGTEXT.ADDCAROTITLE,csrfToken: req.csrfToken(),
 						errordata : [ { msg: 'This name is already taken' }],
 					});
 				 }
 				 else
 				 {
-					 if(countries)
+					 if(checkresults)
 					 {		
 						
+						Genernal.checkUquieFieldWithUser('product_code', requestData.product_code	,'cargos',req.session.user.id,'','', function(err, checkresults) 
+			{
+				     if(err)
+				 {	
+					 res.render(renderHtml,
+					 {
+						formData :requestData,
+						PAGETITLE:LANGTEXT.ADDCAROTITLE,csrfToken: req.csrfToken(),
+						errordata : [ { msg: 'This code is already taken' }],
+					});
+				 }
+				 else
+				 {
 								 delete requestData._csrf;
-								 requestData.country_id=UID();
+								 requestData.cargo_id=UID();
 								 requestData.user_id = req.session.user.id;
 								 
-						Genernal.save(requestData,'countries',function(err,result)
+						Genernal.save(requestData,'cargos',function(err,result)
 							{
 								if(err)
 								{
 									res.render(renderHtml,
 									{
 										formData :requestData,
-										PAGETITLE:LANGTEXT.ADDCOUNTRYTITLE,csrfToken: req.csrfToken(),
+										PAGETITLE:LANGTEXT.ADDCAROTITLE,csrfToken: req.csrfToken(),
 										errordata : [ { msg: 'Pease try again' }],
 									});
 							
@@ -326,14 +365,17 @@ exports.addCountry = function(req, res)
 									res.redirect(redirectURL);													 
 								}
 								
-							});									 
+							});	
+			}
+			
+			});							
 					 }
 					 else
 					 {
 						 res.render(renderHtml,
 						 {
 							formData :requestData,
-							PAGETITLE:LANGTEXT.ADDCOUNTRYTITLE,csrfToken: req.csrfToken(),
+							PAGETITLE:LANGTEXT.ADDCAROTITLE,csrfToken: req.csrfToken(),
 							errordata : [ { msg: 'Something went wrong. Please try again.' }],
 						}); 
 					 }					 
@@ -346,7 +388,7 @@ exports.addCountry = function(req, res)
 	{
 		res.render(renderHtml,
 		{
-			PAGETITLE:LANGTEXT.ADDCOUNTRYTITLE,csrfToken: req.csrfToken()
+			PAGETITLE:LANGTEXT.ADDCAROTITLE,csrfToken: req.csrfToken()
 		});
 	}
 }
@@ -357,7 +399,7 @@ exports.addCountry = function(req, res)
   * @param {object} req - all request object.
    * @param {object} res - all response object.
  */
-exports.allCountries = function(req, res) 
+exports.allCargos = function(req, res) 
 {  
 	 /**
 	 *define variable for pagination
@@ -369,9 +411,9 @@ exports.allCountries = function(req, res)
 	 let currentPage=1;
 	 let conditions;
 	 let records_per_page = process.env.PERPAGE; 
-	 let renderHtml = 'countries/countries.html';
+	 let renderHtml = 'cargos/cargos.html';
 	 let limit;
-	  let tableName='countries';
+	  let tableName='cargos';
 	  if (typeof req.query.page !== 'undefined') 
 	    {
             currentPage = req.query.page;
@@ -394,7 +436,7 @@ exports.allCountries = function(req, res)
 	  if (typeof req.query.search !== 'undefined') 
 		{
 			let searchkey = req.query.search;
-			searchkeycondition = " and CONCAT_ws('', country_name) LIKE '%"+searchkey.replace(/\s\s+/g, ' ')+"%'";
+			searchkeycondition = " and CONCAT_ws('', product_name,product_code) LIKE '%"+searchkey.replace(/\s\s+/g, ' ')+"%'";
 		}
 		
 		
@@ -422,19 +464,19 @@ exports.allCountries = function(req, res)
 	
 		conditions ="where user_id = '"+ req.session.user.id+"'";
 		
-	  var pageTitle ='All Countries';
+	  var pageTitle ='All Cargos/Products';
 	 if(PageSlug=='active')
 	 {
-		 pageTitle = "Active Countries";
+		 pageTitle = "Active Cargos/Products";
 		 conditions =conditions+ ' and status=1';
 	 }
 	 else if(PageSlug=='deactive')
 	 {
-		 pageTitle = "Deactive Countries";
+		 pageTitle = "Deactive Cargos/Products";
 		 conditions =conditions+ ' and status=0';
 	 }
 	 
-	let query = "select country_id,country_name,is_delete,user_id,status,created from "+tableName+" "+conditions+searchkeycondition+defaultorderBY+limit;
+	let query = "select cargo_id,product_code,product_name,is_delete,user_id,status,created from "+tableName+" "+conditions+searchkeycondition+defaultorderBY+limit;
 	let totalCountQuery = "select count(*) as totalRecord from "+tableName+" "+conditions+searchkeycondition;	
 	let pageUri='/'+tableName+'/'+PageSlug;
 	/**

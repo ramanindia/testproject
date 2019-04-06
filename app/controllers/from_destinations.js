@@ -1,14 +1,8 @@
 'use strict';
 
-/**
- * define userLogin function
-  * @param {object} req - all request object.
-   * @param {object} res - all response object.
- */
  var dbConnection = require('../../app/models/dbconnection'); 
  var Genernal = require('../../app/models/Genernal'); 
  var Pagination = require('../../app/controllers/Component/pagination');
- 
 
  /**
  * define changeStatus function
@@ -24,7 +18,7 @@ exports.changeStatus = function(req, res)
 		
 		 if(updateIds !== undefined)
 		 {
-			Genernal.updateStatus(requestData,'countries','country_id',req.session.user.id, function(err, results) 
+			Genernal.updateStatus(requestData,'from_destinations','from_destination_id',req.session.user.id, function(err, results) 
 			{
 				 if(err)
 				 {
@@ -64,7 +58,7 @@ exports.deleteRecord = function(req, res)
 	  let deleteID  = req.params.deleteRecordId;
 	  
 	 let QueryRedirectURL = req.query.redirectURL;
-	 let actualredirectURL ='/countries/index';
+	 let actualredirectURL ='/from-destinations/index';
 		 try
 			{
 			var b = Buffer.from(QueryRedirectURL, 'base64')
@@ -73,17 +67,16 @@ exports.deleteRecord = function(req, res)
 			catch (err)
 			{
 				req.flash('error', 'Something missing wrong. Invalid request. please try again');
-				res.redirect('/countries/index');
+				res.redirect('/from-destinations/index');
 				 return false;
 			}
 		if(QueryRedirectURL !== 'undefined')
 		{
 					
-			 Genernal.checkRecords('country_id', deleteID,'states',req.session.user.id, function(err, results) 
+			Genernal.checkRecords('from_from_destination_id', deleteID,' lr_entries',req.session.user.id, function(err, results) 
 			{
 				 if(err)
-				 {		
-			           console.log(err);			 
+				 {			 
 						req.flash('error', err);
 						res.redirect(actualredirectURL); 
 				 }				 
@@ -91,13 +84,11 @@ exports.deleteRecord = function(req, res)
 				 {
 					// console.log("res==",actualredirectURL);
 					 
-					 console.log("results==",results);
 					 
-					 Genernal.deleteDeactiveRecord('country_id',deleteID,'countries',req.session.user.id, function(err, delresults) 
+					 Genernal.deleteDeactiveRecord('from_destination_id',deleteID,'from_destinations',req.session.user.id, function(err, delresults) 
 						{
 							 if(err)
 							 {
-								 console.log("results==",err);
 								req.flash('error', err);
 								res.redirect(actualredirectURL); 
 							 }
@@ -126,14 +117,23 @@ exports.deleteRecord = function(req, res)
   * @param {object} req - all request object.
    * @param {object} res - all response object.
  */
-exports.countryEdit = function(req, res) 
-{  			
+exports.FromDestinationsEdit = function(req, res) 
+{  					 
 	 let recordID  = req.params.recordId;
 	 let QueryRedirectURL = req.query.redirectURL;
-	 let errorRedirectURL = '/countries/index';
-	 let renderHtml = 'countries/edit-country.html';
-	 let actualredirectURL='/countries/index';
+	 let errorRedirectURL = '/from-destinations/index';
+	 let renderHtml = 'from-destinations/edit-from-designation.html';
+	 let actualredirectURL='/from-destinations/index';
 	 
+    Genernal.findAll('select * from countries where status=1 and user_id="'+req.session.user.id+'"',function(err,dataResults)
+	 {
+		// console.log("countryRsults==",countryRsults);
+		 if(Object.keys(dataResults).length == 0)
+		 {
+			req.flash('error', 'Please create country and active');
+			res.redirect(errorRedirectURL);
+			return false;
+		 }
 	 	 try
 			{
 			var b = Buffer.from(QueryRedirectURL, 'base64')
@@ -145,7 +145,14 @@ exports.countryEdit = function(req, res)
 				res.redirect(errorRedirectURL);
 				 return false;
 			}
-	 Genernal.findByFieldSingleRecord('country_id', recordID,'countries',req.session.user.id,function(err, results) 
+			//let getDataQuery = 'select city_id,city_name,cities.district_id,cities.state_id,cities.country_id,cities.user_id,districts.district_name,states.state_name from cities INNER join districts on cities.district_id= districts.district_id INNER JOIN states on states.state_id=cities.state_id INNER join cities as CITY on ST.city_id=CITY.city_id where cities.city_id="'+recordID+'" and districts.user_id="'+req.session.user.id+'"';
+			
+			 let getDataQuery = 'select from_destination_id,name,ST.city_id,ST.district_id,ST.state_id,ST.country_id,district_name,city_name,country_name,state_name,ST.is_delete as STATEDELETE,ST.user_id as STATEUSERID,'+
+	'ST.status as STATESTATUS,ST.created AS STATECREATED from from_destinations as ST inner join states as CNTY on ST.state_id=CNTY.state_id INNER JOIN countries as COUNTRY on COUNTRY.country_id=CNTY.country_id INNER join districts as DIST on ST.district_id=DIST.district_id INNER join cities as CITY on ST.city_id=CITY.city_id where ST.from_destination_id="'+recordID+'" and ST.user_id="'+req.session.user.id+'"';
+	
+			
+			console.log(getDataQuery);
+	 Genernal.findByQuery(getDataQuery,function(err, results) 
 		{
 			if(err)
 			{
@@ -158,52 +165,61 @@ exports.countryEdit = function(req, res)
 				{	
 					 if(results)
 					 {
+						 console.log(results);
+						 
 						 let requestData = req.body;		
 						if (Object.keys(requestData).length !==0)
 						{
-							 req.checkBody('country_name', 'Country Name is required.').notEmpty()
-								req.checkBody('country_name', 'Country name length between 3 to 100 characters.').len(3,100);
-		
+							req.checkBody('country_id', 'Country is required.').notEmpty()
+							 req.checkBody('state_id', 'State is required.').notEmpty()
+							 req.checkBody('district_id', 'District is required.').notEmpty()
+							req.checkBody('city_id', 'City is required.').notEmpty()
+							req.checkBody('name', 'Name is required.').notEmpty()
+							req.checkBody('name', 'Name length between 3 to 100 characters.').len(3,100);
+							
 							let errors = req.validationErrors();
 							if (errors)
 							{
 								res.render(renderHtml,
 								 {
 									formData :requestData,
-									PAGETITLE:LANGTEXT.EDITCOUNTRYTITLE,csrfToken: req.csrfToken(),
-									errordata : errors
+									PAGETITLE:LANGTEXT.EDITFROMDESTINATIONTITLE,csrfToken: req.csrfToken(),
+									errordata : errors,
+									countries:dataResults
 								});
 							}
 							else
 							{
 								
-							Genernal.checkUquieFieldWithUser('country_name	',requestData.country_name	,'countries',req.session.user.id,recordID,'country_id',function(err, countries) 
+							Genernal.checkUquieFieldWithUser('name',requestData.name,'from_destinations',req.session.user.id,recordID,'from_destination_id',function(err, checkresults) 
 							{
 								 if(err)
 								 {	
 									 res.render(renderHtml,
 									 {
 										formData :requestData,
-										PAGETITLE:LANGTEXT.EDITCOUNTRYTITLE,csrfToken: req.csrfToken(),
+										PAGETITLE:LANGTEXT.EDITFROMDESTINATIONTITLE,csrfToken: req.csrfToken(),
 										errordata : [ { msg: 'This name is already taken' }],
+										countries:dataResults
 									});
 								 }
 								 else
 								 {
-									 if(countries)
+									 if(checkresults)
 									 {					 delete requestData._csrf;
 														 delete requestData.record_id;
 														 delete requestData.field_name;
-														let conditions = {country_id:recordID,user_id:req.session.user.id};
-														Genernal.update(requestData,'countries',conditions,function(err,resultdata)
+														let conditions = {from_destination_id:recordID,user_id:req.session.user.id};
+														Genernal.update(requestData,'from_destinations',conditions,function(err,resultdata)
 														{
 															if(err)
 															{
 																res.render(renderHtml,
 																 {
 																	formData :requestData,
-																	PAGETITLE:LANGTEXT.EDITCOUNTRYTITLE,csrfToken: req.csrfToken(),
+																	PAGETITLE:LANGTEXT.EDITFROMDESTINATIONTITLE,csrfToken: req.csrfToken(),
 																	errordata : [ { msg: 'Pease try again' }],
+																	countries:dataResults
 																});
 														
 															}else
@@ -221,8 +237,9 @@ exports.countryEdit = function(req, res)
 										 res.render(renderHtml,
 										 {
 											formData :requestData,
-											PAGETITLE:LANGTEXT.ADDCOUNTRYTITLE,csrfToken: req.csrfToken(),
+											PAGETITLE:LANGTEXT.EDITFROMDESTINATIONTITLE,csrfToken: req.csrfToken(),
 											errordata : [ { msg: 'Something went wrong. Please try again.' }],
+											countries:dataResults
 										}); 
 									 }	
 								 }
@@ -232,10 +249,11 @@ exports.countryEdit = function(req, res)
 						}
 						else
 						{
-						  	res.render(renderHtml,
+							res.render(renderHtml,
 								 {
-									formData :results,
-									PAGETITLE:LANGTEXT.EDITCOUNTRYTITLE,csrfToken: req.csrfToken(),
+									formData :results[0],
+									PAGETITLE:LANGTEXT.EDITFROMDESTINATIONTITLE,csrfToken: req.csrfToken(),
+									countries:dataResults
 								});
 						}
 							
@@ -257,6 +275,7 @@ exports.countryEdit = function(req, res)
 			}
 			
 		});
+	 });
 }
 
 
@@ -267,15 +286,32 @@ exports.countryEdit = function(req, res)
   * @param {object} req - all request object.
    * @param {object} res - all response object.
  */
-exports.addCountry = function(req, res) 
+exports.AddFromDestinationCity = function(req, res) 
 {  								
      let requestData = req.body;
-	 let redirectURL = '/countries/index';
-	 let renderHtml = 'countries/add-country.html';
+	 let redirectURL = '/from-destinations/index';
+	 let renderHtml = 'from-destinations/add-from-destination.html';
+	 
+	 Genernal.findAll('select * from countries where status=1 and user_id="'+req.session.user.id+'"',function(err,results)
+	 {
+		 //console.log("results===",Object.keys(results).length);
+		 if(Object.keys(results).length ==0)
+		 {
+			req.flash('error', 'Please create countries and active');
+			res.redirect(redirectURL);
+			return false;
+		 }
+		 
+	// console.log("results===",results);
+	 
 	if (Object.keys(requestData).length !==0)
 	{
-		 req.checkBody('country_name', 'Country Name is required.').notEmpty()
-		 req.checkBody('country_name', 'Country name length between 3 to 100 characters.').len(3,100);
+		req.checkBody('country_id', 'Country is required.').notEmpty()
+		 req.checkBody('state_id', 'State is required.').notEmpty()
+		 req.checkBody('district_id', 'District is required.').notEmpty()
+		req.checkBody('city_id', 'City is required.').notEmpty()
+		req.checkBody('name', 'Name is required.').notEmpty()
+		req.checkBody('name', 'Name length between 3 to 100 characters.').len(3,100);
 		
 		let errors = req.validationErrors();
 		if (errors)
@@ -283,41 +319,44 @@ exports.addCountry = function(req, res)
 		res.render(renderHtml,
 			 {
 				formData :requestData,
-				PAGETITLE:LANGTEXT.ADDCOUNTRYTITLE,csrfToken: req.csrfToken(),
-				errordata : errors
+				PAGETITLE:LANGTEXT.ADDFROMDESTINATIONTITLE,csrfToken: req.csrfToken(),
+				errordata : errors,
+				countries:results,
 			});
 		}
 		else
 		{
-			Genernal.checkUquieFieldWithUser('country_name	', requestData.country_name	,'countries',req.session.user.id,'','', function(err, countries) 
+			Genernal.checkUquieFieldWithUser('name', requestData.name,'from_destinations',req.session.user.id,'','', function(err, checkresults) 
 			{
 				 if(err)
 				 {	
 					 res.render(renderHtml,
 					 {
 						formData :requestData,
-						PAGETITLE:LANGTEXT.ADDCOUNTRYTITLE,csrfToken: req.csrfToken(),
-						errordata : [ { msg: 'This name is already taken' }],
+						PAGETITLE:LANGTEXT.ADDFROMDESTINATIONTITLE,csrfToken: req.csrfToken(),
+						errordata : [ { msg: 'Name is already taken' }],
+						countries:results,
 					});
 				 }
 				 else
 				 {
-					 if(countries)
+					 if(checkresults)
 					 {		
 						
 								 delete requestData._csrf;
-								 requestData.country_id=UID();
+								 requestData.from_destination_id=UID();
 								 requestData.user_id = req.session.user.id;
 								 
-						Genernal.save(requestData,'countries',function(err,result)
+						Genernal.save(requestData,'from_destinations',function(err,result)
 							{
 								if(err)
 								{
 									res.render(renderHtml,
 									{
 										formData :requestData,
-										PAGETITLE:LANGTEXT.ADDCOUNTRYTITLE,csrfToken: req.csrfToken(),
+										PAGETITLE:LANGTEXT.ADDFROMDESTINATIONTITLE,csrfToken: req.csrfToken(),
 										errordata : [ { msg: 'Pease try again' }],
+										countries:results,
 									});
 							
 								}else
@@ -333,8 +372,9 @@ exports.addCountry = function(req, res)
 						 res.render(renderHtml,
 						 {
 							formData :requestData,
-							PAGETITLE:LANGTEXT.ADDCOUNTRYTITLE,csrfToken: req.csrfToken(),
+							PAGETITLE:LANGTEXT.ADDFROMDESTINATIONTITLE,csrfToken: req.csrfToken(),
 							errordata : [ { msg: 'Something went wrong. Please try again.' }],
+							countries:results,
 						}); 
 					 }					 
 						 
@@ -346,9 +386,10 @@ exports.addCountry = function(req, res)
 	{
 		res.render(renderHtml,
 		{
-			PAGETITLE:LANGTEXT.ADDCOUNTRYTITLE,csrfToken: req.csrfToken()
+			PAGETITLE:LANGTEXT.ADDFROMDESTINATIONTITLE,countries:results,csrfToken: req.csrfToken()
 		});
 	}
+	 });
 }
 
 
@@ -357,7 +398,7 @@ exports.addCountry = function(req, res)
   * @param {object} req - all request object.
    * @param {object} res - all response object.
  */
-exports.allCountries = function(req, res) 
+exports.allFromDestinations = function(req, res) 
 {  
 	 /**
 	 *define variable for pagination
@@ -369,9 +410,9 @@ exports.allCountries = function(req, res)
 	 let currentPage=1;
 	 let conditions;
 	 let records_per_page = process.env.PERPAGE; 
-	 let renderHtml = 'countries/countries.html';
+	 let renderHtml = 'from-destinations/from-designations.html';
 	 let limit;
-	  let tableName='countries';
+	  let tableName='from_destinations';
 	  if (typeof req.query.page !== 'undefined') 
 	    {
             currentPage = req.query.page;
@@ -394,7 +435,7 @@ exports.allCountries = function(req, res)
 	  if (typeof req.query.search !== 'undefined') 
 		{
 			let searchkey = req.query.search;
-			searchkeycondition = " and CONCAT_ws('', country_name) LIKE '%"+searchkey.replace(/\s\s+/g, ' ')+"%'";
+			searchkeycondition = " and CONCAT_ws('',name,state_name,country_name,district_name,city_name) LIKE '%"+searchkey.replace(/\s\s+/g, ' ')+"%'";
 		}
 		
 		
@@ -410,32 +451,36 @@ exports.allCountries = function(req, res)
 	    {
              orderBy = req.query.orderBy;
 			 orderType= req.query.orderType;
-			defaultorderBY = ' order by '+orderBy+' '+orderType;
+			defaultorderBY = ' order by ST.'+orderBy+' '+orderType;
         }
 		else
 		{
-			defaultorderBY = ' order by '+orderBy+' '+orderType;
+			defaultorderBY = ' order by ST.'+orderBy+' '+orderType;
 		}
 		
     
-	 let PageSlug  = req.params.CountrySlug;
+	 let PageSlug  = req.params.PageSlug;
 	
-		conditions ="where user_id = '"+ req.session.user.id+"'";
+		conditions ="where ST.user_id = '"+ req.session.user.id+"'";
 		
-	  var pageTitle ='All Countries';
+	  var pageTitle ='All From Destination';
 	 if(PageSlug=='active')
 	 {
-		 pageTitle = "Active Countries";
-		 conditions =conditions+ ' and status=1';
+		 pageTitle = "Active From Destination";
+		 conditions =conditions+ ' and ST.status=1';
 	 }
 	 else if(PageSlug=='deactive')
 	 {
-		 pageTitle = "Deactive Countries";
-		 conditions =conditions+ ' and status=0';
+		 pageTitle = "Deactive From Destination";
+		 conditions =conditions+ ' and ST.status=0';
 	 }
 	 
-	let query = "select country_id,country_name,is_delete,user_id,status,created from "+tableName+" "+conditions+searchkeycondition+defaultorderBY+limit;
-	let totalCountQuery = "select count(*) as totalRecord from "+tableName+" "+conditions+searchkeycondition;	
+	let query = "select from_destination_id,name,ST.city_id,ST.district_id,ST.state_id,ST.country_id as STATECOUTRYID,district_name,city_name,country_name,state_name,ST.is_delete as STATEDELETE,ST.user_id as STATEUSERID,"+
+	"ST.status as STATESTATUS,ST.created AS STATECREATED from "+tableName+" as ST inner join states as CNTY on ST.state_id=CNTY.state_id INNER JOIN countries as COUNTRY on COUNTRY.country_id=CNTY.country_id INNER join districts as DIST on ST.district_id=DIST.district_id INNER join cities as CITY on ST.city_id=CITY.city_id "+conditions+searchkeycondition+defaultorderBY+limit;
+	
+	//console.log("query==",query);
+	let totalCountQuery = "select count(*) as totalRecord from "+tableName+" as ST inner join states as CNTY  on ST.state_id=CNTY.state_id INNER JOIN countries as COUNTRY on COUNTRY.country_id=CNTY.country_id INNER join districts as DIST on ST.district_id=DIST.district_id INNER join cities as CITY on ST.city_id=CITY.city_id "+conditions+searchkeycondition;	
+	//console.log("totalCountQuery==",totalCountQuery);
 	let pageUri='/'+tableName+'/'+PageSlug;
 	/**
 	*start sorting functionality
@@ -495,6 +540,7 @@ exports.allCountries = function(req, res)
 						   //console.log("req.query",req.query);
 						  let totalRecords = totalCountResults[0].totalRecord;
 						  totalNoPages = Math.ceil(totalRecords / records_per_page);
+						    pageUri = pageUri.replace('_','-');
 						   const Paginate = new Pagination(totalRecords,currentPage,pageUri,records_per_page,req.query);
 						res.render(renderHtml,
 						{

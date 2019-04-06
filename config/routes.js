@@ -8,8 +8,12 @@
  var country = require('../app/controllers/country');
  var state = require('../app/controllers/state');
  var district = require('../app/controllers/district');
-  var ajax = require('../app/controllers/ajax');
-    var city = require('../app/controllers/city');
+ var ajax = require('../app/controllers/ajax');
+  var city = require('../app/controllers/city');
+  var cargo = require('../app/controllers/cargo');
+  var accountGroup = require('../app/controllers/account_group');
+  var vehicleType = require('../app/controllers/vehicle_type');
+  var fromDestination = require('../app/controllers/from_destinations');
 /**
  * set url 
  */
@@ -59,4 +63,33 @@ module.exports = function (app)
 	   app.all('/cities/delete-record/:deleteRecordId',user.loggedIn,parseForm,csrfProtection,city.deleteRecord);
 	  app.get('/cities/:PageSlug',user.loggedIn,parseForm,csrfProtection,city.allCities);
 	 
+	  //cargos routing
+	  app.all('/cargos/add-cargo',user.loggedIn,parseForm,csrfProtection,cargo.addCargo);
+	  app.post('/cargos/change-status',user.loggedIn,parseForm,csrfProtection,cargo.changeStatus);
+	  app.all('/cargos/edit/:recordId',user.loggedIn,parseForm,csrfProtection,cargo.CargoEdit);
+	   app.all('/cargos/delete-record/:deleteRecordId',user.loggedIn,parseForm,csrfProtection,cargo.deleteRecord);
+	  app.get('/cargos/:CountrySlug',user.loggedIn,parseForm,csrfProtection,cargo.allCargos);
+	  
+	   //account group routing
+	  app.all('/account-groups/add-group',user.loggedIn,parseForm,csrfProtection,accountGroup.addGroup);
+	  app.post('/account-groups/change-status',user.loggedIn,parseForm,csrfProtection,accountGroup.changeStatus);
+	  app.all('/account-groups/edit/:recordId',user.loggedIn,parseForm,csrfProtection,accountGroup.GroupEdit);
+	   app.all('/account-groups/delete-record/:deleteRecordId',user.loggedIn,parseForm,csrfProtection,accountGroup.deleteRecord);
+	  app.get('/account-groups/:CountrySlug',user.loggedIn,parseForm,csrfProtection,accountGroup.allGroup);
+	  
+	   //Vehicle type routing
+	  app.all('/vehicle-types/add-type',user.loggedIn,parseForm,csrfProtection,vehicleType.addType);
+	  app.post('/vehicle-types/change-status',user.loggedIn,parseForm,csrfProtection,vehicleType.changeStatus);
+	  app.all('/vehicle-types/edit/:recordId',user.loggedIn,parseForm,csrfProtection,vehicleType.TypeEdit);
+	   app.all('/vehicle-types/delete-record/:deleteRecordId',user.loggedIn,parseForm,csrfProtection,vehicleType.deleteRecord);
+	  app.get('/vehicle-types/:CountrySlug',user.loggedIn,parseForm,csrfProtection,vehicleType.allType);
+	  
+	  //from_destinations routing
+	  app.all('/from-destinations/add-from-destination',user.loggedIn,parseForm,csrfProtection,fromDestination.AddFromDestinationCity);
+	  app.post('/from-destinations/change-status',user.loggedIn,parseForm,csrfProtection,fromDestination.changeStatus);
+	  app.all('/from-destinations/edit/:recordId',user.loggedIn,parseForm,csrfProtection,fromDestination.FromDestinationsEdit);
+	   app.all('/from-destinations/delete-record/:deleteRecordId',user.loggedIn,parseForm,csrfProtection,fromDestination.deleteRecord);
+	  app.get('/from-destinations/:PageSlug',user.loggedIn,parseForm,csrfProtection,fromDestination.allFromDestinations);
+	 
+	  
 }

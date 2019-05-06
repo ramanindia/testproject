@@ -138,8 +138,8 @@
                     // you may want to pass extra data on the ajax call
                      "extraData": "controller_name="+ControllerName,
 					"extraDataDynamic": ['#record_id',"#field_name"],
-					 "alertTextOk": "* This name is available",
-                    "alertText": "* This name is already taken",
+					 "alertTextOk": "* This is available",
+                    "alertText": "* This is already taken",
                     "alertTextLoad": "* Validating, please wait"
                 },
 				 "ajaxCheckUniqueEmail": {

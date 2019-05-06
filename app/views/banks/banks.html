@@ -1,0 +1,238 @@
+{% extends "layouts/default.html" %}
+{% block content %}
+   <!-- page content -->
+         <div class="right_col" role="main">
+		 <div class="">
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+				<div class="row x_title">
+                  <div class="col-md-6">
+                    <h3>{{PAGETITLE}}</h3> 
+                  </div>
+				   <div class="col-md-2">
+                    <a href="/banks/add-bank" class="btn btn-primary"> Add New Bank<i class="icon-plus icon-white"></i></a>
+                  </div>
+                  <div class="col-md-4">
+                    <div id="reportrange" class="pull-right">
+					<form method='get' action="{{ HOST_URL }}banks/{{PageSlug}}">
+						 <div class="input-group">
+						<input type="text" class="form-control" value="{{QueryStringData.search}}" name="search" placeholder="Search for Bank Name,Bank Code,Account no,Branch,Address, IFSC Code ....">
+					<span class="input-group-btn">
+						  <button class="btn btn-default" type="submit">Go!</button>
+						</span>
+					  </div>
+					  </form>
+                    </div>
+                  </div>
+                </div>
+				<div class="x_content">
+				     {% if (messages.success) %}
+					<div class="alert alert-success alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <strong>Success ! </strong> {{ messages.success }}.
+                  </div>
+					{% endif %}		  
+		
+				  
+					{% if (messages.error) %}
+					<div class="alert alert-danger alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <strong>Error ! </strong> {{ messages.error }}.
+					</div>
+					{% endif %}
+					{% if QueryStringData.orderType=='desc' %}
+					  {% set sortType = 'asc' %}
+					  {% set className = 'up' %}
+					  {% else %}			
+					  {% set sortType = 'desc' %}
+					  {% set className = 'down' %}					  
+					  {% endif %}				
+			  </div>
+			  <div id="no-more-tables">
+		      <table class="col-md-12  col-sm-12 col-xs-12 table-bordered table-striped table-condensed cf">
+        		<thead class="cf">
+        			<tr>
+					    <th class="numeric"> 
+						<input type="checkbox" id="selectall" value="all">
+						</th>
+						<th class="numeric">
+						<a href="{{ HOST_URL }}banks/{{PageSlug}}?
+						orderBy=bank_name&orderType={{sortType}}{{setSortingQueryString}}">
+						
+						{% if QueryStringData.orderBy=='bank_name' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}	
+						Bank Name</a>
+						</th>
+							<th class="numeric">
+						<a href="{{ HOST_URL }}banks/{{PageSlug}}?
+						orderBy=bank_name&orderType={{sortType}}{{setSortingQueryString}}">
+						
+						{% if QueryStringData.orderBy=='account_no' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}	
+						Account no</a>
+						</th>
+							<th class="numeric">
+						<a href="{{ HOST_URL }}banks/{{PageSlug}}?
+						orderBy=bank_code&orderType={{sortType}}{{setSortingQueryString}}">
+						{% if QueryStringData.orderBy=='bank_code' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}	
+						Bank Code</a>
+						</th>
+							<th class="numeric">
+						<a href="{{ HOST_URL }}banks/{{PageSlug}}?
+						orderBy=ifsc_code&orderType={{sortType}}{{setSortingQueryString}}">
+						
+						{% if QueryStringData.orderBy=='ifsc_code' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}	
+						IFSC CODE</a>
+						</th>
+						<th class="numeric">
+						<a href="{{ HOST_URL }}banks/{{PageSlug}}?
+						orderBy=branch&orderType={{sortType}}{{setSortingQueryString}}">
+						
+						{% if QueryStringData.orderBy=='branch' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}	
+						Branch</a>
+						</th>
+						
+							<th class="numeric">
+						<a href="{{ HOST_URL }}banks/{{PageSlug}}?
+						orderBy=address&orderType={{sortType}}{{setSortingQueryString}}">
+						{% if QueryStringData.orderBy=='address' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}	
+						Address</a>
+						</th>
+							<th class="numeric">
+						<a href="{{ HOST_URL }}banks/{{PageSlug}}?
+						orderBy=area&orderType={{sortType}}{{setSortingQueryString}}">
+						{% if QueryStringData.orderBy=='area' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}	
+						Area</a>
+						</th>
+							<th class="numeric">
+						<a href="{{ HOST_URL }}banks/{{PageSlug}}?
+						orderBy=pin_code&orderType={{sortType}}{{setSortingQueryString}}">
+						
+						{% if QueryStringData.orderBy=='pin_code' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}	
+						Pin Code</a>
+						</th>
+							<th class="numeric">
+						<a href="{{ HOST_URL }}banks/{{PageSlug}}?
+						orderBy=phone_no&orderType={{sortType}}{{setSortingQueryString}}">
+						
+						{% if QueryStringData.orderBy=='phone_no' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}	
+						Phone No</a>
+						</th>
+							<th class="numeric">
+						<a href="{{ HOST_URL }}banks/{{PageSlug}}?
+						orderBy=mobile_no&orderType={{sortType}}{{setSortingQueryString}}">
+						
+						{% if QueryStringData.orderBy=='mobile_no' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}	
+						Mobile no</a>
+						</th>
+						
+						<th class="numeric">
+						<a href="{{ HOST_URL }}banks/{{PageSlug}}?
+						orderBy=email&orderType={{sortType}}{{setSortingQueryString}}">
+						{% if QueryStringData.orderBy=='email' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}	
+						Email id</a>
+						</th>
+				
+								<th class="numeric"><a title="Click for sort results" href="{{ HOST_URL }}banks/{{PageSlug}}?
+						orderBy=status&orderType={{sortType}}{{setSortingQueryString}}">
+						{% if QueryStringData.orderBy=='status' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}						
+						Status </th>
+						<th class="numeric"><a title="Click for sort results" title="Click for sort results" href="{{ HOST_URL }}banks/{{PageSlug}}?
+						orderBy=created&orderType={{sortType}}{{setSortingQueryString}}">
+						{% if QueryStringData.orderBy=='created' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}						
+						Created at</a></th>
+						
+						<th class="numeric">Action</th>
+        			</tr>
+        		</thead>
+        		<tbody>
+				 {% if results|length %}
+				  <form method='post' id="statusChangeform" action="/banks/change-status">	
+				  <input type="hidden" name="_csrf" value="{{csrfToken}}">
+				  <input type="hidden" name="reirectURL" value="{{redirectOriginalUrl}}">
+					{% for item in results %}
+					 <tr>					    
+						<td data-title="Status Change">
+						<input type="checkbox" class="records_id" name="records_id" value="{{item.bank_id}}"></td>
+						<td data-title="Bank Name">{{item.bank_name}}</td>
+						<td data-title="Account no">{{item.account_no}}</td>
+        				<td data-title="Bank Code">{{item.bank_code}}</td>
+						<td data-title="IFSC CODE">{{item.ifsc_code}}</td>
+						<td data-title="Branch">{{item.branch}}</td>
+						<td data-title="Address">{{item.address}}</td>
+						<td data-title="Area">{{item.area}}</td>
+						<td data-title="Pin Code">{{item.pin_code}}</td>
+						<td data-title="Phone no">{{item.phone_no}}</td>
+						<td data-title="Mobile no">{{item.mobile_no}}</td>
+						<td data-title="Email id">{{item.email}}</td>
+						<td data-title="Status">{{Status[item.status]}}</td>
+						<td data-title="Created">{{ moment(item.created).format('DD-MM-YYYY hh:mm a')}}</td>							
+						<td  data-title="Action" class="numeric">
+                        <a class="btn btn-default" href="{{ HOST_URL }}banks/edit/{{item.bank_id}}?redirectURL={{redirctURL}}" 
+						   title="Edit item"><em class="fa fa-pencil"></em></a>
+                        <a class="btn btn-danger"  href="{{ HOST_URL }}banks/delete-record/{{item.bank_id}}?redirectURL={{redirctURL}}" 
+						onclick="return confirmDelete('Are you sure want to delete this item?');" title="Delete item">
+						<em class="fa fa-trash"></em></a>
+						</td>
+        			</tr>
+					{% endfor %}
+					{% else %} 
+					 <tr>
+					  <td colspan="15" >Records not found.</td>
+					 </tr>
+				 	{% endif %}  				
+        		</tbody>
+        	</table>
+        </div>  
+		{% if results|length %}
+			<div class="row x_top">
+                  <div class="col-md-12 ol-sm-12 col-xs-12 button_status">
+						  <button type="submit"  title="Click for Active" class="btn btn-success" onclick="return changeConfirmation('Are you sure want to active this records?');" name ="change_active" value="active">Active</button>
+                           <button type="submit" title="Click for Deactive"class="btn btn-warning"  onclick="return changeConfirmation('Are you sure want to deactive this records?');"name ="change_deactive" value="deactive">Deactive</button>
+						  <!--  <button type="submit" title="Click for Delete" class="btn btn-danger"  onclick="return changeConfirmation('Are you sure want to delete this records?');" name ="change_delete" value="delete">Delete</button>
+             -->      </div>
+                </div>
+		  </form>
+	   <div class="center-block text-center">
+	   {{ pages |safe}} 
+	   </div>
+		{% endif %}  	
+	    
+				</div>
+			 </div>
+		</div>
+	  </div>
+	  </div>
+        <!-- /page content -->
+	</div>	
+{% endblock %}
+
+

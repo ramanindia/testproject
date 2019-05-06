@@ -14,6 +14,7 @@
   var accountGroup = require('../app/controllers/account_group');
   var vehicleType = require('../app/controllers/vehicle_type');
   var fromDestination = require('../app/controllers/from_destinations');
+   var bank = require('../app/controllers/bank');
 /**
  * set url 
  */
@@ -91,5 +92,12 @@ module.exports = function (app)
 	   app.all('/from-destinations/delete-record/:deleteRecordId',user.loggedIn,parseForm,csrfProtection,fromDestination.deleteRecord);
 	  app.get('/from-destinations/:PageSlug',user.loggedIn,parseForm,csrfProtection,fromDestination.allFromDestinations);
 	 
+	   //bank routing
+	  app.all('/banks/add-bank',user.loggedIn,parseForm,csrfProtection,bank.AddBank);
+	  app.post('/banks/change-status',user.loggedIn,parseForm,csrfProtection,bank.changeStatus);
+	  app.all('/banks/edit/:recordId',user.loggedIn,parseForm,csrfProtection,bank.BankEdit);
+	  app.all('/banks/delete-record/:deleteRecordId',user.loggedIn,parseForm,csrfProtection,bank.deleteRecord);
+	  app.get('/banks/:PageSlug',user.loggedIn,parseForm,csrfProtection,bank.allBanks);
+	  
 	  
 }

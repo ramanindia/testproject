@@ -41,6 +41,11 @@ var WEB_MESSAGES = {
 	ADDFROMDESTINATIONTITLE:"Add From Destination",
 	EDITFROMDESTINATIONTITLE:"Edit From Destination",
 	
+	
+	ALLBANK:"All Banks",
+	ADDBANKTITLE:"Add Bank",
+	EDITBANKTITLE:"Edit Bank",
+	
 	ALLCOUNTRIES:"All Users",
 	USERADDED: "Successfully added",
 	USEREDITED: "Successfully updated",

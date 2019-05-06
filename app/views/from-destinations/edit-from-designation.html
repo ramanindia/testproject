@@ -23,7 +23,7 @@
 				  	{% endfor %}	
 				 {% endif %}
                     <br />
-                    <form id="add-country9787" method="post" class="form-horizontal  form-label-left">
+                    <form id="add-country" method="post" class="form-horizontal  form-label-left">
 					<input type="hidden" name="_csrf" value="{{csrfToken}}">
 					<input type="hidden" name="record_id" id="record_id" value="{{formData.from_destination_id}}">
 					<input type="hidden" name="field_name" id="field_name" value="from_destination_id">
@@ -45,7 +45,7 @@
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
 							<select name="state_id" id="state_id"  onchange="getDataList(this,'state_id','districts','district_id','district_name','district_id','Select District')" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">>
-							<option value="{{formData.state_id}}">{{formData.state_name}}</option>n>
+							<option value="{{formData.state_id}}">{{formData.state_name}}</option>
 							</select>
                           </div>
                       </div>

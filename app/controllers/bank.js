@@ -18,7 +18,7 @@ exports.changeStatus = function(req, res)
 		
 		 if(updateIds !== undefined)
 		 {
-			Genernal.updateStatus(requestData,'from_destinations','from_destination_id',req.session.user.id, function(err, results) 
+			Genernal.updateStatus(requestData,'banks','bank_id',req.session.user.id, function(err, results) 
 			{
 				 if(err)
 				 {
@@ -58,7 +58,7 @@ exports.deleteRecord = function(req, res)
 	  let deleteID  = req.params.deleteRecordId;
 	  
 	 let QueryRedirectURL = req.query.redirectURL;
-	 let actualredirectURL ='/from-destinations/index';
+	 let actualredirectURL ='/banks/index';
 		 try
 			{
 			var b = Buffer.from(QueryRedirectURL, 'base64')
@@ -67,7 +67,7 @@ exports.deleteRecord = function(req, res)
 			catch (err)
 			{
 				req.flash('error', 'Something missing wrong. Invalid request. please try again');
-				res.redirect('/from-destinations/index');
+				res.redirect('/banks/index');
 				 return false;
 			}
 		if(QueryRedirectURL !== 'undefined')
@@ -85,7 +85,7 @@ exports.deleteRecord = function(req, res)
 					// console.log("res==",actualredirectURL);
 					 
 					 
-					 Genernal.deleteDeactiveRecord('from_destination_id',deleteID,'from_destinations',req.session.user.id, function(err, delresults) 
+					 Genernal.deleteDeactiveRecord('bank_id',deleteID,'banks',req.session.user.id, function(err, delresults) 
 						{
 							 if(err)
 							 {
@@ -117,13 +117,13 @@ exports.deleteRecord = function(req, res)
   * @param {object} req - all request object.
    * @param {object} res - all response object.
  */
-exports.FromDestinationsEdit = function(req, res) 
+exports.BankEdit = function(req, res) 
 {  					 
 	 let recordID  = req.params.recordId;
 	 let QueryRedirectURL = req.query.redirectURL;
-	 let errorRedirectURL = '/from-destinations/index';
-	 let renderHtml = 'from-destinations/edit-from-designation.html';
-	 let actualredirectURL='/from-destinations/index';
+	 let errorRedirectURL = '/banks/index';
+	 let renderHtml = 'banks/edit-bank.html';
+	 let actualredirectURL='/banks/index';
 	 
     Genernal.findAll('select * from countries where status=1 and user_id="'+req.session.user.id+'"',function(err,dataResults)
 	 {
@@ -147,8 +147,8 @@ exports.FromDestinationsEdit = function(req, res)
 			}
 			//let getDataQuery = 'select city_id,city_name,cities.district_id,cities.state_id,cities.country_id,cities.user_id,districts.district_name,states.state_name from cities INNER join districts on cities.district_id= districts.district_id INNER JOIN states on states.state_id=cities.state_id INNER join cities as CITY on ST.city_id=CITY.city_id where cities.city_id="'+recordID+'" and districts.user_id="'+req.session.user.id+'"';
 			
-			 let getDataQuery = 'select from_destination_id,name,ST.city_id,ST.district_id,ST.state_id,ST.country_id,district_name,city_name,country_name,state_name,ST.is_delete as STATEDELETE,ST.user_id as STATEUSERID,'+
-	'ST.status as STATESTATUS,ST.created AS STATECREATED from from_destinations as ST inner join states as CNTY on ST.state_id=CNTY.state_id INNER JOIN countries as COUNTRY on COUNTRY.country_id=CNTY.country_id INNER join districts as DIST on ST.district_id=DIST.district_id INNER join cities as CITY on ST.city_id=CITY.city_id where ST.from_destination_id="'+recordID+'" and ST.user_id="'+req.session.user.id+'"';
+			 let getDataQuery = 'select bank_id,bank_name,bank_code,account_no,branch,ifsc_code,address,area,pin_code,phone_no,mobile_no,email,ST.city_id,ST.district_id,ST.state_id,ST.country_id,district_name,city_name,country_name,state_name,ST.is_delete as STATEDELETE,ST.user_id as STATEUSERID,'+
+	'ST.status as STATESTATUS,ST.created AS STATECREATED from banks as ST inner join states as CNTY on ST.state_id=CNTY.state_id INNER JOIN countries as COUNTRY on COUNTRY.country_id=CNTY.country_id INNER join districts as DIST on ST.district_id=DIST.district_id INNER join cities as CITY on ST.city_id=CITY.city_id where ST.bank_id="'+recordID+'" and ST.user_id="'+req.session.user.id+'"';
 	
 			
 			//console.log(getDataQuery);
@@ -170,12 +170,22 @@ exports.FromDestinationsEdit = function(req, res)
 						 let requestData = req.body;		
 						if (Object.keys(requestData).length !==0)
 						{
+							req.checkBody('bank_name', 'Bank Name is required.').notEmpty()
+							req.checkBody('bank_code', 'Bank Code is required.').notEmpty()
+							req.checkBody('account_no', 'Account no is required.').notEmpty()
+							req.checkBody('ifsc_code', 'IFSC Code is required.').notEmpty()
 							req.checkBody('country_id', 'Country is required.').notEmpty()
-							 req.checkBody('state_id', 'State is required.').notEmpty()
-							 req.checkBody('district_id', 'District is required.').notEmpty()
+							req.checkBody('state_id', 'State is required.').notEmpty()
+							req.checkBody('district_id', 'District is required.').notEmpty()
 							req.checkBody('city_id', 'City is required.').notEmpty()
-							req.checkBody('name', 'Name is required.').notEmpty()
-							req.checkBody('name', 'Name length between 3 to 100 characters.').len(3,100);
+							req.checkBody('branch', 'Branch is required.').notEmpty()
+							req.checkBody('address', 'Address is required.').notEmpty()
+							req.checkBody('area', 'Area is required.').notEmpty()
+							req.checkBody('pin_code', 'Pin code is required.').notEmpty()
+							req.checkBody('phone_no', 'Phone number is required.').notEmpty()
+							req.checkBody('mobile_no', 'Mobile number is required.').notEmpty()
+							req.checkBody('email', 'Email is required.').notEmpty()
+							req.checkBody('email', 'Enter valid email.').isEmail()
 							
 							let errors = req.validationErrors();
 							if (errors)
@@ -183,7 +193,7 @@ exports.FromDestinationsEdit = function(req, res)
 								res.render(renderHtml,
 								 {
 									formData :requestData,
-									PAGETITLE:LANGTEXT.EDITFROMDESTINATIONTITLE,csrfToken: req.csrfToken(),
+									PAGETITLE:LANGTEXT.EDITBANKTITLE,csrfToken: req.csrfToken(),
 									errordata : errors,
 									countries:dataResults
 								});
@@ -191,15 +201,15 @@ exports.FromDestinationsEdit = function(req, res)
 							else
 							{
 								
-							Genernal.checkUquieFieldWithUser('name',requestData.name,'from_destinations',req.session.user.id,recordID,'from_destination_id',function(err, checkresults) 
+							Genernal.checkUquieFieldWithUser('account_no',requestData.account_no,'banks',req.session.user.id,recordID,'bank_id',function(err, checkresults) 
 							{
 								 if(err)
 								 {	
 									 res.render(renderHtml,
 									 {
 										formData :requestData,
-										PAGETITLE:LANGTEXT.EDITFROMDESTINATIONTITLE,csrfToken: req.csrfToken(),
-										errordata : [ { msg: 'This name is already taken' }],
+										PAGETITLE:LANGTEXT.EDITBANKTITLE,csrfToken: req.csrfToken(),
+										errordata : [ { msg: 'This Account number is already taken' }],
 										countries:dataResults
 									});
 								 }
@@ -209,15 +219,15 @@ exports.FromDestinationsEdit = function(req, res)
 									 {					 delete requestData._csrf;
 														 delete requestData.record_id;
 														 delete requestData.field_name;
-														let conditions = {from_destination_id:recordID,user_id:req.session.user.id};
-														Genernal.update(requestData,'from_destinations',conditions,function(err,resultdata)
+														let conditions = {bank_id:recordID,user_id:req.session.user.id};
+														Genernal.update(requestData,'banks',conditions,function(err,resultdata)
 														{
 															if(err)
 															{
 																res.render(renderHtml,
 																 {
 																	formData :requestData,
-																	PAGETITLE:LANGTEXT.EDITFROMDESTINATIONTITLE,csrfToken: req.csrfToken(),
+																	PAGETITLE:LANGTEXT.EDITBANKTITLE,csrfToken: req.csrfToken(),
 																	errordata : [ { msg: 'Pease try again' }],
 																	countries:dataResults
 																});
@@ -237,7 +247,7 @@ exports.FromDestinationsEdit = function(req, res)
 										 res.render(renderHtml,
 										 {
 											formData :requestData,
-											PAGETITLE:LANGTEXT.EDITFROMDESTINATIONTITLE,csrfToken: req.csrfToken(),
+											PAGETITLE:LANGTEXT.EDITBANKTITLE,csrfToken: req.csrfToken(),
 											errordata : [ { msg: 'Something went wrong. Please try again.' }],
 											countries:dataResults
 										}); 
@@ -252,7 +262,7 @@ exports.FromDestinationsEdit = function(req, res)
 							res.render(renderHtml,
 								 {
 									formData :results[0],
-									PAGETITLE:LANGTEXT.EDITFROMDESTINATIONTITLE,csrfToken: req.csrfToken(),
+									PAGETITLE:LANGTEXT.EDITBANKTITLE,csrfToken: req.csrfToken(),
 									countries:dataResults
 								});
 						}
@@ -286,11 +296,11 @@ exports.FromDestinationsEdit = function(req, res)
   * @param {object} req - all request object.
    * @param {object} res - all response object.
  */
-exports.AddFromDestinationCity = function(req, res) 
+exports.AddBank = function(req, res) 
 {  								
      let requestData = req.body;
-	 let redirectURL = '/from-destinations/index';
-	 let renderHtml = 'from-destinations/add-from-destination.html';
+	 let redirectURL = '/banks/index';
+	 let renderHtml = 'banks/add-bank.html';
 	 
 	 Genernal.findAll('select * from countries where status=1 and user_id="'+req.session.user.id+'"',function(err,results)
 	 {
@@ -306,12 +316,22 @@ exports.AddFromDestinationCity = function(req, res)
 	 
 	if (Object.keys(requestData).length !==0)
 	{
+		req.checkBody('bank_name', 'Bank Name is required.').notEmpty()
+		req.checkBody('bank_code', 'Bank Code is required.').notEmpty()
+		req.checkBody('account_no', 'Account no is required.').notEmpty()
+		req.checkBody('ifsc_code', 'IFSC Code is required.').notEmpty()
 		req.checkBody('country_id', 'Country is required.').notEmpty()
-		 req.checkBody('state_id', 'State is required.').notEmpty()
-		 req.checkBody('district_id', 'District is required.').notEmpty()
+		req.checkBody('state_id', 'State is required.').notEmpty()
+		req.checkBody('district_id', 'District is required.').notEmpty()
 		req.checkBody('city_id', 'City is required.').notEmpty()
-		req.checkBody('name', 'Name is required.').notEmpty()
-		req.checkBody('name', 'Name length between 3 to 100 characters.').len(3,100);
+		req.checkBody('branch', 'Branch is required.').notEmpty()
+		req.checkBody('address', 'Address is required.').notEmpty()
+		req.checkBody('area', 'Area is required.').notEmpty()
+		req.checkBody('pin_code', 'Pin code is required.').notEmpty()
+		req.checkBody('phone_no', 'Phone number is required.').notEmpty()
+		req.checkBody('mobile_no', 'Mobile number is required.').notEmpty()
+		req.checkBody('email', 'Email is required.').notEmpty()
+		req.checkBody('email', 'Enter valid email.').isEmail()
 		
 		let errors = req.validationErrors();
 		if (errors)
@@ -319,22 +339,22 @@ exports.AddFromDestinationCity = function(req, res)
 		res.render(renderHtml,
 			 {
 				formData :requestData,
-				PAGETITLE:LANGTEXT.ADDFROMDESTINATIONTITLE,csrfToken: req.csrfToken(),
+				PAGETITLE:LANGTEXT.ADDBANKTITLE,csrfToken: req.csrfToken(),
 				errordata : errors,
 				countries:results,
 			});
 		}
 		else
 		{
-			Genernal.checkUquieFieldWithUser('name', requestData.name,'from_destinations',req.session.user.id,'','', function(err, checkresults) 
+			Genernal.checkUquieFieldWithUser('account_no', requestData.account_no,'banks',req.session.user.id,'','', function(err, checkresults) 
 			{
 				 if(err)
 				 {	
 					 res.render(renderHtml,
 					 {
 						formData :requestData,
-						PAGETITLE:LANGTEXT.ADDFROMDESTINATIONTITLE,csrfToken: req.csrfToken(),
-						errordata : [ { msg: 'Name is already taken' }],
+						PAGETITLE:LANGTEXT.ADDBANKTITLE,csrfToken: req.csrfToken(),
+						errordata : [ { msg: 'Account no is already taken' }],
 						countries:results,
 					});
 				 }
@@ -344,17 +364,17 @@ exports.AddFromDestinationCity = function(req, res)
 					 {		
 						
 								 delete requestData._csrf;
-								 requestData.from_destination_id=UID();
+								 requestData.bank_id=UID();
 								 requestData.user_id = req.session.user.id;
 								 
-						Genernal.save(requestData,'from_destinations',function(err,result)
+						Genernal.save(requestData,'banks',function(err,result)
 							{
 								if(err)
 								{
 									res.render(renderHtml,
 									{
 										formData :requestData,
-										PAGETITLE:LANGTEXT.ADDFROMDESTINATIONTITLE,csrfToken: req.csrfToken(),
+										PAGETITLE:LANGTEXT.ADDBANKTITLE,csrfToken: req.csrfToken(),
 										errordata : [ { msg: 'Pease try again' }],
 										countries:results,
 									});
@@ -372,7 +392,7 @@ exports.AddFromDestinationCity = function(req, res)
 						 res.render(renderHtml,
 						 {
 							formData :requestData,
-							PAGETITLE:LANGTEXT.ADDFROMDESTINATIONTITLE,csrfToken: req.csrfToken(),
+							PAGETITLE:LANGTEXT.ADDBANKTITLE,csrfToken: req.csrfToken(),
 							errordata : [ { msg: 'Something went wrong. Please try again.' }],
 							countries:results,
 						}); 
@@ -386,7 +406,7 @@ exports.AddFromDestinationCity = function(req, res)
 	{
 		res.render(renderHtml,
 		{
-			PAGETITLE:LANGTEXT.ADDFROMDESTINATIONTITLE,countries:results,csrfToken: req.csrfToken()
+			PAGETITLE:LANGTEXT.ADDBANKTITLE,countries:results,csrfToken: req.csrfToken()
 		});
 	}
 	 });
@@ -398,7 +418,7 @@ exports.AddFromDestinationCity = function(req, res)
   * @param {object} req - all request object.
    * @param {object} res - all response object.
  */
-exports.allFromDestinations = function(req, res) 
+exports.allBanks = function(req, res) 
 {  
 	 /**
 	 *define variable for pagination
@@ -410,9 +430,9 @@ exports.allFromDestinations = function(req, res)
 	 let currentPage=1;
 	 let conditions;
 	 let records_per_page = process.env.PERPAGE; 
-	 let renderHtml = 'from-destinations/from-designations.html';
+	 let renderHtml = 'banks/banks.html';
 	 let limit;
-	  let tableName='from_destinations';
+	  let tableName='banks';
 	  if (typeof req.query.page !== 'undefined') 
 	    {
             currentPage = req.query.page;
@@ -435,7 +455,7 @@ exports.allFromDestinations = function(req, res)
 	  if (typeof req.query.search !== 'undefined') 
 		{
 			let searchkey = req.query.search;
-			searchkeycondition = " and CONCAT_ws('',name,state_name,country_name,district_name,city_name) LIKE '%"+searchkey.replace(/\s\s+/g, ' ')+"%'";
+			searchkeycondition = " and CONCAT_ws('',bank_name,bank_code,account_no,branch,ifsc_code,address,area,pin_code,phone_no,mobile_no,email) LIKE '%"+searchkey.replace(/\s\s+/g, ' ')+"%'";
 		}
 		
 		
@@ -463,23 +483,22 @@ exports.allFromDestinations = function(req, res)
 	
 		conditions ="where ST.user_id = '"+ req.session.user.id+"'";
 		
-	  var pageTitle ='All From Destination';
+	  var pageTitle ='All Banks';
 	 if(PageSlug=='active')
 	 {
-		 pageTitle = "Active From Destination";
+		 pageTitle = "Active Banks";
 		 conditions =conditions+ ' and ST.status=1';
 	 }
 	 else if(PageSlug=='deactive')
 	 {
-		 pageTitle = "Deactive From Destination";
+		 pageTitle = "Deactive Banks";
 		 conditions =conditions+ ' and ST.status=0';
 	 }
 	 
-	let query = "select from_destination_id,name,ST.city_id,ST.district_id,ST.state_id,ST.country_id as STATECOUTRYID,district_name,city_name,country_name,state_name,ST.is_delete as STATEDELETE,ST.user_id as STATEUSERID,"+
-	"ST.status as STATESTATUS,ST.created AS STATECREATED from "+tableName+" as ST inner join states as CNTY on ST.state_id=CNTY.state_id INNER JOIN countries as COUNTRY on COUNTRY.country_id=CNTY.country_id INNER join districts as DIST on ST.district_id=DIST.district_id INNER join cities as CITY on ST.city_id=CITY.city_id "+conditions+searchkeycondition+defaultorderBY+limit;
+	let query = "select * from "+tableName+" as ST "+conditions+searchkeycondition+defaultorderBY+limit;
 	
 	//console.log("query==",query);
-	let totalCountQuery = "select count(*) as totalRecord from "+tableName+" as ST inner join states as CNTY  on ST.state_id=CNTY.state_id INNER JOIN countries as COUNTRY on COUNTRY.country_id=CNTY.country_id INNER join districts as DIST on ST.district_id=DIST.district_id INNER join cities as CITY on ST.city_id=CITY.city_id "+conditions+searchkeycondition;	
+	let totalCountQuery = "select count(*) as totalRecord from "+tableName+" as ST "+conditions+searchkeycondition;	
 	//console.log("totalCountQuery==",totalCountQuery);
 	let pageUri='/'+tableName+'/'+PageSlug;
 	/**

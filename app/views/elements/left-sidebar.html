@@ -99,12 +99,33 @@
 					   </ul>
                   </li>
 				  
+				  
+				   <li {% if (controller == 'drivers') %} class="active" {% endif %}><a><i class="fa fa-sitemap"></i>Driver<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li {% if (action == 'add-driver') and (controller == 'drivers') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}drivers/add-driver">Add Driver</a></li>
+					  <li {% if (action == 'index') and (controller == 'drivers') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}drivers/index">All Driver</a></li>         
+					 <li {% if (action == 'active') and (controller == 'drivers') %} class="current-page" {% endif %}  ><a href="{{ HOST_URL }}drivers/active">Active Type</a></li>
+                      <li {% if (action == 'deactive') and (controller == 'drivers') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}drivers/deactive">Deactive Type</a></li>
+					   </ul>
+                  </li>
+				  
+				  
+				  
 				  <li {% if (controller == 'from-destinations') %} class="active" {% endif %}><a><i class="fa fa-sitemap"></i> From Destinations<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li {% if (action == 'add-from-destination') and (controller == 'from-destinations') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}from-destinations/add-from-destination">Add From Destination</a></li>
 					  <li {% if (action == 'index') and (controller == 'from-destinations') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}from-destinations/index">All From Destination</a></li>         
 					 <li {% if (action == 'active') and (controller == 'from-destinations') %} class="current-page" {% endif %}  ><a href="{{ HOST_URL }}from-destinations/active">Active From Destination</a></li>
                       <li {% if (action == 'deactive') and (controller == 'from-destinations') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}from-destinations/deactive">Deactive From Destination</a></li>
+					   </ul>
+                  </li>
+				  
+				    <li {% if (controller == 'banks') %} class="active" {% endif %}><a><i class="fa fa-sitemap"></i> Banks<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li {% if (action == 'add-bank') and (controller == 'banks') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}banks/add-bank">Add Bank</a></li>
+					  <li {% if (action == 'index') and (controller == 'banks') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}banks/index">All Bank</a></li>         
+					 <li {% if (action == 'active') and (controller == 'banks') %} class="current-page" {% endif %}  ><a href="{{ HOST_URL }}banks/active">Active Bank</a></li>
+                      <li {% if (action == 'deactive') and (controller == 'banks') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}banks/deactive">Deactive Bank</a></li>
 					   </ul>
                   </li>
 				  

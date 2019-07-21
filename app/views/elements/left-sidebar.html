@@ -98,7 +98,14 @@
                       <li {% if (action == 'deactive') and (controller == 'vehicle-types') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}vehicle-types/deactive">Deactive Type</a></li>
 					   </ul>
                   </li>
-				  
+				     <li {% if (controller == 'vehicle') %} class="active" {% endif %}><a><i class="fa fa-sitemap"></i> Vehicles<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li {% if (action == 'add-vechile') and (controller == 'vehicle') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}vehicles/add-vechile">Add Vechile</a></li>
+					  <li {% if (action == 'index') and (controller == 'vehicle') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}vehicles/index">All Vechiles</a></li>         
+					 <li {% if (action == 'active') and (controller == 'vehicle') %} class="current-page" {% endif %}  ><a href="{{ HOST_URL }}vehicles/active">Active Vechile</a></li>
+                      <li {% if (action == 'deactive') and (controller == 'vehicle') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}vehicles/deactive">Deactive Vechile</a></li>
+					   </ul>
+                  </li>
 				  
 				   <li {% if (controller == 'drivers') %} class="active" {% endif %}><a><i class="fa fa-sitemap"></i>Driver<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">

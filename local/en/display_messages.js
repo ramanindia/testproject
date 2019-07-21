@@ -33,9 +33,13 @@ var WEB_MESSAGES = {
 	ADDGROUPTITLE:"Add Account Group",
 	EDITGROUPTITLE:"Edit Account Group",
 	
-	ALLType:"All Vehicles",
+	ALLType:"All Vehicle Type",
 	ADDVEHICLETITLE:"Add Vehicle Type",
 	EDITVEHICLETITLE:"Edit Vehicle Type",
+	
+	ALLVEHILES:"All Vehicles",
+	ADDVEHICLE:"Add Vehicle",
+	EDITVEHICLE:"Edit Vehicle",
 	
 	ALLFROMDESTINATION:"All From Destination",
 	ADDFROMDESTINATIONTITLE:"Add From Destination",

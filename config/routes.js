@@ -15,6 +15,7 @@
   var vehicleType = require('../app/controllers/vehicle_type');
   var fromDestination = require('../app/controllers/from_destinations');
    var bank = require('../app/controllers/bank');
+    var vehicle = require('../app/controllers/Vehicle');
 /**
  * set url 
  */
@@ -84,6 +85,13 @@ module.exports = function (app)
 	  app.all('/vehicle-types/edit/:recordId',user.loggedIn,parseForm,csrfProtection,vehicleType.TypeEdit);
 	   app.all('/vehicle-types/delete-record/:deleteRecordId',user.loggedIn,parseForm,csrfProtection,vehicleType.deleteRecord);
 	  app.get('/vehicle-types/:CountrySlug',user.loggedIn,parseForm,csrfProtection,vehicleType.allType);
+	  
+	  //Vehicle  routing
+	  app.all('/vehicles/add-vechile',user.loggedIn,parseForm,csrfProtection,vehicle.addVehicle);
+	  app.post('/vehicles/change-status',user.loggedIn,parseForm,csrfProtection,vehicle.changeStatus);
+	  app.all('/vehicles/edit/:recordId',user.loggedIn,parseForm,csrfProtection,vehicle.VehicleEdit);
+	  app.all('/vehicles/delete-record/:deleteRecordId',user.loggedIn,parseForm,csrfProtection,vehicle.deleteRecord);
+	  app.get('/vehicles/:CountrySlug',user.loggedIn,parseForm,csrfProtection,vehicle.allVehicles);
 	  
 	  //from_destinations routing
 	  app.all('/from-destinations/add-from-destination',user.loggedIn,parseForm,csrfProtection,fromDestination.AddFromDestinationCity);

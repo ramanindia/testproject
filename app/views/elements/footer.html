@@ -9,6 +9,8 @@
 	</script>
 	<script src="{{ HOST_URL }}vendors/jquery-validation-engine/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
 	<script src="{{ HOST_URL }}vendors/select2/dist/js/select2.full.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="{{ HOST_URL }}vendors/moment/min/moment.min.js"></script>
+    <script src="{{ HOST_URL }}vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
  {% else %} 
   	 <!--FastClick-->
 	<script src="{{ HOST_URL }}vendors/fastclick/lib/fastclick.js"></script>
@@ -72,7 +74,12 @@
 	});
 		$("#add-user").validationEngine({promptPosition : "topRight:-75"});
 		$("#add-country").validationEngine({promptPosition : "topRight:-75"});
-	});
+	}); 
+	$('#bill_date').datetimepicker({
+        format: 'YYYY-MM-DD'
+    });
+	
+	
 	</script>
 	{% endif %}	
   </body>

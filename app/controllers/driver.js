@@ -117,7 +117,7 @@ exports.deleteRecord = function(req, res)
   * @param {object} req - all request object.
    * @param {object} res - all response object.
  */
-exports.BankEdit = function(req, res) 
+exports.DriverEdit = function(req, res) 
 {  					 
 	 let recordID  = req.params.recordId;
 	 let QueryRedirectURL = req.query.redirectURL;
@@ -296,13 +296,14 @@ exports.BankEdit = function(req, res)
   * @param {object} req - all request object.
    * @param {object} res - all response object.
  */
-exports.AddBank = function(req, res) 
+exports.AddDriver = function(req, res) 
 {  								
      let requestData = req.body;
-	 let redirectURL = '/banks/index';
-	 let renderHtml = 'banks/add-bank.html';
+	 let redirectURL = '/drivers/index';
+	 let renderHtml = 'drivers/add-driver.html';
+	 console.log("helllo==");
 	 
-	 Genernal.findAll('select country_id,country_name from countries where status=1 and user_id="'+req.session.user.id+'"',function(err,results)
+	 Genernal.findAll('select * from countries where status=1 and user_id="'+req.session.user.id+'"',function(err,results)
 	 {
 		 //console.log("results===",Object.keys(results).length);
 		 if(Object.keys(results).length ==0)
@@ -418,7 +419,7 @@ exports.AddBank = function(req, res)
   * @param {object} req - all request object.
    * @param {object} res - all response object.
  */
-exports.allBanks = function(req, res) 
+exports.allDrivers = function(req, res) 
 {  
 	 /**
 	 *define variable for pagination

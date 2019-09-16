@@ -90,6 +90,8 @@ exports.checkRecords= function(field,value,table,userID,callback)
 			
 			//console.log("sqlQuery12==",sqlQuery);
 			
+			//return false;
+			
 			db.query(sqlQuery,function(err,results)
 			{	db.release();
 				if(err)
@@ -122,6 +124,10 @@ exports.checkUquieFieldWithUser = function(field,value,table,userID,recordId,rec
 			{
 				conditions = 'and '+recordField+' != "'+recordId+'"';
 			}
+			  value=  value.replace('"','');
+			  value=  value.replace("'","");
+              value=  value.replace(",","");
+   
 			let sqlQuery = 'select count(*) as totalReords from '+table+' where '+field+'= "'+value.toLowerCase()+'" and user_id =  "'+userID+'"'+conditions;
 			
 			//console.log("sqlQuery123==",sqlQuery);
@@ -274,7 +280,8 @@ exports.findByQuery = function(query,callback)
 };
 exports.updateStatus = function(requestData,table,field,userID,callback) 
 {	
-
+   //console.log("requestData===",requestData);
+   
    dbConnection.getConnection(function(err, db)
 	{
 		if (err) throw err;		
@@ -345,18 +352,23 @@ exports.save = function(requestData,table,callback)
 	let setVar='';
   for(var key in requestData) 
   {    
+		requestData[key]=  requestData[key].replace('"','');
+		requestData[key]=  requestData[key].replace("'","");
+		requestData[key]=  requestData[key].replace(",","");
+		
        setVar = setVar+ key+"='"+requestData[key]+"',"
+	   
    }
  
    setVar = setVar.substring(0, setVar.length-1);
-
+ 
    
    dbConnection.getConnection(function(err, db)
 	{
 		if (err) throw err;	
 		let finalQuery = insertQuery+striptags(setVar);
 		
-		//console.log("finalQuery===",finalQuery);
+		
 		db.query(finalQuery,function(err,results)
 		{	db.release();
 			if(err)

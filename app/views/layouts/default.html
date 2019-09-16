@@ -1,8 +1,14 @@
  <!-- start header file -->
-{% include "elements/header.html" %}
-  {% set Status = ['Deactive','Active'] %}
+    {% include "elements/header.html" %}
+    {% set Status = ['Deactive','Active'] %}
     {% set accountGroupUnder = ['sundry creditors','Sundry Debtors'] %}
     {% set deleteStatus = ['Not delete','Deleted'] %}
+	{% set ACCOUNT_TYPE = ['All','Broker','Consignor','Consignee','Driver','Party','pump','Supplier','Transpoter','Truck'] %}
+	{% set GST_REGISTRATION_TYPE = ['Composition','Consumer','Regular','UnRegister'] %}
+	{% set GST_TYPE = ['GST','IGST','NONE'] %}
+	{% set OPENING_BALANCE_METHOD = ['Balance Only','Bill By Bill'] %}
+	{% set OPENING_TYPE = ['CR','DR'] %}
+	{% set OPENING_BALANCE_TYPE = ['Credit','Debit'] %}
  <!-- end header file -->
     <div class="container body">
       <div class="main_container">

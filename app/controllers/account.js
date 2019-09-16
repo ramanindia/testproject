@@ -18,7 +18,7 @@ exports.changeStatus = function(req, res)
 		
 		 if(updateIds !== undefined)
 		 {
-			Genernal.updateStatus(requestData,'banks','bank_id',req.session.user.id, function(err, results) 
+			Genernal.updateStatus(requestData,'accounts','account_id',req.session.user.id, function(err, results) 
 			{
 				 if(err)
 				 {
@@ -58,7 +58,7 @@ exports.deleteRecord = function(req, res)
 	  let deleteID  = req.params.deleteRecordId;
 	  
 	 let QueryRedirectURL = req.query.redirectURL;
-	 let actualredirectURL ='/banks/index';
+	 let actualredirectURL ='/accounts/index';
 		 try
 			{
 			var b = Buffer.from(QueryRedirectURL, 'base64')
@@ -67,13 +67,13 @@ exports.deleteRecord = function(req, res)
 			catch (err)
 			{
 				req.flash('error', 'Something missing wrong. Invalid request. please try again');
-				res.redirect('/banks/index');
+				res.redirect('/accounts/index');
 				 return false;
 			}
 		if(QueryRedirectURL !== 'undefined')
 		{
 					
-			Genernal.checkRecords('from_from_destination_id', deleteID,' lr_entries',req.session.user.id, function(err, results) 
+			Genernal.checkRecords('account_id', deleteID,' vehicles',req.session.user.id, function(err, results) 
 			{
 				 if(err)
 				 {			 
@@ -85,7 +85,7 @@ exports.deleteRecord = function(req, res)
 					// console.log("res==",actualredirectURL);
 					 
 					 
-					 Genernal.deleteDeactiveRecord('bank_id',deleteID,'banks',req.session.user.id, function(err, delresults) 
+					 Genernal.deleteDeactiveRecord('account_id',deleteID,'accounts',req.session.user.id, function(err, delresults) 
 						{
 							 if(err)
 							 {
@@ -117,20 +117,31 @@ exports.deleteRecord = function(req, res)
   * @param {object} req - all request object.
    * @param {object} res - all response object.
  */
-exports.BankEdit = function(req, res) 
+exports.AccountEdit = function(req, res) 
 {  					 
 	 let recordID  = req.params.recordId;
 	 let QueryRedirectURL = req.query.redirectURL;
-	 let errorRedirectURL = '/banks/index';
-	 let renderHtml = 'banks/edit-bank.html';
-	 let actualredirectURL='/banks/index';
-	 
-    Genernal.findAll('select * from countries where status=1 and user_id="'+req.session.user.id+'"',function(err,dataResults)
+	 let errorRedirectURL = '/accounts/index';
+	 let renderHtml = 'accounts/edit-account.html';
+	 let actualredirectURL='/accounts/index';
+	 Genernal.findAll('select account_group_id,group_name from account_groups where status=1 and is_delete= 0 and user_id="'+req.session.user.id+'"',function(err,results)
 	 {
-		// console.log("countryRsults==",countryRsults);
-		 if(Object.keys(dataResults).length == 0)
+		 //console.log("results===",Object.keys(results).length);
+		 if(Object.keys(results).length ==0)
 		 {
-			req.flash('error', 'Please create country and active');
+			req.flash('error',LANGTEXT.PLZCREATEACCGROUP );
+			res.redirect(redirectURL);
+			return false;
+		 }
+		 
+		 Genernal.findAll('select country_id,country_name from countries where status=1 and is_delete=0 and user_id="'+req.session.user.id+'"',function(err,resultsdata)
+	    {
+   /* Genernal.findAll('select * from countries where status=1 and user_id="'+req.session.user.id+'"',function(err,dataResults)
+	 {*/
+		// console.log("countryRsults==",countryRsults);
+		 if(Object.keys(resultsdata).length == 0)
+		 {
+			req.flash('error',LANGTEXT.PLZCREATEFIRSTCOUNTRY );
 			res.redirect(errorRedirectURL);
 			return false;
 		 }
@@ -141,22 +152,23 @@ exports.BankEdit = function(req, res)
 			}
 			catch (err)
 			{
-				req.flash('error', 'Something missing wrong. Invalid request. please try again');
+				req.flash('error', LANGTEXT.PLZTRY );
 				res.redirect(errorRedirectURL);
 				 return false;
-			}
-			//let getDataQuery = 'select city_id,city_name,cities.district_id,cities.state_id,cities.country_id,cities.user_id,districts.district_name,states.state_name from cities INNER join districts on cities.district_id= districts.district_id INNER JOIN states on states.state_id=cities.state_id INNER join cities as CITY on ST.city_id=CITY.city_id where cities.city_id="'+recordID+'" and districts.user_id="'+req.session.user.id+'"';
-			
-			 let getDataQuery = 'select bank_id,bank_name,bank_code,account_no,branch,ifsc_code,address,area,pin_code,phone_no,mobile_no,email,ST.city_id,ST.district_id,ST.state_id,ST.country_id,district_name,city_name,country_name,state_name,ST.is_delete as STATEDELETE,ST.user_id as STATEUSERID,'+
-	'ST.status as STATESTATUS,ST.created AS STATECREATED from banks as ST inner join states as CNTY on ST.state_id=CNTY.state_id INNER JOIN countries as COUNTRY on COUNTRY.country_id=CNTY.country_id INNER join districts as DIST on ST.district_id=DIST.district_id INNER join cities as CITY on ST.city_id=CITY.city_id where ST.bank_id="'+recordID+'" and ST.user_id="'+req.session.user.id+'"';
+			}	
+			 let getDataQuery = 'select account_id,pan_no,account_name,gst_registration_type,code,AG.group_name,AG.account_group_id,account_type,gst_type,gst_no,'+
+			 'gst_no,adhar_no,tan_no,remarks,creditdays,credit_limit,balance_method,type,'+
+			 'amount,bill_no,bill_date,bill_type,balance_type,address1,address2,address3,area,pin_code,phone_no,mobile_no,email,ST.city_id,ST.district_id,ST.state_id,ST.country_id,district_name,city_name,country_name,state_name,ST.is_delete as STATEDELETE,ST.user_id as STATEUSERID,'+
+	'ST.status as STATESTATUS,ST.created AS STATECREATED from accounts as ST INNER JOIN account_groups as AG ON ST.account_group_id=AG.account_group_id inner join states as CNTY on ST.state_id=CNTY.state_id INNER JOIN countries as COUNTRY on COUNTRY.country_id=CNTY.country_id INNER join districts as DIST on ST.district_id=DIST.district_id INNER join cities as CITY on ST.city_id=CITY.city_id where ST.account_id="'+recordID+'" and ST.user_id="'+req.session.user.id+'"';
 	
 			
-			//console.log(getDataQuery);
+			//console.log('getDataQuery===',getDataQuery);
+			
 	 Genernal.findByQuery(getDataQuery,function(err, results) 
 		{
 			if(err)
 			{
-				 req.flash('error', 'Something missing wrong. Invalid request. please try again');
+				 req.flash('error', LANGTEXT.PLZTRY );
 				res.redirect(errorRedirectURL);		
 			}
 			else
@@ -165,25 +177,29 @@ exports.BankEdit = function(req, res)
 				{	
 					 if(results)
 					 {
-						 //console.log(results);
+						// console.log("Results====",results);
 						 
 						 let requestData = req.body;		
 						if (Object.keys(requestData).length !==0)
 						{
-							req.checkBody('bank_name', 'Bank Name is required.').notEmpty()
-							req.checkBody('bank_code', 'Bank Code is required.').notEmpty()
-							req.checkBody('account_no', 'Account no is required.').notEmpty()
-							req.checkBody('ifsc_code', 'IFSC Code is required.').notEmpty()
+							req.checkBody('account_name', 'Account name is required.').notEmpty()
+							req.checkBody('code', 'Account code is required.').notEmpty()
+							req.checkBody('account_group_id', 'Account group is required.').notEmpty()
+							req.checkBody('account_type', 'Account type is required.').notEmpty()
+							req.checkBody('gst_registration_type', 'GST registration type is required.').notEmpty()
+							req.checkBody('gst_type', 'GST type is required.').notEmpty()
+							req.checkBody('address1', 'Address is required.').notEmpty()
 							req.checkBody('country_id', 'Country is required.').notEmpty()
 							req.checkBody('state_id', 'State is required.').notEmpty()
 							req.checkBody('district_id', 'District is required.').notEmpty()
 							req.checkBody('city_id', 'City is required.').notEmpty()
-							req.checkBody('branch', 'Branch is required.').notEmpty()
-							req.checkBody('address', 'Address is required.').notEmpty()
-							req.checkBody('area', 'Area is required.').notEmpty()
 							req.checkBody('pin_code', 'Pin code is required.').notEmpty()
-							req.checkBody('phone_no', 'Phone number is required.').notEmpty()
-							req.checkBody('mobile_no', 'Mobile number is required.').notEmpty()
+							req.checkBody('phone_no', 'Phone no is required.').notEmpty()
+							req.checkBody('mobile_no', 'Mobile no is required.').notEmpty()
+							req.checkBody('creditdays', 'Credit days is required.').notEmpty()
+							req.checkBody('creditdays', 'Enter credit days in number.').isNumeric()
+							req.checkBody('credit_limit', 'Credit limit is required.').notEmpty()
+							req.checkBody('type', 'Balance type is required.').notEmpty()
 							req.checkBody('email', 'Email is required.').notEmpty()
 							req.checkBody('email', 'Enter valid email.').isEmail()
 							
@@ -193,24 +209,28 @@ exports.BankEdit = function(req, res)
 								res.render(renderHtml,
 								 {
 									formData :requestData,
-									PAGETITLE:LANGTEXT.EDITBANKTITLE,csrfToken: req.csrfToken(),
+									PAGETITLE:LANGTEXT.EDITACCOUNTTITLE,csrfToken: req.csrfToken(),
 									errordata : errors,
-									countries:dataResults
+									data1:results,
+									data2:resultsdata,
+									 moment:moment,
 								});
 							}
 							else
 							{
 								
-							Genernal.checkUquieFieldWithUser('account_no',requestData.account_no,'banks',req.session.user.id,recordID,'bank_id',function(err, checkresults) 
+							Genernal.checkUquieFieldWithUser('account_name',requestData.account_name,'accounts',req.session.user.id,recordID,'account_id',function(err, checkresults) 
 							{
 								 if(err)
 								 {	
 									 res.render(renderHtml,
 									 {
 										formData :requestData,
-										PAGETITLE:LANGTEXT.EDITBANKTITLE,csrfToken: req.csrfToken(),
-										errordata : [ { msg: 'This Account number is already taken' }],
-										countries:dataResults
+										PAGETITLE:LANGTEXT.EDITACCOUNTTITLE,csrfToken: req.csrfToken(),
+										errordata : [ { msg: 'Account name '+LANGTEXT.ALLREADYEXITS }],
+										data1:results,
+										data2:resultsdata,
+										 moment:moment,
 									});
 								 }
 								 else
@@ -219,17 +239,19 @@ exports.BankEdit = function(req, res)
 									 {					 delete requestData._csrf;
 														 delete requestData.record_id;
 														 delete requestData.field_name;
-														let conditions = {bank_id:recordID,user_id:req.session.user.id};
-														Genernal.update(requestData,'banks',conditions,function(err,resultdata)
+														let conditions = {account_id:recordID,user_id:req.session.user.id};
+														Genernal.update(requestData,'accounts',conditions,function(err,resultdata)
 														{
 															if(err)
 															{
 																res.render(renderHtml,
 																 {
 																	formData :requestData,
-																	PAGETITLE:LANGTEXT.EDITBANKTITLE,csrfToken: req.csrfToken(),
-																	errordata : [ { msg: 'Pease try again' }],
-																	countries:dataResults
+																	PAGETITLE:LANGTEXT.EDITACCOUNTTITLE,csrfToken: req.csrfToken(),
+																	errordata : [ { msg:  LANGTEXT.PLZTRY }],
+																	data1:results,
+																	data2:resultsdata,
+																	 moment:moment,
 																});
 														
 															}else
@@ -247,9 +269,11 @@ exports.BankEdit = function(req, res)
 										 res.render(renderHtml,
 										 {
 											formData :requestData,
-											PAGETITLE:LANGTEXT.EDITBANKTITLE,csrfToken: req.csrfToken(),
-											errordata : [ { msg: 'Something went wrong. Please try again.' }],
-											countries:dataResults
+											PAGETITLE:LANGTEXT.EDITACCOUNTTITLE,csrfToken: req.csrfToken(),
+											errordata : [ { msg: LANGTEXT.PLZTRY }],
+											data1:results,
+											data2:resultsdata,
+											 moment:moment,
 										}); 
 									 }	
 								 }
@@ -262,8 +286,10 @@ exports.BankEdit = function(req, res)
 							res.render(renderHtml,
 								 {
 									formData :results[0],
-									PAGETITLE:LANGTEXT.EDITBANKTITLE,csrfToken: req.csrfToken(),
-									countries:dataResults
+									PAGETITLE:LANGTEXT.EDITACCOUNTTITLE,csrfToken: req.csrfToken(),
+									data1:results,
+									data2:resultsdata,
+									 moment:moment,
 								});
 						}
 							
@@ -272,9 +298,7 @@ exports.BankEdit = function(req, res)
 					 {
 						req.flash('error', 'Something missing wrong. Invalid request. please try again');
 						res.redirect(errorRedirectURL); 
-					 }
-				 
-						 
+					 }	 
 				}
 				else
 				{
@@ -286,6 +310,7 @@ exports.BankEdit = function(req, res)
 			
 		});
 	 });
+		});
 }
 
 
@@ -296,40 +321,52 @@ exports.BankEdit = function(req, res)
   * @param {object} req - all request object.
    * @param {object} res - all response object.
  */
-exports.AddBank = function(req, res) 
+exports.AddAccount = function(req, res) 
 {  								
      let requestData = req.body;
-	 let redirectURL = '/banks/index';
-	 let renderHtml = 'banks/add-bank.html';
+	 let redirectURL = '/accounts/index';
+	 let renderHtml = 'accounts/add-account.html';
 	 
-	 Genernal.findAll('select country_id,country_name from countries where status=1 and user_id="'+req.session.user.id+'"',function(err,results)
+	 Genernal.findAll('select account_group_id,group_name from account_groups where status=1 and is_delete= 0 and user_id="'+req.session.user.id+'"',function(err,results)
 	 {
 		 //console.log("results===",Object.keys(results).length);
 		 if(Object.keys(results).length ==0)
 		 {
-			req.flash('error', 'Please create countries and active');
+			req.flash('error',LANGTEXT.PLZCREATEACCGROUP );
 			res.redirect(redirectURL);
 			return false;
 		 }
 		 
-	// console.log("results===",results);
-	 
+		 Genernal.findAll('select country_id,country_name from countries where status=1 and is_delete=0 and user_id="'+req.session.user.id+'"',function(err,resultsdata)
+	    {
+			 //console.log("results===",Object.keys(results).length);
+			 if(Object.keys(results).length ==0)
+			 {
+				req.flash('error',LANGTEXT.PLZCREATEFIRSTCOUNTRY );
+				res.redirect(redirectURL);
+				return false;
+			 }
+		  
 	if (Object.keys(requestData).length !==0)
 	{
-		req.checkBody('bank_name', 'Bank Name is required.').notEmpty()
-		req.checkBody('bank_code', 'Bank Code is required.').notEmpty()
-		req.checkBody('account_no', 'Account no is required.').notEmpty()
-		req.checkBody('ifsc_code', 'IFSC Code is required.').notEmpty()
+		req.checkBody('account_name', 'Account name is required.').notEmpty()
+		req.checkBody('code', 'Account code is required.').notEmpty()
+		req.checkBody('account_group_id', 'Account group is required.').notEmpty()
+		req.checkBody('account_type', 'Account type is required.').notEmpty()
+		req.checkBody('gst_registration_type', 'GST registration type is required.').notEmpty()
+		req.checkBody('gst_type', 'GST type is required.').notEmpty()
+		req.checkBody('address1', 'Address is required.').notEmpty()
 		req.checkBody('country_id', 'Country is required.').notEmpty()
 		req.checkBody('state_id', 'State is required.').notEmpty()
 		req.checkBody('district_id', 'District is required.').notEmpty()
 		req.checkBody('city_id', 'City is required.').notEmpty()
-		req.checkBody('branch', 'Branch is required.').notEmpty()
-		req.checkBody('address', 'Address is required.').notEmpty()
-		req.checkBody('area', 'Area is required.').notEmpty()
 		req.checkBody('pin_code', 'Pin code is required.').notEmpty()
-		req.checkBody('phone_no', 'Phone number is required.').notEmpty()
-		req.checkBody('mobile_no', 'Mobile number is required.').notEmpty()
+		req.checkBody('phone_no', 'Phone no is required.').notEmpty()
+		req.checkBody('mobile_no', 'Mobile no is required.').notEmpty()
+		req.checkBody('creditdays', 'Credit days is required.').notEmpty()
+		req.checkBody('creditdays', 'Enter credit days in number.').isNumeric()
+		req.checkBody('credit_limit', 'Credit limit is required.').notEmpty()
+		req.checkBody('type', 'Balance type is required.').notEmpty()
 		req.checkBody('email', 'Email is required.').notEmpty()
 		req.checkBody('email', 'Enter valid email.').isEmail()
 		
@@ -339,23 +376,25 @@ exports.AddBank = function(req, res)
 		res.render(renderHtml,
 			 {
 				formData :requestData,
-				PAGETITLE:LANGTEXT.ADDBANKTITLE,csrfToken: req.csrfToken(),
+				PAGETITLE:LANGTEXT.ADDACCOUNTTITLE,csrfToken: req.csrfToken(),
 				errordata : errors,
-				countries:results,
+				data1:results,
+				data2:resultsdata,
 			});
 		}
 		else
 		{
-			Genernal.checkUquieFieldWithUser('account_no', requestData.account_no,'banks',req.session.user.id,'','', function(err, checkresults) 
+			Genernal.checkUquieFieldWithUser('account_name', requestData.account_name,'accounts',req.session.user.id,'','', function(err, checkresults) 
 			{
 				 if(err)
 				 {	
 					 res.render(renderHtml,
 					 {
 						formData :requestData,
-						PAGETITLE:LANGTEXT.ADDBANKTITLE,csrfToken: req.csrfToken(),
-						errordata : [ { msg: 'Account no is already taken' }],
-						countries:results,
+						PAGETITLE:LANGTEXT.ADDACCOUNTTITLE,csrfToken: req.csrfToken(),
+						errordata : [ { msg: 'Account name '+LANGTEXT.ALLREADYEXITS }],
+						data1:results,
+						data2:resultsdata,
 					});
 				 }
 				 else
@@ -364,19 +403,20 @@ exports.AddBank = function(req, res)
 					 {		
 						
 								 delete requestData._csrf;
-								 requestData.bank_id=UID();
+								 requestData.account_id=UID();
 								 requestData.user_id = req.session.user.id;
 								 
-						Genernal.save(requestData,'banks',function(err,result)
+						Genernal.save(requestData,'accounts',function(err,result)
 							{
 								if(err)
 								{
 									res.render(renderHtml,
 									{
 										formData :requestData,
-										PAGETITLE:LANGTEXT.ADDBANKTITLE,csrfToken: req.csrfToken(),
-										errordata : [ { msg: 'Pease try again' }],
-										countries:results,
+										PAGETITLE:LANGTEXT.ADDACCOUNTTITLE,csrfToken: req.csrfToken(),
+										errordata : [ { msg: LANGTEXT.PLZTRY }],
+										data1:results,
+										data2:resultsdata,
 									});
 							
 								}else
@@ -392,9 +432,10 @@ exports.AddBank = function(req, res)
 						 res.render(renderHtml,
 						 {
 							formData :requestData,
-							PAGETITLE:LANGTEXT.ADDBANKTITLE,csrfToken: req.csrfToken(),
-							errordata : [ { msg: 'Something went wrong. Please try again.' }],
-							countries:results,
+							PAGETITLE:LANGTEXT.ADDACCOUNTTITLE,csrfToken: req.csrfToken(),
+							errordata : [ { msg:LANGTEXT.SOMETHINGWENTWRONG}],
+							data1:results,
+							data2:resultsdata,
 						}); 
 					 }					 
 						 
@@ -406,10 +447,11 @@ exports.AddBank = function(req, res)
 	{
 		res.render(renderHtml,
 		{
-			PAGETITLE:LANGTEXT.ADDBANKTITLE,countries:results,csrfToken: req.csrfToken()
+			PAGETITLE:LANGTEXT.ADDACCOUNTTITLE,data1:results,data2:resultsdata,csrfToken: req.csrfToken()
 		});
 	}
 	 });
+	});
 }
 
 
@@ -418,7 +460,7 @@ exports.AddBank = function(req, res)
   * @param {object} req - all request object.
    * @param {object} res - all response object.
  */
-exports.allBanks = function(req, res) 
+exports.allAccounts = function(req, res) 
 {  
 	 /**
 	 *define variable for pagination
@@ -430,9 +472,9 @@ exports.allBanks = function(req, res)
 	 let currentPage=1;
 	 let conditions;
 	 let records_per_page = process.env.PERPAGE; 
-	 let renderHtml = 'banks/banks.html';
+	 let renderHtml = 'accounts/accounts.html';
 	 let limit;
-	  let tableName='banks';
+	  let tableName='accounts';
 	  if (typeof req.query.page !== 'undefined') 
 	    {
             currentPage = req.query.page;
@@ -455,7 +497,7 @@ exports.allBanks = function(req, res)
 	  if (typeof req.query.search !== 'undefined') 
 		{
 			let searchkey = req.query.search;
-			searchkeycondition = " and CONCAT_ws('',bank_name,bank_code,account_no,branch,ifsc_code,address,area,pin_code,phone_no,mobile_no,email) LIKE '%"+searchkey.replace(/\s\s+/g, ' ')+"%'";
+			searchkeycondition = " and CONCAT_ws('',account_name,code,pin_code,address1,area,phone_no,phone_no,pan_no,adhar_no,tan_no,email) LIKE '%"+searchkey.replace(/\s\s+/g, ' ')+"%'";
 		}
 		
 		
@@ -483,19 +525,20 @@ exports.allBanks = function(req, res)
 	
 		conditions ="where ST.user_id = '"+ req.session.user.id+"'";
 		
-	  var pageTitle ='All Banks';
+	  var pageTitle =LANGTEXT.ALLACCOUNT;
 	 if(PageSlug=='active')
 	 {
-		 pageTitle = "Active Banks";
+		 pageTitle =  LANGTEXT.ACTIVEBANK;
 		 conditions =conditions+ ' and ST.status=1';
 	 }
 	 else if(PageSlug=='deactive')
 	 {
-		 pageTitle = "Deactive Banks";
+		 pageTitle = LANGTEXT.DEACTIVEBANK;
 		 conditions =conditions+ ' and ST.status=0';
 	 }
 	 
-	let query = "select * from "+tableName+" as ST "+conditions+searchkeycondition+defaultorderBY+limit;
+	let query = "select ST.account_id,ST.user_id,ST.account_name,ST.code,ST.account_group_id,ST.account_group_id,ST.address1,ST.area,"+
+	"ST.pin_code,ST.phone_no,ST.mobile_no,ST.email,ST.is_delete,ST.status,ST.created,ST.account_type,AG.group_name from "+tableName+" as ST INNER JOIN account_groups as AG ON ST.account_group_id=AG.account_group_id "+conditions+searchkeycondition+defaultorderBY+limit;
 	
 	//console.log("query==",query);
 	let totalCountQuery = "select count(*) as totalRecord from "+tableName+" as ST "+conditions+searchkeycondition;	

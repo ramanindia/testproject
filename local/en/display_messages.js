@@ -3,6 +3,13 @@
  */
 var WEB_MESSAGES = {
 	//Form text Message
+	
+	PLZTRY:"Pease try again",
+	SOMETHINGWENTWRONG:"Something went wrong. Please try again.",
+	//SOMETHINGWENTWRONG:"Something went wrong. Please try again.",
+	ALLREADYEXITS :"is already exits",
+	PLZCREATEFIRSTCOUNTRY: "Please create country and active",
+	
 	ADMIN_LOGIN_FORM_HEADING:" Login",
 	LOGIN_FORM_USERNAME_PLACEHOLDER:"Username/email-id",
 	LOGIN_FORM_PASSWORD_PLACEHOLDER:"Password",
@@ -50,10 +57,22 @@ var WEB_MESSAGES = {
 	ADDBANKTITLE:"Add Bank",
 	EDITBANKTITLE:"Edit Bank",
 	
+	
+	ALLACCOUNT:"All Accounts",
+	ACTIVEBANK :"Active Account",
+	DEACTIVEBANK :"Deactive Account",
+	
+	ADDACCOUNTTITLE:"Add Account",
+	EDITACCOUNTTITLE:"Edit Account",
+	PLZCREATEACCGROUP :"Please create Account group and active",
+	
+	
 	ALLCOUNTRIES:"All Users",
 	USERADDED: "Successfully added",
 	USEREDITED: "Successfully updated",
 	LOGIN_TEXT:"Log in",
+	
+	
 	LOST_PASSWORD_TEXT:"Lost your password?",
 	ALL_RIGHT_RESERVED_TEXT:"All Rights Reserved. ! is a Bootstrap 3 template. Privacy and Terms",
 	LOGINPAGETITLE:"Login | ",

@@ -14,8 +14,10 @@
   var accountGroup = require('../app/controllers/account_group');
   var vehicleType = require('../app/controllers/vehicle_type');
   var fromDestination = require('../app/controllers/from_destinations');
-   var bank = require('../app/controllers/bank');
-    var vehicle = require('../app/controllers/Vehicle');
+  var bank = require('../app/controllers/bank');
+  var vehicle = require('../app/controllers/Vehicle');
+  var driver = require('../app/controllers/driver');
+  var account = require('../app/controllers/account');
 /**
  * set url 
  */
@@ -106,6 +108,22 @@ module.exports = function (app)
 	  app.all('/banks/edit/:recordId',user.loggedIn,parseForm,csrfProtection,bank.BankEdit);
 	  app.all('/banks/delete-record/:deleteRecordId',user.loggedIn,parseForm,csrfProtection,bank.deleteRecord);
 	  app.get('/banks/:PageSlug',user.loggedIn,parseForm,csrfProtection,bank.allBanks);
+	  
+	  
+	   //driver routing
+	  app.all('/drivers/add-driver',user.loggedIn,parseForm,csrfProtection,driver.AddDriver);
+	  app.post('/drivers/change-status',user.loggedIn,parseForm,csrfProtection,driver.changeStatus);
+	  app.all('/drivers/edit/:recordId',user.loggedIn,parseForm,csrfProtection,driver.DriverEdit);
+	  app.all('/drivers/delete-record/:deleteRecordId',user.loggedIn,parseForm,csrfProtection,driver.deleteRecord);
+	  app.get('/drivers/:PageSlug',user.loggedIn,parseForm,csrfProtection,driver.allDrivers);
+	  
+	   //account routing
+	  app.all('/accounts/add-account',user.loggedIn,parseForm,csrfProtection,account.AddAccount);
+	  app.post('/accounts/change-status',user.loggedIn,parseForm,csrfProtection,account.changeStatus);
+	  app.all('/accounts/edit/:recordId',user.loggedIn,parseForm,csrfProtection,account.AccountEdit);
+	  app.all('/accounts/delete-record/:deleteRecordId',user.loggedIn,parseForm,csrfProtection,account.deleteRecord);
+	  app.get('/accounts/:PageSlug',user.loggedIn,parseForm,csrfProtection,account.allAccounts);
+	  
 	  
 	  
 }

@@ -90,6 +90,15 @@
 					   </ul>
                   </li>
 				  
+				    <li {% if (controller == 'accounts') %} class="active" {% endif %}><a><i class="fa fa-sitemap"></i> Accounts<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li {% if (action == 'add-account') and (controller == 'accounts') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}accounts/add-account">Add Account</a></li>
+					  <li {% if (action == 'index') and (controller == 'accounts') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}accounts/index">All Accounts</a></li>         
+					 <li {% if (action == 'active') and (controller == 'accounts') %} class="current-page" {% endif %}  ><a href="{{ HOST_URL }}accounts/active">Active Accounta</a></li>
+                      <li {% if (action == 'deactive') and (controller == 'accounts') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}accounts/deactive">Deactive Accounts</a></li>
+					   </ul>
+                  </li>
+				  
 				    <li {% if (controller == 'vehicle-types') %} class="active" {% endif %}><a><i class="fa fa-sitemap"></i> Vehicle Type<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li {% if (action == 'add-type') and (controller == 'vehicle-types') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}vehicle-types/add-type">Add Type</a></li>
@@ -111,8 +120,8 @@
                     <ul class="nav child_menu">
                       <li {% if (action == 'add-driver') and (controller == 'drivers') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}drivers/add-driver">Add Driver</a></li>
 					  <li {% if (action == 'index') and (controller == 'drivers') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}drivers/index">All Driver</a></li>         
-					 <li {% if (action == 'active') and (controller == 'drivers') %} class="current-page" {% endif %}  ><a href="{{ HOST_URL }}drivers/active">Active Type</a></li>
-                      <li {% if (action == 'deactive') and (controller == 'drivers') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}drivers/deactive">Deactive Type</a></li>
+					 <li {% if (action == 'active') and (controller == 'drivers') %} class="current-page" {% endif %}  ><a href="{{ HOST_URL }}drivers/active">Active Driver</a></li>
+                      <li {% if (action == 'deactive') and (controller == 'drivers') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}drivers/deactive">Deactive Driver</a></li>
 					   </ul>
                   </li>
 				  

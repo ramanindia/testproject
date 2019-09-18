@@ -1,0 +1,930 @@
+-- phpMyAdmin SQL Dump
+-- version 4.5.1
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Generation Time: Sep 18, 2019 at 04:11 AM
+-- Server version: 10.1.13-MariaDB
+-- PHP Version: 5.6.23
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `testproject`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `accounts`
+--
+
+CREATE TABLE `accounts` (
+  `account_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `account_name` varchar(250) DEFAULT NULL,
+  `code` varchar(50) DEFAULT NULL,
+  `account_group_id` char(36) DEFAULT NULL,
+  `account_type` varchar(50) DEFAULT NULL,
+  `gst_registration_type` varchar(50) DEFAULT NULL,
+  `gst_type` varchar(50) DEFAULT NULL,
+  `country_id` char(36) DEFAULT NULL,
+  `state_id` char(36) DEFAULT NULL,
+  `city_id` char(36) DEFAULT NULL,
+  `district_id` char(36) DEFAULT NULL,
+  `address1` varchar(200) DEFAULT NULL,
+  `address2` varchar(200) DEFAULT NULL,
+  `address3` varchar(200) DEFAULT NULL,
+  `area` varchar(250) DEFAULT NULL,
+  `pin_code` int(6) DEFAULT NULL,
+  `phone_no` varchar(15) DEFAULT NULL,
+  `mobile_no` varchar(15) DEFAULT NULL,
+  `email` varchar(120) DEFAULT NULL,
+  `gst_no` varchar(50) DEFAULT NULL,
+  `pan_no` varchar(20) DEFAULT NULL,
+  `adhar_no` varchar(20) DEFAULT NULL,
+  `tan_no` varchar(25) DEFAULT NULL,
+  `remarks` varchar(250) DEFAULT NULL,
+  `creditdays` smallint(3) DEFAULT NULL,
+  `credit_limit` int(15) DEFAULT NULL,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `balance_method` varchar(15) NOT NULL,
+  `type` varchar(5) NOT NULL,
+  `amount` float NOT NULL,
+  `bill_no` varchar(25) DEFAULT NULL,
+  `bill_date` date DEFAULT NULL,
+  `bill_type` varchar(50) DEFAULT NULL,
+  `balance_type` tinyint(1) DEFAULT NULL COMMENT '0->credit,1->debit'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `accounts`
+--
+
+INSERT INTO `accounts` (`account_id`, `user_id`, `account_name`, `code`, `account_group_id`, `account_type`, `gst_registration_type`, `gst_type`, `country_id`, `state_id`, `city_id`, `district_id`, `address1`, `address2`, `address3`, `area`, `pin_code`, `phone_no`, `mobile_no`, `email`, `gst_no`, `pan_no`, `adhar_no`, `tan_no`, `remarks`, `creditdays`, `credit_limit`, `is_delete`, `status`, `created`, `updated`, `balance_method`, `type`, `amount`, `bill_no`, `bill_date`, `bill_type`, `balance_type`) VALUES
+('ee20432d-dd10-4dc5-9fba-9cb5aa48b05a', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'fdvdsfsd', 'fdsfsd', '41ad9430-2c69-4419-982e-8781e50e3479', '2', '1', '1', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', '1503f83f-a6eb-4944-b8ba-f053013ea729', '6ecf71e3-1d04-4fba-ab97-c1725d795a0e', '0fb4a108-8a5f-4170-b3d1-cd8f72c1be6d', 'fdsfds', 'dsfdsf', 'sdfsd', NULL, 302013, '9950697373', '9875698574', 'nishant@gmail.com', 'Xad', 'PAN6453565', 'sdasd', 'sadasdsa', 'asdasd', 4, 344343, 0, 1, '2019-09-15 19:15:40', '2019-09-15 19:28:28', '0', '0', 43334, '3443', '2019-08-13', '32423', 0),
+('f579fe3b-13c3-44c8-8f79-c1b974aa5b7d', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'sumans accountjkkh', 'RAM1989', 'ee543506-476d-4895-98c3-c50e497d8a41', '4', '1', '1', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', '1503f83f-a6eb-4944-b8ba-f053013ea729', '6ecf71e3-1d04-4fba-ab97-c1725d795a0e', '0fb4a108-8a5f-4170-b3d1-cd8f72c1be6d', 'jaipur456', 'jaipur2645', 'jair3156', NULL, 302013, '9950697373', '9950697373', 'mr.ramanra45j@gmail.com', 'GST46546454', '', '6547893214569874', 'wew', 'ewew', 23, 2323232, 0, 1, '2019-09-15 17:39:56', '2019-09-15 18:34:49', '1', '0', 32322300, '3232', '0000-00-00', '3232', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `account_groups`
+--
+
+CREATE TABLE `account_groups` (
+  `account_group_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `group_name` varchar(240) DEFAULT NULL,
+  `group_under` varchar(252) DEFAULT NULL,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `account_groups`
+--
+
+INSERT INTO `account_groups` (`account_group_id`, `user_id`, `group_name`, `group_under`, `is_delete`, `status`, `created`, `updated`) VALUES
+('39551857-94f0-472d-ab2d-0bad565c3e4c', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'gr3', 'sundry creditors', 0, 1, '2019-03-20 02:44:45', '2019-08-31 02:40:38'),
+('41ad9430-2c69-4419-982e-8781e50e3479', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'gr2', 'Sundry Debtors', 0, 1, '2019-03-19 04:18:02', '2019-08-31 02:40:44'),
+('4dee1881-a058-4ca0-b752-bcb1550c92d0', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'wew', 'Sundry Debtors', 0, 1, '2019-03-20 18:22:25', '2019-08-31 02:40:33'),
+('56549a5b-2e50-4c0b-9ee5-ad249913adf0', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'erer', 'sundry creditors', 0, 1, '2019-03-19 04:17:16', '2019-03-20 03:07:37'),
+('ee543506-476d-4895-98c3-c50e497d8a41', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'erer85', 'sundry creditors', 0, 1, '2019-03-20 03:09:09', '2019-03-20 03:09:09'),
+('fafc49f7-83c1-4a66-a626-191f7ec2879a', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'tets g', 'Sundry Debtors', 0, 1, '2019-03-20 03:01:46', '2019-08-31 02:40:38');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `account_opening_balances`
+--
+
+CREATE TABLE `account_opening_balances` (
+  `accunt_opening_balance_id` char(36) NOT NULL,
+  `account_id` char(36) DEFAULT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `bill_no` varchar(25) DEFAULT NULL,
+  `bill_date` date DEFAULT NULL,
+  `bill_type` varchar(250) DEFAULT NULL,
+  `balance_type` varchar(10) DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `banks`
+--
+
+CREATE TABLE `banks` (
+  `bank_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `bank_name` varchar(240) DEFAULT NULL,
+  `bank_code` varchar(10) DEFAULT NULL,
+  `account_no` int(15) DEFAULT NULL,
+  `branch` varchar(240) DEFAULT NULL,
+  `ifsc_code` varchar(24) DEFAULT NULL,
+  `address` varchar(500) DEFAULT NULL,
+  `city_id` char(36) DEFAULT NULL,
+  `district_id` char(36) DEFAULT NULL,
+  `state_id` char(36) DEFAULT NULL,
+  `country_id` char(36) DEFAULT NULL,
+  `area` varchar(220) DEFAULT NULL,
+  `pin_code` int(6) DEFAULT NULL,
+  `phone_no` varchar(15) DEFAULT NULL,
+  `mobile_no` varchar(15) DEFAULT NULL,
+  `email` varchar(120) DEFAULT NULL,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `banks`
+--
+
+INSERT INTO `banks` (`bank_id`, `user_id`, `bank_name`, `bank_code`, `account_no`, `branch`, `ifsc_code`, `address`, `city_id`, `district_id`, `state_id`, `country_id`, `area`, `pin_code`, `phone_no`, `mobile_no`, `email`, `is_delete`, `status`, `created`, `updated`) VALUES
+('09c04908-d51d-4404-b576-cabca018e3ab', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'hdfc', '2323', 2147483647, 'Murlipura', 'hdfc0064', 'plotno 1', 'e81eec51-eac4-4034-87af-5476408acabb', '49245830-e84b-418a-847e-2861a77a4fc9', 'b1469cc8-7cd7-4927-bb11-3b013107d8cb', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', 'shiv nagr2', 302013, '9874562665', '97859703000', 'raman2@gmail.com', 0, 1, '2019-04-10 03:37:16', '2019-05-06 04:13:29'),
+('39e144a2-5a66-4e2e-b467-a9614ca6c7fe', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'RBl bank', '998', 9997865, 'reva', 'rbl4545', 'asaa', 'e81eec51-eac4-4034-87af-5476408acabb', '49245830-e84b-418a-847e-2861a77a4fc9', 'b1469cc8-7cd7-4927-bb11-3b013107d8cb', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', 'dasdas', 3424234, '2342342', '432432', 'sonam@gmail.com', 0, 0, '2019-04-10 17:32:13', '2019-08-27 03:03:26');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cargos`
+--
+
+CREATE TABLE `cargos` (
+  `cargo_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `product_name` varchar(240) DEFAULT NULL,
+  `product_code` varchar(252) DEFAULT NULL,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cargos`
+--
+
+INSERT INTO `cargos` (`cargo_id`, `user_id`, `product_name`, `product_code`, `is_delete`, `status`, `created`, `updated`) VALUES
+('013b05d7-5df2-4e0e-bde8-d943f557fca1', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'addd', 't8', 0, 1, '2019-03-19 03:10:37', '2019-03-19 03:10:37'),
+('b8cf0c43-784b-4fce-88d2-e837188e2f95', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'test', 'T1', 0, 0, '2019-03-13 18:50:52', '2019-03-13 19:01:49');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cities`
+--
+
+CREATE TABLE `cities` (
+  `city_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `district_id` char(36) NOT NULL,
+  `state_id` char(36) DEFAULT NULL,
+  `country_id` char(36) DEFAULT NULL,
+  `city_name` varchar(240) DEFAULT NULL,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cities`
+--
+
+INSERT INTO `cities` (`city_id`, `user_id`, `district_id`, `state_id`, `country_id`, `city_name`, `is_delete`, `status`, `created`, `updated`) VALUES
+('65c0af60-a80d-4bd4-aba3-f1fc7f28a7a5', '44ba1e55-d0b9-4341-9511-444613cec2ed', '49245830-e84b-418a-847e-2861a77a4fc9', 'b1469cc8-7cd7-4927-bb11-3b013107d8cb', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', 'murlipua', 0, 1, '2019-03-12 03:57:31', '2019-09-17 18:14:54'),
+('6ecf71e3-1d04-4fba-ab97-c1725d795a0e', '44ba1e55-d0b9-4341-9511-444613cec2ed', '0fb4a108-8a5f-4170-b3d1-cd8f72c1be6d', '1503f83f-a6eb-4944-b8ba-f053013ea729', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', 'bhawganpur', 0, 1, '2019-03-12 04:03:48', '2019-03-12 04:03:48'),
+('e81eec51-eac4-4034-87af-5476408acabb', '44ba1e55-d0b9-4341-9511-444613cec2ed', '49245830-e84b-418a-847e-2861a77a4fc9', 'b1469cc8-7cd7-4927-bb11-3b013107d8cb', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', 'Murlipura', 0, 1, '2019-04-06 03:03:25', '2019-09-17 18:14:47');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `countries`
+--
+
+CREATE TABLE `countries` (
+  `country_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `country_name` varchar(240) DEFAULT NULL,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `countries`
+--
+
+INSERT INTO `countries` (`country_id`, `user_id`, `country_name`, `is_delete`, `status`, `created`, `updated`) VALUES
+('10c70e6c-bc37-4c0e-9114-b40a59ad78e7', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'Bhutan', 0, 1, '2019-03-13 18:06:55', '2019-03-13 18:06:55'),
+('1d4ee3ab-8765-4890-abf2-e8fb98ce0e19', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'Nepal', 0, 1, '2019-03-08 03:24:42', '2019-09-16 03:24:54'),
+('a4310bcc-d0e0-4e07-9a40-b584f9b87844', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'Amerika', 0, 1, '2019-07-30 16:58:24', '2019-07-30 16:58:24'),
+('c6259526-bf1a-437c-84f2-e9bfa59c9fa0', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'India', 0, 1, '2019-03-07 02:53:48', '2019-03-07 02:53:48'),
+('ec261946-82cd-4d74-91d3-ecff0a925e62', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'Japan', 0, 1, '2019-03-13 18:07:10', '2019-09-16 03:24:54');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `districts`
+--
+
+CREATE TABLE `districts` (
+  `district_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `state_id` char(36) DEFAULT NULL,
+  `country_id` char(36) DEFAULT NULL,
+  `district_name` varchar(240) DEFAULT NULL,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->false,1->true',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `districts`
+--
+
+INSERT INTO `districts` (`district_id`, `user_id`, `state_id`, `country_id`, `district_name`, `is_delete`, `status`, `created`, `updated`) VALUES
+('0fb4a108-8a5f-4170-b3d1-cd8f72c1be6d', '44ba1e55-d0b9-4341-9511-444613cec2ed', '1503f83f-a6eb-4944-b8ba-f053013ea729', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', 'muzaffarpur', 0, 1, '2019-03-08 17:33:54', '2019-03-08 18:37:15'),
+('166bfcfb-c28d-4b68-89b0-1217a71af220', '44ba1e55-d0b9-4341-9511-444613cec2ed', '1503f83f-a6eb-4944-b8ba-f053013ea729', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', 'sdsada', 0, 1, '2019-03-10 07:05:52', '2019-03-10 07:06:04'),
+('27bdb8fd-bdb0-45b0-bebf-feb9bde912c1', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'b1469cc8-7cd7-4927-bb11-3b013107d8cb', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', 'Sikar', 0, 1, '2019-03-08 17:14:12', '2019-03-08 17:17:03'),
+('49245830-e84b-418a-847e-2861a77a4fc9', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'b1469cc8-7cd7-4927-bb11-3b013107d8cb', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', 'Jaipur', 0, 1, '2019-03-08 16:47:54', '2019-03-08 17:17:03'),
+('e774ff9f-e303-4de2-9aef-825c5e7b4ea2', '44ba1e55-d0b9-4341-9511-444613cec2ed', '0f88be2f-00b7-476c-b207-5814c55622d1', 'a4310bcc-d0e0-4e07-9a40-b584f9b87844', 'distric1', 0, 1, '2019-07-30 17:00:38', '2019-07-30 17:00:38');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `drivers`
+--
+
+CREATE TABLE `drivers` (
+  `driver_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `driver_name` varchar(100) DEFAULT NULL,
+  `account_id` varchar(36) DEFAULT NULL,
+  `local_address` varchar(250) DEFAULT NULL,
+  `permanent_address` varchar(250) DEFAULT NULL,
+  `country_id` char(36) DEFAULT NULL,
+  `state_id` char(36) DEFAULT NULL,
+  `city_id` char(36) DEFAULT NULL,
+  `district_id` char(36) DEFAULT NULL,
+  `permanent_country_id` char(36) DEFAULT NULL,
+  `permanent_state_id` char(36) DEFAULT NULL,
+  `permanent_city_id` char(36) DEFAULT NULL,
+  `permanent_district_id` char(36) DEFAULT NULL,
+  `mobile_no` varchar(15) DEFAULT NULL,
+  `mobile_no2` varchar(15) DEFAULT NULL,
+  `aadhar_card_no` varchar(20) DEFAULT NULL,
+  `police_station` varchar(120) DEFAULT NULL,
+  `permanent_police_station` varchar(120) DEFAULT NULL,
+  `remarks` varchar(250) DEFAULT NULL,
+  `basic_salery` int(21) DEFAULT NULL,
+  `per_day_salary` int(5) DEFAULT NULL,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `drivers`
+--
+
+INSERT INTO `drivers` (`driver_id`, `user_id`, `driver_name`, `account_id`, `local_address`, `permanent_address`, `country_id`, `state_id`, `city_id`, `district_id`, `permanent_country_id`, `permanent_state_id`, `permanent_city_id`, `permanent_district_id`, `mobile_no`, `mobile_no2`, `aadhar_card_no`, `police_station`, `permanent_police_station`, `remarks`, `basic_salery`, `per_day_salary`, `is_delete`, `status`, `created`, `updated`) VALUES
+('ac983838-880e-4494-b84e-fca8ddf1d1b6', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'Rahul kumarsd', 'f579fe3b-13c3-44c8-8f79-c1b974aa5b7d', 'sdsd', 'sd', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', '1503f83f-a6eb-4944-b8ba-f053013ea729', '6ecf71e3-1d04-4fba-ab97-c1725d795a0e', '0fb4a108-8a5f-4170-b3d1-cd8f72c1be6d', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', '1503f83f-a6eb-4944-b8ba-f053013ea729', '6ecf71e3-1d04-4fba-ab97-c1725d795a0e', '0fb4a108-8a5f-4170-b3d1-cd8f72c1be6d', '9874563215', '0807834232', '2323232', 'ds', 'dsds', '23232', 122313, 9, 0, 1, '2019-09-17 18:44:46', '2019-09-17 18:44:46'),
+('e28da3c9-2276-4063-af20-6241de6145bf', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'Rahul kumar', 'f579fe3b-13c3-44c8-8f79-c1b974aa5b7d', ' Bhakra', 'Murlipura scheme', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', '1503f83f-a6eb-4944-b8ba-f053013ea729', '6ecf71e3-1d04-4fba-ab97-c1725d795a0e', '0fb4a108-8a5f-4170-b3d1-cd8f72c1be6d', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', '1503f83f-a6eb-4944-b8ba-f053013ea729', '6ecf71e3-1d04-4fba-ab97-c1725d795a0e', '0fb4a108-8a5f-4170-b3d1-cd8f72c1be6d', '9874563215', '9874563215', NULL, 'karja', 'Murlipura police sation', 'Good mwks', 40000, 500, 0, 1, '2019-09-17 18:38:04', '2019-09-17 18:38:04');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `driver_licenses`
+--
+
+CREATE TABLE `driver_licenses` (
+  `driver_license_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `driver_id` char(36) DEFAULT NULL,
+  `license_name` varchar(100) DEFAULT NULL,
+  `license_no` varchar(40) DEFAULT NULL,
+  `license_issue_date` date DEFAULT NULL,
+  `license_expire_date` date DEFAULT NULL,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `from_destinations`
+--
+
+CREATE TABLE `from_destinations` (
+  `from_destination_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `country_id` char(36) DEFAULT NULL,
+  `state_id` char(36) DEFAULT NULL,
+  `city_id` char(36) DEFAULT NULL,
+  `district_id` char(36) DEFAULT NULL,
+  `name` varchar(240) DEFAULT NULL,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `from_destinations`
+--
+
+INSERT INTO `from_destinations` (`from_destination_id`, `user_id`, `country_id`, `state_id`, `city_id`, `district_id`, `name`, `is_delete`, `status`, `created`, `updated`) VALUES
+('01dfc4a1-de7c-478f-906b-934065a7a664', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', '1503f83f-a6eb-4944-b8ba-f053013ea729', '6ecf71e3-1d04-4fba-ab97-c1725d795a0e', '0fb4a108-8a5f-4170-b3d1-cd8f72c1be6d', 'yadav nagar', 0, 1, '2019-04-05 18:12:40', '2019-04-05 18:12:40'),
+('2d1f11a9-3149-4b31-89a9-3d3026535290', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', 'b1469cc8-7cd7-4927-bb11-3b013107d8cb', 'e81eec51-eac4-4034-87af-5476408acabb', '49245830-e84b-418a-847e-2861a77a4fc9', 'Shiv nagar2', 0, 1, '2019-04-06 03:03:43', '2019-04-06 03:03:43'),
+('662752e3-3472-4b96-a178-8ec8d37cb4bf', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', '1503f83f-a6eb-4944-b8ba-f053013ea729', '6ecf71e3-1d04-4fba-ab97-c1725d795a0e', '0fb4a108-8a5f-4170-b3d1-cd8f72c1be6d', 'Benad', 0, 0, '2019-04-06 03:08:49', '2019-04-06 03:40:58'),
+('b0fbdaea-1cdd-4570-a006-e96c15167707', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', '1503f83f-a6eb-4944-b8ba-f053013ea729', '6ecf71e3-1d04-4fba-ab97-c1725d795a0e', '0fb4a108-8a5f-4170-b3d1-cd8f72c1be6d', 'yadav nagar52', 0, 0, '2019-04-05 18:14:21', '2019-04-06 03:12:55');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lr_entries`
+--
+
+CREATE TABLE `lr_entries` (
+  `lr_entry_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `vechile_id` char(36) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `lr/gr_no` varchar(50) DEFAULT NULL,
+  `reference_by` varchar(120) DEFAULT NULL,
+  `from_from_destination_id` char(36) DEFAULT NULL,
+  `to_from_destination_id` char(36) DEFAULT NULL,
+  `cargo_id` int(21) DEFAULT NULL,
+  `container_no` int(10) DEFAULT NULL,
+  `load_weight` double DEFAULT NULL,
+  `party_rate` float DEFAULT NULL,
+  `freight_calculation` double DEFAULT NULL,
+  `gross_freight` float DEFAULT NULL,
+  `net_freight` float DEFAULT NULL,
+  `freight_paid_by` varchar(50) DEFAULT NULL,
+  `consignor_id` char(36) DEFAULT NULL,
+  `consignee_id` char(36) DEFAULT NULL,
+  `insurance_company` varchar(120) DEFAULT NULL,
+  `policy_no` varchar(100) DEFAULT NULL,
+  `insurance_amount` float DEFAULT NULL,
+  `truck_owner_id` char(36) DEFAULT NULL,
+  `truck_rate` float DEFAULT NULL,
+  `truck_freight_calculation` float DEFAULT NULL,
+  `truck_gross_freight` float DEFAULT NULL,
+  `truck_net_freight` float DEFAULT NULL,
+  `detention_day` float DEFAULT NULL,
+  `detention_truck_rate` float DEFAULT NULL,
+  `detention_party_rate` float DEFAULT NULL,
+  `detention_amount` float DEFAULT NULL,
+  `unload_weight` float DEFAULT NULL,
+  `shortage` float DEFAULT NULL,
+  `shortage_allow` float DEFAULT NULL,
+  `net_shortage` float DEFAULT NULL,
+  `truck_shortage_rate` float DEFAULT NULL,
+  `party_shortage_rate` float DEFAULT NULL,
+  `shortage_amount` float DEFAULT NULL,
+  `net_party` float DEFAULT NULL,
+  `net_transporter` float DEFAULT NULL,
+  `balance` float DEFAULT NULL,
+  `remarks` varchar(250) DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lr_entry_advance_receiveds`
+--
+
+CREATE TABLE `lr_entry_advance_receiveds` (
+  `lr_entry_advance_received_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `lr_entry_id` char(36) DEFAULT NULL,
+  `account_id` char(36) DEFAULT NULL,
+  `slip_no` int(11) DEFAULT NULL,
+  `rate` int(10) DEFAULT NULL,
+  `liter` int(10) DEFAULT NULL,
+  `paid_to` varchar(120) DEFAULT NULL,
+  `amount` float DEFAULT NULL,
+  `document_no` int(10) DEFAULT NULL,
+  `document_date` date DEFAULT NULL,
+  `received_by` varchar(100) DEFAULT NULL,
+  `remarks` varchar(250) DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lr_entry_advance_truck_receiveds`
+--
+
+CREATE TABLE `lr_entry_advance_truck_receiveds` (
+  `lr_entry_advance_truck_received_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `lr_entry_id` char(36) DEFAULT NULL,
+  `account_id` char(36) DEFAULT NULL,
+  `slip_no` char(36) DEFAULT NULL,
+  `rate` float DEFAULT NULL,
+  `liter` float DEFAULT NULL,
+  `paid_to` varchar(120) DEFAULT NULL,
+  `amount` float DEFAULT NULL,
+  `document_no` int(10) DEFAULT NULL,
+  `document_date` date DEFAULT NULL,
+  `received_by` varchar(100) DEFAULT NULL,
+  `remarks` varchar(250) DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lr_entry_extra_details`
+--
+
+CREATE TABLE `lr_entry_extra_details` (
+  `lr_entry_extra_detail_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `lr_entry_id` char(36) DEFAULT NULL,
+  `gross_weight` float DEFAULT NULL,
+  `tare_weight` float DEFAULT NULL,
+  `gst_pay_by` varchar(25) DEFAULT NULL,
+  `value_of_consignment` varchar(50) DEFAULT NULL,
+  `invoice_no_date` varchar(100) DEFAULT NULL,
+  `be_no_date` varchar(100) DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
+
+CREATE TABLE `payments` (
+  `payment_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `voucher_no` varchar(50) DEFAULT NULL,
+  `voucher_type` varchar(50) DEFAULT NULL,
+  `cash_bank` int(21) DEFAULT NULL,
+  `account_name` varchar(120) DEFAULT NULL,
+  `ref _type` varchar(120) DEFAULT NULL,
+  `particular` varchar(120) DEFAULT NULL,
+  `amount` float DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roles`
+--
+
+CREATE TABLE `roles` (
+  `role_id` int(11) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `role_title` varchar(220) DEFAULT NULL,
+  `alias` varchar(25) DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`role_id`, `user_id`, `role_title`, `alias`, `is_deleted`, `status`, `created`, `updated`) VALUES
+(1, '1', 'Admin', 'admin', 0, 1, '2019-01-17 18:44:50', '2019-01-17 18:45:25'),
+(2, '1', 'Transporter', 'transporter', 0, 1, '2019-02-25 18:17:47', '2019-02-25 18:17:47'),
+(3, '1', 'Normal user', 'nomal_user', 0, 1, '2019-02-25 18:17:47', '2019-02-25 18:17:47');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `states`
+--
+
+CREATE TABLE `states` (
+  `state_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `country_id` char(36) DEFAULT NULL,
+  `state_name` varchar(240) DEFAULT NULL,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `states`
+--
+
+INSERT INTO `states` (`state_id`, `user_id`, `country_id`, `state_name`, `is_delete`, `status`, `created`, `updated`) VALUES
+('0f88be2f-00b7-476c-b207-5814c55622d1', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'a4310bcc-d0e0-4e07-9a40-b584f9b87844', 'Ambha', 0, 1, '2019-07-30 16:59:46', '2019-07-30 16:59:46'),
+('1503f83f-a6eb-4944-b8ba-f053013ea729', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', 'Bihar', 0, 1, '2019-03-08 03:53:41', '2019-03-08 03:53:41'),
+('257ccde6-038d-4972-9b0b-39a38344870a', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', 'xvsdfs', 0, 0, '2019-03-10 07:06:18', '2019-06-03 02:53:41'),
+('4136baae-20cb-4def-b130-54ed3dce4355', '44ba1e55-d0b9-4341-9511-444613cec2ed', '1d4ee3ab-8765-4890-abf2-e8fb98ce0e19', 'katmando', 0, 1, '2019-03-08 17:14:33', '2019-03-08 17:14:33'),
+('757dd4c9-fe58-4760-baee-dadc81077fb5', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', 'Andaman and Nicobar Islands', 0, 0, '2019-06-03 02:53:01', '2019-06-03 02:53:41'),
+('ac4d1f53-226f-4fd3-893b-620898e268a1', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', 'try234324', 0, 1, '2019-03-08 17:38:22', '2019-03-08 18:35:35'),
+('b1469cc8-7cd7-4927-bb11-3b013107d8cb', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'c6259526-bf1a-437c-84f2-e9bfa59c9fa0', 'Rajasthan', 0, 1, '2019-03-07 02:53:56', '2019-03-07 02:53:56');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` char(36) NOT NULL,
+  `role_id` int(3) NOT NULL DEFAULT '2',
+  `parent_id` char(36) DEFAULT NULL,
+  `first_name` varchar(100) DEFAULT NULL,
+  `last_name` varchar(100) DEFAULT NULL,
+  `username` varchar(200) DEFAULT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(220) NOT NULL,
+  `country_id` int(11) NOT NULL,
+  `state_id` int(11) NOT NULL,
+  `city_id` int(11) DEFAULT NULL,
+  `district_id` int(11) DEFAULT NULL,
+  `zipcode` varchar(200) DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `mobile_no` varchar(15) DEFAULT NULL,
+  `image` varchar(220) DEFAULT NULL,
+  `address` text,
+  `contact_detail` text,
+  `contact_person` varchar(220) DEFAULT NULL,
+  `remarks` text,
+  `gender` enum('Male','Female') DEFAULT NULL,
+  `age` int(5) DEFAULT NULL,
+  `activation_key` varchar(200) DEFAULT NULL,
+  `signup_type` enum('twitter','facebook','site','googleplus') NOT NULL DEFAULT 'site',
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0',
+  `token` varchar(220) DEFAULT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_login` timestamp NULL DEFAULT NULL,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `role_id`, `parent_id`, `first_name`, `last_name`, `username`, `email`, `password`, `country_id`, `state_id`, `city_id`, `district_id`, `zipcode`, `phone`, `mobile_no`, `image`, `address`, `contact_detail`, `contact_person`, `remarks`, `gender`, `age`, `activation_key`, `signup_type`, `status`, `is_delete`, `token`, `created`, `last_login`, `updated`) VALUES
+('1', 1, '0', 'Admin', 'Admin', 'admin', 'admin@gmail.com', '$2b$10$oDmMzEq4GXeOykSsx9qJV.s0pJs4PfLfhuVR.86FLtrnHoO4MC7aO', 0, 0, NULL, NULL, '', '', NULL, '', '', '', '', '', '', 0, '', 'site', 1, 0, '', '2019-02-12 04:06:40', NULL, '2019-03-03 21:06:42'),
+('bf4cb246-cb7a-4e12-80b7-3bf4d7d1e1cf', 2, '1', 'Raman', 'kumar', 'sunil67', 'anraj@gmail.com', '$2b$10$cpi1FuFT4y9S8neVsNbncuDBXaqPdFVK4LujZqoSy/0d8oomn3fxO', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 0, 1, NULL, '2019-02-24 06:47:31', NULL, '2019-03-03 06:30:49'),
+('67f53067-ba06-4798-9e3d-f4c6631ea1e4', 2, '1', 'Raman', 'kumar', '343', 'dfdsj@gmail.com', '$2b$10$wZ24SOFX8Pel1IXLWV0yTe5ZEGTPUKUVo/Ubr8Dvq6kCx00afFa3q', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 1, 0, NULL, '2019-02-24 06:42:54', NULL, '2019-03-03 06:38:59'),
+('44ba1e55-d0b9-4341-9511-444613cec2ed', 2, 'd4cb001f-cc1f-4354-8661-9d21cb7cab26', 'Raman', 'kumar', 'sunil', 'mr.ramanraj@gmail.co', '$2b$10$9QMWX/IFQ.lrw72se3BlnefmRT2oMeAKWBFjXOesqbeCdY7G1Cl/m', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 1, 0, NULL, '2019-02-24 06:33:11', NULL, '2019-03-05 02:16:35'),
+('d4cb001f-cc1f-4354-8661-9d21cb7cab26', 2, '1', 'Raman', 'kumar', 'raman', 'mr.ramanraj@gmail.com', '$2b$10$AeIo5i7bIYyvaBqxZfjIou3UJViNNsp9KpgzBeCqYQgqLx55bw4OK', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 1, 0, NULL, '2019-02-24 06:28:43', NULL, '2019-03-03 06:38:59'),
+('0c6242c1-f08a-4fc7-88b1-4ccda174ec16', 2, '1', 'Raman', 'kumar', 'rt', 'mr.rtranraj@gmail.com', '$2b$10$U2BaQwqK9MyGVh5Ppre2GekEA8F0NFEp2Gy/wgT8..0w89toeTmGu', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 1, 0, NULL, '2019-02-25 03:15:38', NULL, '2019-03-03 06:38:59'),
+('c3350d67-19c5-4f64-95da-fcec587696d3', 2, '1', 'Raman', 'kumar', 'sunilyu', 'mr.ramyanraj@gmail.com', '$2b$10$vco.8W9S6njC6.tSDFVrWObaQKWzO7VbKtwq9Whd0t/FwxAocRo6e', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 1, 0, NULL, '2019-02-25 18:03:07', NULL, '2019-03-03 06:38:59'),
+('1ba979e3-eece-4ed1-a51c-f12db46a7d44', 2, '1', 'Raman', 'kumar', 'sun57', 'a67@gmail.com', '$2b$10$70Dv.nNH0CVQP9.EAn1SkeB4L21z4VCxyFJYMSw49XGYbMxhkm6Ue', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 0, 1, NULL, '2019-02-25 18:03:38', NULL, '2019-03-03 06:30:49'),
+('1f0adb29-6718-4178-bcc3-98d3021d7407', 2, '1', 'Raman', 'kumar', 'sunil89', '89nraj@gmail.com', '$2b$10$CIyFLZ4WDD0vIqO3S85Il.owK95yTP4ehwBKHkHtc8i8YmmdCjQh2', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 0, 1, NULL, '2019-02-25 18:03:51', NULL, '2019-03-03 06:38:45'),
+('41d0690c-771a-49ca-aa62-09fa986bd200', 2, '1', 'Raman', 'kumar', 'su87', '58nraj@gmail.com', '$2b$10$lb0GO72qjmsqQpPIuK7TJOSlML0GFibXyg0u6ajstcS48AsMjWBlK', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 0, 1, NULL, '2019-02-25 18:04:07', NULL, '2019-03-03 06:38:45'),
+('6ec8f2e1-0d2c-4965-bb22-197647ccd76a', 2, '1', 'Raman', 'kumar', '789', 'anra7878@gmail.com', '$2b$10$kV9YsPFfjyo1wVgLrMyOgu86MOCcmpNHiiVnK2KubJzqLAmizCu8.', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 1, 0, NULL, '2019-02-25 18:04:23', NULL, '2019-03-03 20:51:38'),
+('8f4c6b99-1571-45f3-8c98-0f28493a425f', 2, '1', 'Raman', 'kumar', 'sunil8989', '5966nraj@gmail.com', '$2b$10$RTaMRLGMGstAhwdhpH71ne9mf9P2GaJxT1IePGhMbXN6JJNgsfKnO', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 1, 0, NULL, '2019-02-25 18:05:00', NULL, '2019-03-03 06:30:24'),
+('2ef64fb3-1e4b-4d77-b5fb-0d3d29a43b9b', 2, '1', 'Raman', 'Kumar', 'sunilss', 'osee@gmail.com', '$2b$10$TUvPqTURlQYUtEiWd0.5UePFk0Vx/nK4yo.lf4Wp0acaPjnu6.mnG', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 0, 1, NULL, '2019-02-27 04:09:11', NULL, '2019-03-03 07:00:20'),
+('d7822427-371b-487f-98d9-91e2f9dd2c28', 2, '1', 'Raman', 'kumar', 'sunilssss', 'sanraj@gmail.com', '$2b$10$VL.4uUnW.hG2usgGzOAofuMfgANVAKkTrsm2Z5nJ2JflPchwaV56u', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 1, 0, NULL, '2019-02-27 04:09:21', NULL, '2019-03-03 20:58:10'),
+('e14d888e-c1b9-4d33-8ea2-67d6189544e7', 2, '1', 'IGNOU', 'kumar', 'sunilwww', 'wewmanraj@gmail.com', '$2b$10$W.IWGina6rAfE7kcn1MUduyA7HwTMugnv9gCsjX04vQIJ2.ydhDSG', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 1, 0, NULL, '2019-02-27 04:09:34', NULL, '2019-03-03 20:51:21'),
+('b50c8082-936c-4da4-a2cc-91051cf8ca56', 2, '1', 'Raman', 'kumar', 'sunilsss', 'ramsssan2@gmail.com', '$2b$10$feaXuQgrV5oYOO3znmxrHe/Bdu73loeG6/Ipi253avrlIviI9LR0C', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 1, 0, NULL, '2019-02-27 04:09:43', NULL, '2019-03-03 20:58:10'),
+('245a0d1f-4ef0-4a8c-a6b5-ae3672276efb', 2, '1', 'Juhi', 'kumari', 'sunilere', 'deraj@gmail.com', '$2b$10$T0gh.n.7HFrrZwltLajXQueOCR76dQrVLASnw.bcaK.Obj64cOhYi', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 1, 0, NULL, '2019-02-27 04:09:54', NULL, '2019-03-03 20:51:21'),
+('d169cb04-302d-4167-a63f-a2e9640d1d27', 2, '1', 'Juhi', 'kumari', 'werw', 'wrewrnraj@gmail.com', '$2b$10$7wqC8mIklk.LHrTSjJipFO1LvoN1R8DDBm3Vde7OtojfkkvEg/bqy', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 1, 0, NULL, '2019-02-27 04:10:15', NULL, '2019-03-03 20:51:21'),
+('4b0e1783-d9c6-4407-8a90-5f39a96bfa13', 2, '1', 'Juhi', 'kumari', 'ssdssunil', 'dssraj@gmail.com', '$2b$10$SF3RGmCQecMjND9yZbjbgONFikB6XpW11AUdTU8B94YslpxJXfV8O', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 1, 0, NULL, '2019-02-27 04:10:24', NULL, '2019-03-03 20:51:21'),
+('bf4cb246-cb7a-4e12-80b7-3bf4d7d1e1c6', 2, '1', 'Raman', 'kumar', 'sunil67d', 'anradddj@gmail.com', '$2b$10$cpi1FuFT4y9S8neVsNbncuDBXaqPdFVK4LujZqoSy/0d8oomn3fxO', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 1, 0, NULL, '2019-02-24 06:47:31', NULL, '2019-03-03 20:58:47'),
+('b8272c20-0556-41ff-bd90-6c6d53b45e8f', 2, '1', 'IGNOU', 'Kumar', 'sunild', 'datainfosee@gmail.com', '$2b$10$32U4qkz8xlmF.AoEXUvH1uPqlhQfaIc9Q.Z.klaZ6AS6KgImjpifG', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 1, 0, NULL, '2019-02-28 04:30:26', NULL, '2019-03-03 20:58:10'),
+('93128c8e-b7db-4721-8d31-04892c1e9679', 2, '1', 'Raman', 'Kumar', 'sunil54', '45osee@gmail.com', '$2b$10$ax/6C2UpmzyeouZBADceHejLp6T0arXGj11exWTCmNeG8CBJXh5ZG', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 1, 0, NULL, '2019-03-01 04:13:31', NULL, '2019-03-03 20:58:10'),
+('166e4577-7422-4661-8f28-7e33221f1416', 2, '1', 'IGNOU', 'Kumar', 'sunilgg', 'ee@gmail.com', '$2b$10$dMlhcL5yH1beOJ7pCSak/.9V8Gw/MRfna1b2LjTzo4rufk1ji86Xu', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 1, 0, NULL, '2019-03-01 04:16:42', NULL, '2019-03-03 20:58:10'),
+('df2d6984-ee86-490b-9d72-8551158371ad', 2, '1', 'Suman456', 'kuamr45@dgf', 'suman', 'suman@gmail.com', '$2b$10$5zuAezvJBKHWXd3yQFcjeOmbcbR45eqqNsppeZ7H/KSIgnV4.kFbC', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 0, 0, NULL, '2019-03-02 17:10:17', NULL, '2019-03-03 20:50:41'),
+('1bee4d4e-b9e9-4c11-b5e6-d189df1d1425', 3, 'df2d6984-ee86-490b-9d72-8551158371ad', 'Ramu', 'kumar', 'ramu', 'ramu@gmial.com', '$2b$10$xwhYg8fX7qe9vVG3n.v0bOaspkBfTJUhtqUnt5Fd0MTTPxCm3yvyK', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 1, 0, NULL, '2019-03-03 18:44:34', NULL, '2019-03-03 18:50:20'),
+('c0581296-32df-4add-9607-22bff1613142', 2, '1', 'pooja', 'chauhan', 'pooja', 'pooja@gmail.com', '$2b$10$9/d57Y.qMAZss0x5HIjvPuJ5AcO3ZLkwGY48nW.goP1BpEFm9vNwi', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 1, 0, NULL, '2019-03-03 19:33:08', NULL, '2019-03-03 20:51:21'),
+('51e9ce5a-636b-4ace-9cac-6a2a35371ea1', 2, '1', 'Nodejs', 'Developer', 'nodejs', 'nodejs@gmail.com', '$2b$10$/mtM3sJLOIDQZjuULrDlS.ceRvcSw4/pHF0fs4/qErJY.WjT6sVJm', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 1, 0, NULL, '2019-03-03 21:04:51', NULL, '2019-03-03 21:04:51'),
+('c864072a-c21d-47f5-affd-dbf4ebb1b64e', 3, '51e9ce5a-636b-4ace-9cac-6a2a35371ea1', 'Gudiya', 'kumari', 'gudiya', 'hudiya@gmail.com', '$2b$10$iYnE4e4YwUcqoxtRJEs5meQwQwLwMjWs87lnZ4902vPQXUkgvSnFu', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 1, 0, NULL, '2019-03-03 21:07:26', NULL, '2019-03-03 21:07:26'),
+('b3ba3097-52ed-4f52-a9c7-fde21a4fa88e', 3, '44ba1e55-d0b9-4341-9511-444613cec2ed', 'Raman', 'kumar', '564', 'ytynraj@gmail.com', '$2b$10$66UtujXQFvgW2LK0ggyM.O3ELkOF1R6SGzCyV795.PDZ4zVvQ7Bie', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 0, 0, NULL, '2019-03-05 16:39:21', NULL, '2019-07-30 16:57:00'),
+('b424ac7d-d47d-4ec7-9f19-b10189960f18', 3, '44ba1e55-d0b9-4341-9511-444613cec2ed', 'Ra', 'kumar', 'sunil34', 'mr.ramanr@k.com', '$2b$10$61CJ52IMUfhHzTTkyhtumeV4PLc7sqWyq44K340g.BXt3QfrVBqWC', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 0, 0, NULL, '2019-03-05 16:39:59', NULL, '2019-07-30 16:57:00'),
+('3126cf6d-2c6e-4634-aeee-9e99fc9ef47d', 3, '44ba1e55-d0b9-4341-9511-444613cec2ed', 'wef', 'wew', 'sunilwew', 'raj@gmail.com', '$2b$10$QRYSX4FmsNRY5jQH6XQ10.yJHWEdtRDGMyJfE9l1gujcBAO244Pnm', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 0, 0, NULL, '2019-03-05 18:29:48', NULL, '2019-09-15 04:12:29'),
+('16206d6f-2902-44e7-9179-6a2e5961708d', 3, '44ba1e55-d0b9-4341-9511-444613cec2ed', 'Vivek', 'kumar', 'vivek', 'vivek@gmail.com', '$2b$10$JMN4kd3GRxK4eH8BMm3iRuOXgBnjsXgNq93egC4OvYw7kETSTmEPW', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'site', 0, 0, NULL, '2019-07-30 16:56:32', NULL, '2019-09-15 04:12:29');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vehicles`
+--
+
+CREATE TABLE `vehicles` (
+  `vechile_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `vechile_no` varchar(20) DEFAULT NULL,
+  `owner_type` varchar(50) DEFAULT NULL,
+  `vechile_owner_id` char(36) DEFAULT NULL,
+  `account_id` char(36) DEFAULT NULL,
+  `vehicle_type_id` char(36) DEFAULT NULL,
+  `capacity` int(10) DEFAULT NULL COMMENT 'in tone',
+  `average` int(10) DEFAULT NULL,
+  `vechile_type` varchar(10) DEFAULT NULL,
+  `RTO` varchar(50) DEFAULT NULL,
+  `engine_no` varchar(20) DEFAULT NULL,
+  `chassis_no` varchar(25) DEFAULT NULL,
+  `load_capacity` int(10) DEFAULT NULL,
+  `make` int(10) DEFAULT NULL,
+  `mode` varchar(10) DEFAULT NULL,
+  `insurance_company` varchar(250) DEFAULT NULL,
+  `policy_no` varchar(20) DEFAULT NULL,
+  `renew_date` date DEFAULT NULL,
+  `amount` int(10) DEFAULT NULL,
+  `remarks` varchar(250) DEFAULT NULL,
+  `finance_company_name` varchar(120) DEFAULT NULL,
+  `finance_amount` int(10) DEFAULT NULL,
+  `finance_date_from` date DEFAULT NULL,
+  `finance_date_to` date DEFAULT NULL,
+  `Installment_amount` int(11) DEFAULT NULL,
+  `Installment_date` date DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vehicle_drivers`
+--
+
+CREATE TABLE `vehicle_drivers` (
+  `vechile_driver_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `driver_id` char(36) DEFAULT NULL,
+  `from_date` date DEFAULT NULL,
+  `remarks` varchar(250) DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vehicle_groups`
+--
+
+CREATE TABLE `vehicle_groups` (
+  `vechile_type_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `vehicle_group` varchar(240) DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vehicle_rto_details`
+--
+
+CREATE TABLE `vehicle_rto_details` (
+  `vechile_rto_detail_id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `vehicle_id` char(36) DEFAULT NULL,
+  `document_type` varchar(50) DEFAULT NULL,
+  `due_date` date DEFAULT NULL,
+  `document_no` varchar(50) DEFAULT NULL,
+  `document_file` varchar(50) DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vehicle_types`
+--
+
+CREATE TABLE `vehicle_types` (
+  `vehicle_type_id` varchar(36) NOT NULL,
+  `user_id` varchar(36) DEFAULT NULL,
+  `vehicle_type` varchar(240) DEFAULT NULL,
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0->not delete,1->delete',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=>active,0=>Deactivate',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `vehicle_types`
+--
+
+INSERT INTO `vehicle_types` (`vehicle_type_id`, `user_id`, `vehicle_type`, `is_delete`, `status`, `created`, `updated`) VALUES
+('10066468-1dc2-4e96-ab21-a5d4442c67a9', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'v5', 0, 1, '2019-03-20 18:15:52', '2019-03-20 18:17:00'),
+('c1d42613-5d55-41d7-85f6-620f03b4c1c1', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'v9', 0, 1, '2019-03-20 18:16:02', '2019-03-20 18:17:17'),
+('c8874f42-a611-4cf8-b7bc-4ec50204c5bd', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'bus four d', 0, 1, '2019-06-03 02:56:58', '2019-06-03 02:56:58'),
+('f33774a5-a410-4ede-aa2e-d8cb87f9afe9', '44ba1e55-d0b9-4341-9511-444613cec2ed', 'bus four wheeler', 0, 1, '2019-05-06 04:19:00', '2019-05-06 04:19:00');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `accounts`
+--
+ALTER TABLE `accounts`
+  ADD PRIMARY KEY (`account_id`);
+
+--
+-- Indexes for table `account_groups`
+--
+ALTER TABLE `account_groups`
+  ADD PRIMARY KEY (`account_group_id`);
+
+--
+-- Indexes for table `account_opening_balances`
+--
+ALTER TABLE `account_opening_balances`
+  ADD PRIMARY KEY (`accunt_opening_balance_id`);
+
+--
+-- Indexes for table `banks`
+--
+ALTER TABLE `banks`
+  ADD PRIMARY KEY (`bank_id`);
+
+--
+-- Indexes for table `cargos`
+--
+ALTER TABLE `cargos`
+  ADD PRIMARY KEY (`cargo_id`);
+
+--
+-- Indexes for table `cities`
+--
+ALTER TABLE `cities`
+  ADD PRIMARY KEY (`city_id`);
+
+--
+-- Indexes for table `countries`
+--
+ALTER TABLE `countries`
+  ADD PRIMARY KEY (`country_id`);
+
+--
+-- Indexes for table `districts`
+--
+ALTER TABLE `districts`
+  ADD PRIMARY KEY (`district_id`);
+
+--
+-- Indexes for table `drivers`
+--
+ALTER TABLE `drivers`
+  ADD PRIMARY KEY (`driver_id`);
+
+--
+-- Indexes for table `driver_licenses`
+--
+ALTER TABLE `driver_licenses`
+  ADD PRIMARY KEY (`driver_license_id`);
+
+--
+-- Indexes for table `from_destinations`
+--
+ALTER TABLE `from_destinations`
+  ADD PRIMARY KEY (`from_destination_id`);
+
+--
+-- Indexes for table `lr_entries`
+--
+ALTER TABLE `lr_entries`
+  ADD PRIMARY KEY (`lr_entry_id`);
+
+--
+-- Indexes for table `lr_entry_advance_receiveds`
+--
+ALTER TABLE `lr_entry_advance_receiveds`
+  ADD PRIMARY KEY (`lr_entry_advance_received_id`);
+
+--
+-- Indexes for table `lr_entry_advance_truck_receiveds`
+--
+ALTER TABLE `lr_entry_advance_truck_receiveds`
+  ADD PRIMARY KEY (`lr_entry_advance_truck_received_id`);
+
+--
+-- Indexes for table `lr_entry_extra_details`
+--
+ALTER TABLE `lr_entry_extra_details`
+  ADD PRIMARY KEY (`lr_entry_extra_detail_id`);
+
+--
+-- Indexes for table `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`payment_id`);
+
+--
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`role_id`);
+
+--
+-- Indexes for table `states`
+--
+ALTER TABLE `states`
+  ADD PRIMARY KEY (`state_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `vehicles`
+--
+ALTER TABLE `vehicles`
+  ADD PRIMARY KEY (`vechile_id`);
+
+--
+-- Indexes for table `vehicle_drivers`
+--
+ALTER TABLE `vehicle_drivers`
+  ADD PRIMARY KEY (`vechile_driver_id`);
+
+--
+-- Indexes for table `vehicle_groups`
+--
+ALTER TABLE `vehicle_groups`
+  ADD PRIMARY KEY (`vechile_type_id`);
+
+--
+-- Indexes for table `vehicle_rto_details`
+--
+ALTER TABLE `vehicle_rto_details`
+  ADD PRIMARY KEY (`vechile_rto_detail_id`);
+
+--
+-- Indexes for table `vehicle_types`
+--
+ALTER TABLE `vehicle_types`
+  ADD PRIMARY KEY (`vehicle_type_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

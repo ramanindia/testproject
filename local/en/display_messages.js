@@ -61,10 +61,16 @@ var WEB_MESSAGES = {
 	ALLACCOUNT:"All Accounts",
 	ACTIVEBANK :"Active Account",
 	DEACTIVEBANK :"Deactive Account",
-	
 	ADDACCOUNTTITLE:"Add Account",
 	EDITACCOUNTTITLE:"Edit Account",
 	PLZCREATEACCGROUP :"Please create Account group and active",
+	
+	ALLDRIVER:"All Drivers",
+	ACTIVEDRIVER :"Active Driver",
+	DEACTIVEDRIVER :"Deactive Driver",
+	ADDDRIVERTITLE:"Add Driver",
+	EDITACCOUNTTITLE:"Edit Driver",
+	PLZCREATEACC :"Please create Account  and active",
 	
 	
 	ALLCOUNTRIES:"All Users",

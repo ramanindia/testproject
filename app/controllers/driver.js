@@ -301,62 +301,73 @@ exports.AddDriver = function(req, res)
      let requestData = req.body;
 	 let redirectURL = '/drivers/index';
 	 let renderHtml = 'drivers/add-driver.html';
-	 console.log("helllo==");
-	 
-	 Genernal.findAll('select * from countries where status=1 and user_id="'+req.session.user.id+'"',function(err,results)
+	 Genernal.findAll('select account_id,account_name from accounts where status=1 and user_id="'+req.session.user.id+'"',function(err,results)
 	 {
-		 //console.log("results===",Object.keys(results).length);
+		
 		 if(Object.keys(results).length ==0)
 		 {
-			req.flash('error', 'Please create countries and active');
+			req.flash('error', LANGTEXT.PLZCREATEACC);
 			res.redirect(redirectURL);
 			return false;
 		 }
 		 
-	// console.log("results===",results);
+	 Genernal.findAll('select country_id,country_name from countries where status=1 and is_delete=0 and user_id="'+req.session.user.id+'"',function(err,resultsdata)
+	    {
+			 //console.log("results===",Object.keys(results).length);
+			 if(Object.keys(results).length ==0)
+			 {
+				req.flash('error',LANGTEXT.PLZCREATEFIRSTCOUNTRY );
+				res.redirect(redirectURL);
+				return false;
+			 }
 	 
 	if (Object.keys(requestData).length !==0)
 	{
-		req.checkBody('bank_name', 'Bank Name is required.').notEmpty()
-		req.checkBody('bank_code', 'Bank Code is required.').notEmpty()
-		req.checkBody('account_no', 'Account no is required.').notEmpty()
-		req.checkBody('ifsc_code', 'IFSC Code is required.').notEmpty()
-		req.checkBody('country_id', 'Country is required.').notEmpty()
-		req.checkBody('state_id', 'State is required.').notEmpty()
-		req.checkBody('district_id', 'District is required.').notEmpty()
-		req.checkBody('city_id', 'City is required.').notEmpty()
-		req.checkBody('branch', 'Branch is required.').notEmpty()
-		req.checkBody('address', 'Address is required.').notEmpty()
-		req.checkBody('area', 'Area is required.').notEmpty()
-		req.checkBody('pin_code', 'Pin code is required.').notEmpty()
-		req.checkBody('phone_no', 'Phone number is required.').notEmpty()
-		req.checkBody('mobile_no', 'Mobile number is required.').notEmpty()
-		req.checkBody('email', 'Email is required.').notEmpty()
-		req.checkBody('email', 'Enter valid email.').isEmail()
+		req.checkBody('driver_name', 'Driver name is required.').notEmpty()
+		req.checkBody('account_id', 'Account name is required.').notEmpty()
 		
+		req.checkBody('country_id', 'Local Country is required.').notEmpty()
+		req.checkBody('state_id', 'Local State is required.').notEmpty()
+		req.checkBody('district_id', 'Local District is required.').notEmpty()
+		req.checkBody('city_id', 'Local City is required.').notEmpty()
+		req.checkBody('local_address', 'local address is required.').notEmpty()
+		req.checkBody('police_station', 'local Police station is required.').notEmpty()
+		
+		req.checkBody('permanent_country_id', 'Permanent Country is required.').notEmpty()
+		req.checkBody('permanent_state_id', 'Permanent State is required.').notEmpty()
+		req.checkBody('permanent_district_id', 'Permanent District is required.').notEmpty()
+		req.checkBody('permanent_city_id', 'Permanent City is required.').notEmpty()
+		req.checkBody('permanent_address', 'Permanent address is required.').notEmpty()
+		req.checkBody('permanent_police_station', 'Permanent Police station is required.').notEmpty()
+		req.checkBody('aadhar_card_no', 'Aadhar card no is required.').notEmpty()
+		req.checkBody('per_day_salary', 'per day salary is required.').notEmpty()
+		req.checkBody('basic_salery', 'Basic salary is required.').notEmpty()
+
 		let errors = req.validationErrors();
 		if (errors)
 		{
 		res.render(renderHtml,
 			 {
 				formData :requestData,
-				PAGETITLE:LANGTEXT.ADDBANKTITLE,csrfToken: req.csrfToken(),
+				PAGETITLE:LANGTEXT.ADDDRIVERTITLE,csrfToken: req.csrfToken(),
 				errordata : errors,
-				countries:results,
+				data1:results,
+				data2:resultsdata,
 			});
 		}
 		else
 		{
-			Genernal.checkUquieFieldWithUser('account_no', requestData.account_no,'banks',req.session.user.id,'','', function(err, checkresults) 
+			Genernal.checkUquieFieldWithUser('driver_name', requestData.driver_name,'drivers',req.session.user.id,'','', function(err, checkresults) 
 			{
 				 if(err)
 				 {	
 					 res.render(renderHtml,
 					 {
 						formData :requestData,
-						PAGETITLE:LANGTEXT.ADDBANKTITLE,csrfToken: req.csrfToken(),
-						errordata : [ { msg: 'Account no is already taken' }],
-						countries:results,
+						PAGETITLE:LANGTEXT.ADDDRIVERTITLE,csrfToken: req.csrfToken(),
+						errordata : [ { msg: 'Driver name '+LANGTEXT.ALLREADYEXITS }],
+							data1:results,
+						data2:resultsdata,
 					});
 				 }
 				 else
@@ -365,19 +376,20 @@ exports.AddDriver = function(req, res)
 					 {		
 						
 								 delete requestData._csrf;
-								 requestData.bank_id=UID();
+								 requestData.driver_id=UID();
 								 requestData.user_id = req.session.user.id;
 								 
-						Genernal.save(requestData,'banks',function(err,result)
+						Genernal.save(requestData,'drivers',function(err,result)
 							{
 								if(err)
 								{
 									res.render(renderHtml,
 									{
 										formData :requestData,
-										PAGETITLE:LANGTEXT.ADDBANKTITLE,csrfToken: req.csrfToken(),
-										errordata : [ { msg: 'Pease try again' }],
-										countries:results,
+										PAGETITLE:LANGTEXT.ADDDRIVERTITLE,csrfToken: req.csrfToken(),
+										errordata : [ { msg: LANGTEXT.PLZTRY }],
+										data1:results,
+										data2:resultsdata,
 									});
 							
 								}else
@@ -393,9 +405,10 @@ exports.AddDriver = function(req, res)
 						 res.render(renderHtml,
 						 {
 							formData :requestData,
-							PAGETITLE:LANGTEXT.ADDBANKTITLE,csrfToken: req.csrfToken(),
-							errordata : [ { msg: 'Something went wrong. Please try again.' }],
-							countries:results,
+							PAGETITLE:LANGTEXT.ADDDRIVERTITLE,csrfToken: req.csrfToken(),
+							errordata : [ { msg:LANGTEXT.SOMETHINGWENTWRONG}],
+							data1:results,
+							data2:resultsdata,
 						}); 
 					 }					 
 						 
@@ -407,9 +420,10 @@ exports.AddDriver = function(req, res)
 	{
 		res.render(renderHtml,
 		{
-			PAGETITLE:LANGTEXT.ADDBANKTITLE,countries:results,csrfToken: req.csrfToken()
+			PAGETITLE:LANGTEXT.ADDDRIVERTITLE,data1:results,data2:resultsdata,	csrfToken: req.csrfToken()
 		});
 	}
+	 });
 	 });
 }
 
@@ -431,9 +445,9 @@ exports.allDrivers = function(req, res)
 	 let currentPage=1;
 	 let conditions;
 	 let records_per_page = process.env.PERPAGE; 
-	 let renderHtml = 'banks/banks.html';
+	 let renderHtml = 'drivers/drivers.html';
 	 let limit;
-	  let tableName='banks';
+	  let tableName='drivers';
 	  if (typeof req.query.page !== 'undefined') 
 	    {
             currentPage = req.query.page;
@@ -456,7 +470,7 @@ exports.allDrivers = function(req, res)
 	  if (typeof req.query.search !== 'undefined') 
 		{
 			let searchkey = req.query.search;
-			searchkeycondition = " and CONCAT_ws('',bank_name,bank_code,account_no,branch,ifsc_code,address,area,pin_code,phone_no,mobile_no,email) LIKE '%"+searchkey.replace(/\s\s+/g, ' ')+"%'";
+			searchkeycondition = " and CONCAT_ws('',driver_name,local_address,permanent_address,mobile_no,mobile_no2,aadhar_card_no,police_station,permanent_police_station,basic_salery,per_day_salary) LIKE '%"+searchkey.replace(/\s\s+/g, ' ')+"%'";
 		}
 		
 		
@@ -484,15 +498,15 @@ exports.allDrivers = function(req, res)
 	
 		conditions ="where ST.user_id = '"+ req.session.user.id+"'";
 		
-	  var pageTitle ='All Banks';
+	  var pageTitle =LANGTEXT.ALLDRIVER;
 	 if(PageSlug=='active')
 	 {
-		 pageTitle = "Active Banks";
+		 pageTitle = LANGTEXT.ACTIVEDRIVER;
 		 conditions =conditions+ ' and ST.status=1';
 	 }
 	 else if(PageSlug=='deactive')
 	 {
-		 pageTitle = "Deactive Banks";
+		 pageTitle = LANGTEXT.DEACTIVEDRIVER;
 		 conditions =conditions+ ' and ST.status=0';
 	 }
 	 

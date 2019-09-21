@@ -7,11 +7,16 @@
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Edit Account</small></h2>
-					 <a href="/accounts/index" class="btn btn-primary"> All Accounts<i class="icon-plus icon-white"></i></a>
-                    <div class="clearfix"></div>
+				     <div class="row x_title">
+				     <div class="col-md-6">
+                    <h3>Edit Account</h3>
+					</div>
+					 <div class="col-md-6">
+                    <a href="/accounts/index" class="btn btn-primary"> All Accounts<i class="icon-plus icon-white"></i></a>
+					</div>
                   </div>
+				  
+				  
                   <div class="x_content">
 					   {% if errordata %}
 						{% for item in errordata %}
@@ -31,7 +36,7 @@
 						<div class="col-xs-12 col-md-4">
 							<div class="form-group">
 								<label for="exampleInputEmail1"> Account Name <span class="required">*</span></label>
-								<input type="text" name="account_name"  value="{{formData.account_name}}" id="account-name" placeholder="Enter Account Name" class="form-control validate[required]">
+								<input type="text" name="account_name"  value="{{formData.account_name}}" id="account_name" placeholder="Enter Account Name" class="form-control validate[required,minSize[3],ajax[ajaxCheckUniqueName]">
                             </div>
 						</div>
 						<div class="col-xs-12 col-md-4">
@@ -108,6 +113,7 @@
 							</div>
 						</div>
 				   </div>
+				   <div class="loader" id="ajax_loader" style="display:none"></div>
 				   <div class="row">
 						<div class="col-xs-12 col-md-4">
 							<div class="form-group">

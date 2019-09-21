@@ -7,10 +7,13 @@
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Edit Bank</small></h2>
-					 <a href="/banks/index" class="btn btn-primary"> All Bank<i class="icon-plus icon-white"></i></a>
-                    <div class="clearfix"></div>
+                  <div class="row x_title">
+				    <div class="col-md-6">
+                    <h3>Edit Driver</h3>
+					</div>
+					<div class="col-md-6">
+					 <a href="/drivers/index" class="btn btn-primary"> All Drivers<i class="icon-plus icon-white"></i></a>
+                    </div>
                   </div>
                   <div class="x_content">
 					   {% if errordata %}
@@ -23,168 +26,241 @@
 				  	{% endfor %}	
 				 {% endif %}
                     <br />
-                    <form id="add-country545" method="post" class="form-horizontal  form-label-left">
+                    <form id="add-country" method="post" class="form-horizontal  form-label-left">
 					<input type="hidden" name="_csrf" value="{{csrfToken}}">
-					<input type="hidden" name="record_id" id="record_id" value="{{formData.bank_id}}">
-					<input type="hidden" name="field_name" id="field_name" value="bank_id">
-					  <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bank-name">Bank Name 
-						<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="bank_name"  value="{{formData.bank_name}}" id="bank-name" placeholder="Enter Bank Name" class="form-control col-md-7 col-xs-12 validate[required]">
-                        </div>
-                      </div>
-					   <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bank-code">Bank Code 
-						<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="bank_code"  value="{{formData.bank_code}}" id="bank-code" placeholder="Enter Bank Code" class="form-control col-md-7 col-xs-12 validate[required]">
-                        </div>
-                      </div>
-					  
-					   <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bank-account_no">Account no 
-						<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="account_no"  value="{{formData.account_no}}" id="account_no" placeholder="Enter Bank Account No" class="form-control col-md-7 col-xs-12 validate[required,ajax[ajaxCheckUniqueName]]">
-                        </div>
-                      </div>
-					  
-					     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bank-ifsc_code">IFSC Code
-						<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="ifsc_code"  value="{{formData.ifsc_code}}" id="ifsc_code" placeholder="Enter Bank IFSC CODE" class="form-control col-md-7 col-xs-12 validate[required]">
-                        </div>
-                      </div>
-					  
-					  <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bank-branch">Branch
-						<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="branch"  value="{{formData.branch}}" id="bank-branch" placeholder="Enter Bank Branch" class="form-control col-md-7 col-xs-12 validate[required]">
-                        </div>
-                      </div>
-					  
-					  
-					  <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">Select Country<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-							<select name="country_id" id="dropdown_country_id" onchange="getDataList(this,'country_id','states','state_id','state_name','state_id','Select state')" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
+					<input type="hidden" name="record_id" id="record_id" value="{{formData.driver_id}}">
+					<input type="hidden" name="field_name" id="field_name" value="driver_id">
+					   <div class="row">
+						<div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Driver Name <span class="required">*</span></label>
+								<input type="text" name="driver_name"  value="{{formData.driver_name}}" id="driver_name" placeholder="Enter Driver Name" class="form-control validate[required,minSize[3],ajax[ajaxCheckUniqueName]">
+                            </div>
+						</div>
+						<div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Account Name<span class="required">*</span></label>
+							 <select name="account_id" id="dropdown_account_id" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
+							<option value="">Select Account Name</option>
+							{% for item in data1 %}
+							<option value="{{item.account_id}}" {% if item.account_id==formData.account_id %} selected  {% endif %}>{{item.account_name}}</option>
+							{% endfor %}
+							</select>
+
+						   </div>
+						</div>
+				   </div>	
+				
+				     <div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="x_title">
+						  <h4><b>Local Address</b></h4>
+						   <div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="loader" id="ajax_loader" style="display:none"></div>
+				   <div class="row">
+						<div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="exampleInputEmail1"> Country <span class="required">*</span></label>
+								<select name="country_id" id="dropdown_country_id" onchange="getDataList(this,'country_id','states','state_id','state_name','state_id','Select state')" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
 							<option value="">Select Country</option>
-							{% for countryitem in countries %}
+							{% for countryitem in data2 %}
 							<option value="{{countryitem.country_id}}" {% if countryitem.country_id==formData.country_id %} selected  {% endif %}>{{countryitem.country_name}}</option>
 							{% endfor %}
 							</select>
-                          </div>
-                      </div>
-					  <div class="loader" id="ajax_loader" style="display:none"></div>
-					    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">Select State<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-							<select name="state_id" id="state_id"  onchange="getDataList(this,'state_id','districts','district_id','district_name','district_id','Select District')" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">>
-								<option value="{{formData.state_id}}">{{formData.state_name}}</option>
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="exampleInputEmail1"> State <span class="required">*</span></label>
+								<select name="state_id" id="state_id"  onchange="getDataList(this,'state_id','districts','district_id','district_name','district_id','Select District')" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">>
+							 <option value="{{formData.state_id}}">{{formData.state_name}}</option>
 							</select>
-                          </div>
-                      </div>
-					    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">Select District<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-							<select name="district_id" id="district_id" onchange="getDataList(this,'district_id','cities','city_id','city_name','city_id','Select City')" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
-								<option value="{{formData.district_id}}">{{formData.district_name}}</option>
+                            </div>
+						</div>
+				   </div>	
+				    <div class="row">
+					<div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="exampleInputEmail1">District<span class="required">*</span></label>
+								<select name="district_id" id="district_id" onchange="getDataList(this,'district_id','cities','city_id','city_name','city_id','Select City')" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
+							<option value="{{formData.district_id}}">{{formData.district_name}}</option>
 							</select>
-                          </div>
-                      </div>
-					  
-					    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">Select City<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-							<select name="city_id" id="city_id" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="exampleInputEmail1"> City <span class="required">*</span></label>
+								<select name="city_id" id="city_id" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
 							<option value="{{formData.city_id}}">{{formData.city_name}}</option>
 							</select>
-                          </div>
-                      </div>
-					  
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="country_name-name">Address 
-						<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="address"  value="{{formData.address}}" id="address" placeholder="Enter Address" class="form-control col-md-7 col-xs-12 validate[required]">
-                        </div>
-                      </div>
-					   <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="country_name-name">Area 
-						<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="area"  value="{{formData.area}}" id="area" placeholder="Enter Area" class="form-control col-md-7 col-xs-12 validate[required]">
-                        </div>
-                      </div>
-					  
-					   <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pin_code">Pin Code 
-						<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="number" name="pin_code"  value="{{formData.pin_code}}" id="pin_code" placeholder="Enter Pin Code" class="form-control col-md-7 col-xs-12 validate[required]">
-                        </div>
-                      </div>
-					  
-					   <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pnone_no-name">phone No 
-						<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="number" name="phone_no"  value="{{formData.phone_no}}" id="phone_no" placeholder="Enter Phone No" class="form-control col-md-7 col-xs-12 validate[required]">
-                        </div>
-                      </div>
-					  
-					   <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pnone_no-name">Mobile No
-						<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="number" name="mobile_no"  value="{{formData.mobile_no}}" id="mobile_no" placeholder="Enter Mobile No" class="form-control col-md-7 col-xs-12 validate[required]">
-                        </div>
-                      </div>
-					  <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="email" id="email" name="email"  value="{{formData.email}}" placeholder="Enter Email" class="form-control col-md-7 col-xs-12 validate[required,custom[email]]">
-                        </div>
-                      </div>
-					  
-					    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">Status
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-							<select class="form-control" name="status">
-							{% for statusitem in Status %}
-							<option value="{{loop.index0}}" {% if loop.index0==formData.status %} selected  {% endif %}>{{statusitem}}</option>
+							</div>
+						</div>
+				   </div>
+				          <div class="row">
+						<div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Local Address <span class="required">*</span></label>
+								<textarea name="local_address" id="local_address" class="form-control col-md-7 col-xs-12 validate[required]">{{formData.local_address}}</textarea>
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Police Station <span class="required">*</span></label>
+							<input type="text" name="police_station"  value="{{formData.police_station}}" id="police-station" placeholder="Enter police station" class="form-control validate[required]">
+                           
+                            </div>
+						</div>
+				   </div>
+				    <div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="x_title">
+						  <h4><b>Permanent Address</b></h4>
+						   <div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="loader" id="ajax_loader" style="display:none"></div>
+				   <div class="row">
+						<div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Country <span class="required">*</span></label>
+								<select name="permanent_country_id" id="dropdown_permanent_country_id" onchange="getDataList(this,'country_id','states','state_id','state_name','permanent_state_id','Select state')" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
+							<option value="">Select Country</option>
+							{% for countryitem in data2 %}
+							<option value="{{countryitem.country_id}}" {% if countryitem.country_id==formData.permanent_country_id %} selected  {% endif %}>{{countryitem.country_name}}</option>
 							{% endfor %}
 							</select>
-                          </div>
-                      </div>				
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="exampleInputEmail1"> State <span class="required">*</span></label>
+								<select name="permanent_state_id" id="permanent_state_id"  onchange="getDataList(this,'state_id','districts','district_id','district_name','permanent_district_id','Select District')" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">>
+							 <option value="{{formData.permanent_state_id}}">{{formData.pstate_name}}</option>
+							</select>
+                            </div>
+						</div>
+				   </div>	
+				    <div class="row">
+					<div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="exampleInputEmail1">District<span class="required">*</span></label>
+								<select name="permanent_district_id" id="permanent_district_id" onchange="getDataList(this,'district_id','cities','city_id','city_name','permanent_city_id','Select City')" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
+							<option value="{{formData.permanent_district_id}}">{{formData.pdistrict_name}}</option>
+							</select>
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="exampleInputEmail1"> City <span class="required">*</span></label>
+								<select name="permanent_city_id" id="permanent_city_id" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
+							<option value="{{formData.permanent_city_id}}">{{formData.pcity_name}}</option>
+							</select>
+							</div>
+						</div>
+				   </div>
+				          <div class="row">
+						<div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Permanent Address <span class="required">*</span></label>
+								<textarea name="permanent_address" id="permanent_address" class="form-control col-md-7 col-xs-12 validate[required]">{{formData.permanent_address}}</textarea>
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Police Station<span class="required">*</span> </label>
+							<input type="text" name="permanent_police_station"  value="{{formData.permanent_police_station}}" id="permanent_police_station" placeholder="Enter permanent police station" class="form-control validate[required]">
+                           
+                            </div>
+						</div>
+				   </div>
+				      <div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="x_title">
+						</div>
+					</div>
+				   
+				  	    <div class="row">
+						<div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Mobile no</label>
+								<input type="number" name="mobile_no"  value="{{formData.mobile_no}}" id="mobile_no" placeholder="Enter Mobile no" class="form-control col-md-7 col-xs-12">
+
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Mobile no1</label>
+								<input type="number" name="mobile_no2"  value="{{formData.mobile_no2}}" id="mobile_no2" placeholder="Enter Mobile no" class="form-control col-md-7 col-xs-12">
+
+							</div>
+						</div>
+				   </div>	
+				       <div class="row">
+					   <div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Aadhar Card No.<span class="required">*</span></label>
+								<input type="number" name="aadhar_card_no"  value="{{formData.aadhar_card_no}}" id="aadhar_card_no" placeholder="Enter Aadhar card no" class="form-control col-md-7 col-xs-12  validate[required]">
+
+							</div>
+						</div>
+						
+						<div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="exampleInputEmail1"> Remarks</label>
+								<textarea name="remarks" id="remarks" class="form-control col-md-7 col-xs-12">{{formData.remarks}}</textarea>
+						
+							</div>
+						</div>
+				   </div>
+				   
+				  <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_title">
+                  <h4><b>Salary Details</b></h4>
+                   <div class="clearfix"></div>
+                </div>
+
+            </div>
+				   	    <div class="row">
+						<div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Basic Salary<span class="required">*</span></label>
+								<input type="number" name="basic_salery"  value="{{formData.basic_salery}}" id="basic_salery" placeholder="Enter Basic Salary" class="form-control col-md-7 col-xs-12 validate[required]">
+
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Per Days Salary<span class="required">*</span></label>
+<input type="number" name="per_day_salary"  value="{{formData.per_day_salary}}" id="per_day_salary" 
+placeholder="Enter Per Days Salary" class="form-control col-md-7 col-xs-12 validate[required]">
+     </div>
+						</div>
+						
+				   </div>
+				 
+						 
+						  <div class="row">
+								<div class="col-xs-12 col-md-6">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Status </label>
+								<select class="form-control" name="status">
+							{% for statusitem in Status %}
+							<option value="{{loop.index0}}" {% if loop.index0==1 %} selected  {% endif %}>{{statusitem}}</option>
+							{% endfor %}
+							</select>
+							</div>
+						</div>
+						 </div>			
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                         <button type="submit" class="btn btn-success">Submit</button>
+                           <button type="submit" class="btn btn-success">Submit</button>
 						  <button class="btn btn-primary" type="reset">Reset</button>
-						   <button class="btn btn-primary" type="button" onclick="return confirmCancle('Are you sure want to cancel','{{ HOST_URL }}banks/index');">Cancel</button>
+						   <button class="btn btn-primary" type="button" onclick="return confirmCancle('Are you sure want to cancel','{{ HOST_URL }}drivers/index');">Cancel</button>
 						 
+                         
                         </div>
                       </div>
+
 
                     </form>
                   </div>

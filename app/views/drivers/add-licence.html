@@ -1,0 +1,84 @@
+{% extends "layouts/default.html" %}
+{% block content %}
+   <!-- page content -->
+        <div class="right_col" role="main">
+		 <div class="">
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="row x_title">
+				     <div class="col-md-6">
+                    <h3>Add New Licence</h3>
+					</div>
+					 <div class="col-md-6">
+                    <a href="/drivers/licence/{{DRIVERID}}?page_action=all" class="btn btn-primary align-right"> All Licence<i class="icon-plus icon-white"></i></a>
+					 <a href="/drivers/index" class="btn btn-primary align-right"> All Drivers<i class="icon-plus icon-white"></i></a>
+				
+					</div>
+                  </div>
+                  <div class="x_content">
+					   {% if errordata %}
+						{% for item in errordata %}
+		  <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <strong>Error ! </strong>{{item.msg}}
+                  </div>
+				  	{% endfor %}	
+				 {% endif %}
+                    <br />
+                    <form id="add-country" method="post" class="form-horizontal  form-label-left" >
+					<input type="hidden" name="_csrf" value="{{csrfToken}}">
+					 <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="license-name">License Name
+						<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" name="license_name"  value="{{formData.license_name}}" id="license_name" placeholder="Enter license name" class="form-control col-md-7 col-xs-12 validate[required,minSize[3],ajax[ajaxCheckUniqueLicence]">
+                        </div>
+                      </div>
+					   <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bank-code">License No 
+						<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" name="license_no"  value="{{formData.license_no}}" id="license_no" placeholder="Enter license no" class="form-control col-md-7 col-xs-12 validate[required]">
+                        </div>
+                      </div>
+					   <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bank-name">license Issued State
+						<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" name="license_issue_date"  value="{{formData.license_issue_date}}" id="license_issue_date" placeholder="Select license Issued Date" class="form-control dbcal col-md-7 col-xs-12 validate[required]">
+                        </div>
+                      </div>
+					   <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bank-code">License Expiry Date
+						<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" name="license_expire_date"  value="{{formData.license_expire_date}}" id="license_expire_date" placeholder="Select License Expiry Date" class="form-control dbcal col-md-7 col-xs-12 validate[required]">
+                        </div>
+                      </div>
+					   <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                           <button type="submit" class="btn btn-success">Submit</button>
+						  <button class="btn btn-primary" type="reset">Reset</button>
+						   <button class="btn btn-primary" type="button" onclick="return confirmCancle('Are you sure want to cancel','{{ HOST_URL }}/drivers/licence/{{DRIVERID}}?page_action=all');">Cancel</button>
+						 
+                         
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+		 </div>           
+        </div>
+        <!-- /page content -->
+		
+{% endblock %}

@@ -113,9 +113,22 @@ module.exports = function (app)
 	   //driver routing
 	  app.all('/drivers/add-driver',user.loggedIn,parseForm,csrfProtection,driver.AddDriver);
 	  app.post('/drivers/change-status',user.loggedIn,parseForm,csrfProtection,driver.changeStatus);
+	  
+	   app.post('/drivers/change-licence-status',user.loggedIn,parseForm,csrfProtection,driver.changeLicenceStatus);
+	   
 	  app.all('/drivers/edit/:recordId',user.loggedIn,parseForm,csrfProtection,driver.DriverEdit);
+	  
+	    app.all('/drivers/licence-edit/:recordId/:driverId',user.loggedIn,parseForm,csrfProtection,driver.DriverLicenseEdit);
+	
+	
 	  app.all('/drivers/delete-record/:deleteRecordId',user.loggedIn,parseForm,csrfProtection,driver.deleteRecord);
-	  app.get('/drivers/:PageSlug',user.loggedIn,parseForm,csrfProtection,driver.allDrivers);
+	 
+	 app.all('/drivers/delete-licence-record/:deleteRecordId',user.loggedIn,parseForm,csrfProtection,driver.deleteLicenseRecord);
+	
+	app.get('/drivers/:PageSlug',user.loggedIn,parseForm,csrfProtection,driver.allDrivers);
+	  
+	    app.all('/drivers/licence/:recordId',user.loggedIn,parseForm,csrfProtection,driver.Licence);
+		
 	  
 	   //account routing
 	  app.all('/accounts/add-account',user.loggedIn,parseForm,csrfProtection,account.AddAccount);

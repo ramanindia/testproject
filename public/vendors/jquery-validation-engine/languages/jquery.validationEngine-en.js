@@ -142,6 +142,15 @@
                     "alertText": "* This is already taken",
                     "alertTextLoad": "* Validating, please wait"
                 },
+				     "ajaxCheckUniqueLicence": {
+                    "url": HOSTNAME+"users/CheckUniqueName",
+                    // you may want to pass extra data on the ajax call
+                     "extraData": "controller_name=driver_licenses",
+					"extraDataDynamic": ['#record_id',"#field_name"],
+					 "alertTextOk": "* This is available",
+                    "alertText": "* This is already taken",
+                    "alertTextLoad": "* Validating, please wait"
+                },
 				 "ajaxCheckUniqueEmail": {
                     "url": HOSTNAME+"users/checkUniqueEmail",
                     // you may want to pass extra data on the ajax call

@@ -126,11 +126,12 @@ exports.AccountEdit = function(req, res)
 	 let actualredirectURL='/accounts/index';
 	 Genernal.findAll('select account_group_id,group_name from account_groups where status=1 and is_delete= 0 and user_id="'+req.session.user.id+'"',function(err,results)
 	 {
+		// console.log("results==",results);
 		 //console.log("results===",Object.keys(results).length);
 		 if(Object.keys(results).length ==0)
 		 {
 			req.flash('error',LANGTEXT.PLZCREATEACCGROUP );
-			res.redirect(redirectURL);
+			res.redirect(errorRedirectURL);
 			return false;
 		 }
 		 
@@ -164,7 +165,7 @@ exports.AccountEdit = function(req, res)
 			
 			//console.log('getDataQuery===',getDataQuery);
 			
-	 Genernal.findByQuery(getDataQuery,function(err, results) 
+	 Genernal.findByQuery(getDataQuery,function(err, editRsults) 
 		{
 			if(err)
 			{
@@ -175,7 +176,7 @@ exports.AccountEdit = function(req, res)
 			{
 				if(typeof QueryRedirectURL !== 'undefined' || QueryRedirectURL !=='')
 				{	
-					 if(results)
+					 if(editRsults)
 					 {
 						// console.log("Results====",results);
 						 
@@ -283,14 +284,16 @@ exports.AccountEdit = function(req, res)
 						}
 						else
 						{
+							
 							res.render(renderHtml,
 								 {
-									formData :results[0],
+									formData :editRsults[0],
 									PAGETITLE:LANGTEXT.EDITACCOUNTTITLE,csrfToken: req.csrfToken(),
 									data1:results,
 									data2:resultsdata,
 									 moment:moment,
 								});
+								 //console.log("results85==",results);
 						}
 							
 					 }

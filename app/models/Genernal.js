@@ -99,6 +99,7 @@ exports.checkRecords= function(field,value,table,userID,callback)
 					return callback(err);
 				}else
 				{
+					//console.log("results==",results);
 					if(results[0].totalReords > 0)
 					{
 						return callback(LANGTEXT.ALLREADYUSED);
@@ -323,7 +324,7 @@ exports.updateStatus = function(requestData,table,field,userID,callback)
 			 }
 			let sqlQuery = 'update '+table+' set '+changeStatus+' where '+conditions+' and '+userCondition;
 			
-			//console.log("sqlQuery7979878"+sqlQuery);
+			//console.log("sqlQuery7979878===="+sqlQuery);
 			
 			db.query(sqlQuery,function(err,results)
 			{	db.release();

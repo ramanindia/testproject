@@ -6,6 +6,7 @@ var WEB_MESSAGES = {
 	
 	PLZTRY:"Pease try again",
 	SOMETHINGWENTWRONG:"Something went wrong. Please try again.",
+	INVALIDREQUEST:"Invalid request. Please try again.",
 	//SOMETHINGWENTWRONG:"Something went wrong. Please try again.",
 	ALLREADYEXITS :"is already exits",
 	PLZCREATEFIRSTCOUNTRY: "Please create country and active",
@@ -52,11 +53,9 @@ var WEB_MESSAGES = {
 	ADDFROMDESTINATIONTITLE:"Add From Destination",
 	EDITFROMDESTINATIONTITLE:"Edit From Destination",
 	
-	
 	ALLBANK:"All Banks",
 	ADDBANKTITLE:"Add Bank",
 	EDITBANKTITLE:"Edit Bank",
-	
 	
 	ALLACCOUNT:"All Accounts",
 	ACTIVEBANK :"Active Account",
@@ -69,8 +68,15 @@ var WEB_MESSAGES = {
 	ACTIVEDRIVER :"Active Driver",
 	DEACTIVEDRIVER :"Deactive Driver",
 	ADDDRIVERTITLE:"Add Driver",
-	EDITACCOUNTTITLE:"Edit Driver",
-	PLZCREATEACC :"Please create Account  and active",
+	EDITDRIVERTITLE:"Edit Driver",
+	PLZCREATEACC :"Please create Account and active",
+	
+	ALLLICENCE:"All Licence",
+	ACTIVELICENCE :"Active Licence",
+	DEACTIVELICENCE :"Deactive Licence",
+	ADDLICENCETITLE:"Add Licence",
+	EDITLICENCETITLE:"Edit Licence",
+	PLZCREATELICENCE :"Please create Driver",
 	
 	
 	ALLCOUNTRIES:"All Users",

@@ -13,6 +13,7 @@
   var cargo = require('../app/controllers/cargo');
   var accountGroup = require('../app/controllers/account_group');
   var vehicleType = require('../app/controllers/vehicle_type');
+  var vehicleGroup = require('../app/controllers/vehicle_group');
   var fromDestination = require('../app/controllers/from_destinations');
   var bank = require('../app/controllers/bank');
   var vehicle = require('../app/controllers/Vehicle');
@@ -37,6 +38,7 @@ module.exports = function (app)
 	 app.get('/users/checkUniqueUsername',user.loggedIn,user.checkUsernameExits);
 	 app.get('/users/checkUniqueEmail',user.loggedIn,user.checkEmailExits);
 	  app.get('/users/CheckUniqueName',user.loggedIn,user.CheckUniqueName);
+	   app.get('/users/CheckUniqueNameMultilevel',user.loggedIn,user.CheckMultiLevelUniqueName);
 	 app.get('/users/:UsersSlug',user.loggedIn,parseForm,csrfProtection,user.allUsers);
 	 
 	 //coutries routing
@@ -88,13 +90,38 @@ module.exports = function (app)
 	   app.all('/vehicle-types/delete-record/:deleteRecordId',user.loggedIn,parseForm,csrfProtection,vehicleType.deleteRecord);
 	  app.get('/vehicle-types/:CountrySlug',user.loggedIn,parseForm,csrfProtection,vehicleType.allType);
 	  
+	   //Vehicle group routing
+	  app.all('/vehicle-groups/add-group',user.loggedIn,parseForm,csrfProtection,vehicleGroup.addGroup);
+	  app.post('/vehicle-groups/change-status',user.loggedIn,parseForm,csrfProtection,vehicleGroup.changeStatus);
+	  app.all('/vehicle-groups/edit/:recordId',user.loggedIn,parseForm,csrfProtection,vehicleGroup.GroupEdit);
+	   app.all('/vehicle-groups/delete-record/:deleteRecordId',user.loggedIn,parseForm,csrfProtection,vehicleGroup.deleteRecord);
+	  app.get('/vehicle-groups/:CountrySlug',user.loggedIn,parseForm,csrfProtection,vehicleGroup.allGroup);
+	  
+	  
+	  
 	  //Vehicle  routing
-	  app.all('/vehicles/add-vechile',user.loggedIn,parseForm,csrfProtection,vehicle.addVehicle);
+	  
+		//strat vehicle rto routing
+	      app.all('/vehicles/rto/:recordId',user.loggedIn,parseForm,csrfProtection,vehicle.VehicleRto);
+		app.post('/vehicles/change-rto-status',user.loggedIn,parseForm,csrfProtection,vehicle.changeRtoStatus);
+        app.all('/vehicles/rto-edit/:recordId/:driverId',user.loggedIn,parseForm,csrfProtection,vehicle.VechileRtoEdit);
+        app.all('/vehicles/delete-rto-record/:deleteRecordId',user.loggedIn,parseForm,csrfProtection,vehicle.deleteRtoRecord);
+	    //end vehicle rto routing 
+		
+	     //strat vehicle drivers routing
+	    app.all('/vehicles/driver/:recordId',user.loggedIn,parseForm,csrfProtection,vehicle.VehicleDriver);
+		app.post('/vehicles/change-driver-status',user.loggedIn,parseForm,csrfProtection,vehicle.changeDriverStatus);
+        app.all('/vehicles/driver-edit/:recordId/:driverId',user.loggedIn,parseForm,csrfProtection,vehicle.VechileDriverEdit);
+        app.all('/vehicles/delete-driver-record/:deleteRecordId',user.loggedIn,parseForm,csrfProtection,vehicle.deleteDriverRecord);
+	    //end vehicle drivers routing 
+		
+	  app.all('/vehicles/add-vehicle',user.loggedIn,parseForm,csrfProtection,vehicle.addVehicle);
 	  app.post('/vehicles/change-status',user.loggedIn,parseForm,csrfProtection,vehicle.changeStatus);
 	  app.all('/vehicles/edit/:recordId',user.loggedIn,parseForm,csrfProtection,vehicle.VehicleEdit);
 	  app.all('/vehicles/delete-record/:deleteRecordId',user.loggedIn,parseForm,csrfProtection,vehicle.deleteRecord);
 	  app.get('/vehicles/:CountrySlug',user.loggedIn,parseForm,csrfProtection,vehicle.allVehicles);
 	  
+	 
 	  //from_destinations routing
 	  app.all('/from-destinations/add-from-destination',user.loggedIn,parseForm,csrfProtection,fromDestination.AddFromDestinationCity);
 	  app.post('/from-destinations/change-status',user.loggedIn,parseForm,csrfProtection,fromDestination.changeStatus);

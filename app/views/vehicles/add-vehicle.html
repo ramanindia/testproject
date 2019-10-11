@@ -7,10 +7,13 @@
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Add New Vehicle</h2>
+                  <div class="row x_title">
+				  <div class="col-md-6">
+                    <h3>Add New Vehicle</h3>
+					 </div>
+					<div class="col-md-6">
 					<a href="/vehicles/index" class="btn btn-primary align-right"> All Vehicles<i class="icon-plus icon-white"></i></a>
-                    <div class="clearfix"></div>
+                   </div>
                   </div>
                   <div class="x_content">
 					   {% if errordata %}
@@ -23,36 +26,244 @@
 				  	{% endfor %}	
 				 {% endif %}
                     <br />
-                    <form id="add-country" method="post" class="form-horizontal  form-label-left" 
+                    <form id="add-country465" method="post" class="form-horizontal  form-label-left" 
 					action="/vehicles/add-vehicle/" >
 					<input type="hidden" name="_csrf" value="{{csrfToken}}">
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="group_name-name">Vehicle No
-						<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="vechile_no"  value="{{formData.vechile_no}}" id="vechile_no" placeholder="Enter Vehicle No" class="form-control col-md-7 col-xs-12 validate[required,ajax[ajaxCheckUniqueName]]">
+					<div class="loader" id="ajax_loader" style="display:none"></div>
+                    <div class="row">
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+							    <label for="exampleInputEmail1">Vehicle No <span class="required">*</span></label>
+								<input type="text" name="vehicle_no"  value="{{formData.vehicle_no}}" id="vehicle_no" placeholder="Enter Vehicle No" class="form-control validate[required,minSize[3],ajax[ajaxCheckUniqueName]">
+                            </div>
+						</div>
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Owner Type<span class="required">*</span></label>
+								<select name="owner_type" id="dropdown_owner_type"  onchange="getDataList(this,'owner_type','accounts','account_id','account_name','account_id','Select Vehicle Owner/Account Name')" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
+							<option value="">Select Owner Type</option>
+							{% for item in OWNERTYPE %}
+							<option value="{{loop.index0}}" {% if loop.index0==formData.owner_type %} selected  {% endif %}>{{item}}</option>
+								{% endfor %}
+							</select>
+							</div>
+						</div>
+						
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Vehicle Owner/Account Name<span class="required">*</span></label>
+								<select name="account_id" id="account_id"  class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
+							<option value="">Select Vehicle Owner/Account Name</option>
+							</select>
+							</div>
+						</div>
+						
+				   </div>	
+				   <div class="row">
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Group Name <span class="required">*</span></label>
+								<select name="vehicle_group_id" id="dropdown_vehicle_group_id"  class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
+								<option value="">Select Group Name</option>
+								{% for item in groups %}
+							<option value="{{item.vehicle_group_id}}" {% if item.vehicle_group_id==formData.vehicle_group_id %} selected  {% endif %}>{{item.vehicle_group}}</option>
+							{% endfor %}
+
+							</select>
+							</div>
+						</div>
+							<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+							    <label for="exampleInputEmail1">Capacity in ton<span class="required">*</span></label>
+								<input type="number" name="capacity"  value="{{formData.capacity}}" id="capacity" placeholder="Enter Capacity in ton" class="form-control validate[required]">
+                            </div>
+						</div>
+				   </div>	
+				   <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_title">
+						  <h4><b>Vehicle  Details</b></h4>
+						  <div class="clearfix"></div>
                         </div>
-                      </div>
-					  
-					     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">Status
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-							<select class="form-control" name="status">
+                    </div>
+					
+				     <div class="row">
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Average in km/h  <span class="required">*</span></label>
+								<input type="number" name="average"  value="{{formData.average}}" id="average" placeholder="Enter Average" class="form-control validate[required]">
+                         
+							</div>
+						</div>
+							<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Vehicle Type <span class="required">*</span></label>
+								<select name="vehicle_type_id" id="dropdown_vehicle_type_id" class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
+							<option value="">Select Vehicle Type</option>
+							{% for item in types %}
+							<option value="{{item.vehicle_type_id}}" {% if item.vehicle_type_id==formData.vehicle_type_id %} selected  {% endif %}>{{item.vehicle_type}}</option>
+							{% endfor %}
+							</select>
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">RTO <span class="required">*</span></label>
+									<input type="text" name="RTO"  value="{{formData.RTO}}" id="RTO" placeholder="Enter RTO" class="form-control validate[required]">
+                         
+							</div>
+						</div>
+				   </div>
+				   
+				   <div class="row">
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Engine No<span class="required">*</span></label>
+							    <input type="text" name="engine_no"  value="{{formData.engine_no}}" id="engine_no" placeholder="Enter Engine No" class="form-control validate[required]">      
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+							  <label for="exampleInputEmail1">Chassis No<span class="required">*</span></label>
+							  <input type="text" name="chassis_no"  value="{{formData.chassis_no}}" id="chassis_no" placeholder="Enter Chassis No" class="form-control validate[required]">
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Load capacity in ton <span class="required">*</span></label>
+								<input type="number" name="load_capacity"  value="{{formData.load_capacity}}" id="load_capacity" placeholder="Enter load capacity in ton" class="form-control validate[required]">
+							</div>
+						</div>						
+				   </div>	
+				    <div class="row">
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Make<span class="required">*</span></label>
+							    <input type="text" name="make"  value="{{formData.make}}" id="make" placeholder="Enter Engine No" class="form-control validate[required]">      
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Model Month-Year<span class="required">*</span> </label>
+							    <input type="text" name="model"  value="{{formData.model }}" id="model" placeholder="Select Model" class="model form-control validate[required]">      
+							</div>
+						</div>
+				   </div>
+				<div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_title">
+						  <h4><b>Vehicle Insurance Details</b></h4>
+						  <div class="clearfix"></div>
+                        </div>
+                 </div>
+				  	    <div class="row">
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Insurance Company Name</label>
+							    <input type="text" name="insurance_company"  value="{{formData.insurance_company}}" id="insurance_company" placeholder="Enter insurance company name" class="form-control">      
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+							  <label for="exampleInputEmail1">Policy No</label>
+							  <input type="number" name="policy_no"  value="{{formData.policy_no}}" id="policy_no" placeholder="Enter Policy No" class="form-control">
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Amount </label>
+								<input type="number" name="amount"  value="{{formData.amount}}" id="amount" placeholder="Enter Amount" class="form-control">
+							</div>
+						</div>	
+						
+				   </div>
+
+					<div class="row">
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+							  <label for="exampleInputEmail1">Renew Date</label>
+							  <input type="text" name="renew_date"  value="{{formData.renew_date}}" id="renew_date" placeholder="Enter renew date" class="basic_cal form-control">
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Remarks </label>
+								<textarea name="remarks" id="remarks" placeholder="Enter Remarks" class="form-control">{{formData.remarks}}</textarea>
+							</div>
+						</div>	
+						
+				   </div>
+
+				   
+				  <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_title">
+                  <h4><b>Vehicle Finance Details</b></h4>
+                   <div class="clearfix"></div>
+                </div>
+
+            </div>
+				   	    <div class="row">
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Finance Company Name</label>
+								<input type="text" name="finance_company_name"  value="{{formData.finance_company_name}}" id="finance_company_name" placeholder="Enter company name" class="form-control col-md-7 col-xs-12">
+
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Finance Amount</label>
+								 <input type="number" id="finance_amount" name="finance_amount"  value="{{formData.finance_amount}}" placeholder="Enter amount" class="form-control col-md-7 col-xs-12">                     
+                            </div>
+						</div>
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Finance Date From</label>
+								 <input type="text" name="finance_date_from"  value="{{formData.finance_date_from}}" id="finance_date_from" class="basic_cal form-control col-md-7 col-xs-12">
+                    
+							</div>
+						</div>
+				   </div>
+				   
+				   <div class="row">
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Finance Date To </label>
+								<input type="text" name="finance_date_to"  value="{{formData.finance_date_to}}" id="finance_date_to" class="basic_cal form-control col-md-7 col-xs-12">
+
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Installment  Amt</label>
+								 <input type="number" id="installment_amount" name="installment_amount"  value="{{formData.installment_amount}}" placeholder="Enter Installment  Amt" class="form-control col-md-7 col-xs-12">                     
+                            </div>
+						</div>
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Installment  Date</label>
+								 <input type="text" name="installment_date"  value="{{formData.installment_date}}" id="installment_date" class="basic_cal form-control col-md-7 col-xs-12">
+                    
+							</div>
+						</div>
+				   </div>
+						  <div class="row">
+								<div class="col-xs-12 col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Status </label>
+								<select class="form-control" name="status">
 							{% for statusitem in Status %}
 							<option value="{{loop.index0}}" {% if loop.index0==1 %} selected  {% endif %}>{{statusitem}}</option>
 							{% endfor %}
 							</select>
-                          </div>
-                      </div>
+							</div>
+						</div>
+						 </div>
 					  				
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button class="btn btn-primary" type="button" onclick="return confirmCancle('Are you sure want to cancel','{{ HOST_URL }}vehicle-types/index');">Cancel</button>
-						  <button class="btn btn-primary" type="reset">Reset</button>
-                          <button type="submit" class="btn btn-success">Submit</button>
+						 <button type="submit" class="btn btn-success">Submit</button>
+                          <button class="btn btn-primary" type="reset">Reset</button>
+                           <button class="btn btn-primary" type="button" onclick="return confirmCancle('Are you sure want to cancel','{{ HOST_URL }}vehicles/index');">Cancel</button>
                         </div>
                       </div>
 

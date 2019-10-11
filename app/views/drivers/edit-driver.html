@@ -244,7 +244,7 @@ placeholder="Enter Per Days Salary" class="form-control col-md-7 col-xs-12 valid
 								<label for="exampleInputEmail1">Status </label>
 								<select class="form-control" name="status">
 							{% for statusitem in Status %}
-							<option value="{{loop.index0}}" {% if loop.index0==1 %} selected  {% endif %}>{{statusitem}}</option>
+							<option value="{{loop.index0}}" {% if loop.index0==formData.status %} selected  {% endif %}>{{statusitem}}</option>
 							{% endfor %}
 							</select>
 							</div>

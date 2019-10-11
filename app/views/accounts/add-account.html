@@ -47,8 +47,8 @@
 								<label for="exampleInputEmail1">A/C Group<span class="required">*</span></label>
 								<select name="account_group_id" id="dropdown_account_group_id"  class="listing-select2 form-control col-md-7 col-xs-12 validate[required]">
 							<option value="">Select A/C Group</option>
-							{% for item in data1 %}
-							<option value="{{item.account_group_id}}" {% if item.account_group_id==formData.account_group_id %} selected  {% endif %}>{{item.group_name}}</option>
+							{% for item in drivers %}
+							<option value="{{item.driver_id}}" {% if item.driver_id==formData.driver_id %} selected  {% endif %}>{{item.driver_name}}</option>
 							{% endfor %}
 							</select>
 							</div>

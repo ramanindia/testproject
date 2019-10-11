@@ -87,9 +87,7 @@ exports.checkRecords= function(field,value,table,userID,callback)
 	{
 		if (err) throw err;		
 			let sqlQuery = 'select count(*) as totalReords from '+table+' where '+field+'= "'+value.toLowerCase()+'" and user_id =  "'+userID+'"';
-			
-			//console.log("sqlQuery12==",sqlQuery);
-			
+			console.log("sqlQuery12==",sqlQuery);
 			//return false;
 			
 			db.query(sqlQuery,function(err,results)
@@ -130,6 +128,88 @@ exports.checkUquieFieldWithUser = function(field,value,table,userID,recordId,rec
               value=  value.replace(",","");
    
 			let sqlQuery = 'select count(*) as totalReords from '+table+' where '+field+'= "'+value.toLowerCase()+'" and user_id =  "'+userID+'"'+conditions;
+			
+			//console.log("sqlQuery123==",sqlQuery);
+			
+			db.query(sqlQuery,function(err,results)
+			{	db.release();
+				if(err)
+				{
+					//console.log("err===",err);
+					return callback(err);
+				}else
+				{
+					if(results[0].totalReords > 0)
+					{
+						return callback(LANGTEXT.ALLREADYEXITS);
+					}
+					else
+					{
+						return callback(null, results);				
+					}			
+				}		
+			});
+	});
+};
+
+exports.checkUquieMultipleFieldWithUser = function(field,value,field1,value1,table,userID,recordId,recordField,callback) 
+{	
+
+   dbConnection.getConnection(function(err, db)
+	{
+		if (err) throw err;	
+		let conditions='';
+		
+			if(recordId && recordField )
+			{
+				conditions = 'and '+recordField+' != "'+recordId+'"';
+			}
+			  value=  value.replace('"','');
+			  value=  value.replace("'","");
+              value=  value.replace(",","");
+   
+			let sqlQuery = 'select count(*) as totalReords from '+table+' where '+field1+'= "'+value1.toLowerCase()+'" and  '+field+'= "'+value.toLowerCase()+'" and user_id =  "'+userID+'"'+conditions;
+			
+			//console.log("sqlQuery123==",sqlQuery);
+			
+			db.query(sqlQuery,function(err,results)
+			{	db.release();
+				if(err)
+				{
+					//console.log("err===",err);
+					return callback(err);
+				}else
+				{
+					if(results[0].totalReords > 0)
+					{
+						return callback(LANGTEXT.ALLREADYEXITS);
+					}
+					else
+					{
+						return callback(null, results);				
+					}			
+				}		
+			});
+	});
+};
+
+exports.checkUquieMultipleFieldWithUser = function(field,value,field1,value1,table,userID,recordId,recordField,callback) 
+{	
+	
+   dbConnection.getConnection(function(err, db)
+	{
+		if (err) throw err;	
+		let conditions='';
+		
+			if(recordId && recordField )
+			{
+				conditions = 'and '+recordField+' != "'+recordId+'"';
+			}
+			  value=  value.replace('"','');
+			  value=  value.replace("'","");
+              value=  value.replace(",","");
+   
+			let sqlQuery = 'select count(*) as totalReords from '+table+' where '+field+'= "'+value.toLowerCase()+'"and '+field1+'= "'+value1.toLowerCase()+'" and user_id =  "'+userID+'"'+conditions;
 			
 			//console.log("sqlQuery123==",sqlQuery);
 			
@@ -198,12 +278,35 @@ exports.findAllByRecordID = function(requestData,callback)
 		if (err) throw err;	
 
 			let userField ='user_id';
+			var wherekey = requestData.recordField;
+			var wherekeyValue = requestData.recordID;
+			
 			 if(requestData.recordataSlug=='users')
 			 {
 				 userField ='parent_id';
 			 }
-			let sqlQuery = 'select '+requestData.field1+','+requestData.field2+' from '+requestData.recordataSlug+' where '+requestData.recordField+'= "'+requestData.recordID+'" and '+userField+' = "'+requestData.userID+'" and status='+requestData.Recordstatus+'';
+			 
+			 //console.log(requestData);
+			 
+			if(requestData.recordField=='owner_type')
+			{
+				if(requestData.recordID==0)
+				{
+					 wherekey = 'account_type';
+					 wherekeyValue = '8';
+				}
+				else if(requestData.recordID==1)
+				{
+					var wherekey = 'account_type'
+				     wherekeyValue = '7';
+					
+				}
+				
+			}
+			let sqlQuery = 'select '+requestData.field1+','+requestData.field2+' from '+requestData.recordataSlug+' where '+wherekey+'= "'+wherekeyValue+'" and '+userField+' = "'+requestData.userID+'" and status='+requestData.Recordstatus+'';
 			
+			  //console.log(sqlQuery);
+			  
 			db.query(sqlQuery,function(err,results)
 			{	db.release();
 				if(err)
@@ -227,7 +330,7 @@ exports.findAllByRecordID = function(requestData,callback)
 
 exports.findAll = function(query,callback) 
 {	
-//  console.log("query===",query);
+ //console.log("query===",query);
   
    dbConnection.getConnection(function(err, db)
 	{
@@ -349,6 +452,9 @@ exports.updateStatus = function(requestData,table,field,userID,callback)
 
 exports.save = function(requestData,table,callback) 
 {	
+console.log("requestData==",requestData);
+
+
 	let insertQuery = 'insert into '+table+' set ';
 	let setVar='';
   for(var key in requestData) 
@@ -369,7 +475,7 @@ exports.save = function(requestData,table,callback)
 		if (err) throw err;	
 		let finalQuery = insertQuery+striptags(setVar);
 		
-		
+		console.log(finalQuery);
 		db.query(finalQuery,function(err,results)
 		{	db.release();
 			if(err)

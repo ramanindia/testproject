@@ -1,21 +1,73 @@
 var SALT_WORK_FACTOR = 10;
 var bcrypt = global.bcrypt;
+var fs =  require('fs');
 
 module.exports = {
   imageRandomName: function() {
     var randomstr = Math.ceil((new Date().getTime()) / 1000);
     return randomstr;
   },
+   checkImageTypeSizeAandUpload: function(fileData,uploadpath, callback) 
+   {
+    var images_types_arr = [
+      'image/jpeg',
+      'image/jpg',
+      'image/gif',
+      'image/png',
+	  'image/pdf',
+	  'application/pdf'
+    ];
+	var ImageSize = 5242880;
+
+       console.log('fileData:', fileData);
+	   
+	    console.log('uploadpath:', uploadpath);
+    //console.log('file-type:', fileData.type)
+	
+    if (images_types_arr.indexOf(fileData.mimetype) === -1) 
+	{
+      return callback('Invalid image type please select valid image in jpeg,jpg,gif,png and pdf');
+    } else 
+	{ 
+         if(fileData.size > ImageSize)
+		 {
+			return callback('Invalid image size. Image size is not greater than 5 MB');
+		 }
+		 else 
+		 {
+			var imageType = (fileData.mimetype).split('/');
+			var medianame = module.exports.imageRandomName();
+			var finalfieName = medianame+'.'+imageType[1];
+			
+			console.log('finalfieName:', finalfieName);
+			
+			 fileData.mv( uploadpath +  finalfieName ,function(err,result)
+			{
+				if(err)
+				{
+					return callback('Image/document did not upload. Please try again');
+				}
+				else 
+				{
+					return callback(null,finalfieName)
+					
+				}
+			});
+		 }
+    }
+  },
   chackImageValidation: function(fileData, options, callback) {
     var images_types_arr = [
       'image/jpeg',
       'image/jpg',
       'image/gif',
-      'image/png'
+      'image/png',
+	  'image/pdf'
     ];
 
     console.log('fileData:', fileData)
     console.log('file-type:', fileData.type)
+	
     if (images_types_arr.indexOf(fileData.type) === -1) {
 
       callback('Invalid image type please select valid image');
@@ -87,7 +139,8 @@ module.exports = {
       return false
     }
   },
-  imageUpload: function(file, file_name, location_dir, callback) {
+  imageUpload: function(file, file_name, location_dir, callback) 
+  {
     var fs = require('fs-extra');
 
     fs.open(UPLOAD_PATH + location_dir, 'r', function(err, fd) {
@@ -131,11 +184,15 @@ module.exports = {
     });
 
   },
-  deleteImage: function(folder_name, image_name) {
-    fs.unlink(global.UPLOAD_PATH + folder_name + '/' + image_name, function(err) {
-      if (err) {
+  deleteImage: function(uploadPath, image_name) {
+	  
+    fs.unlink(uploadPath + image_name, function(err) 
+	{
+      if (err) 
+	  {
         //console.log('image not found: ', err);
-      } else {
+      } else 
+	  {
         //console.log('image deleted');
       }
     });
@@ -179,5 +236,15 @@ module.exports = {
         req.session.user = UserData;
 		callback();
       });
+  },
+  
+  dateINYYYYMMDD:function(dateinDDMMYYYY)
+  {		
+	  var datePart = dateinDDMMYYYY.split("-");
+		day = datePart[0]; // get only two digits
+		month = datePart[1], 
+		year = datePart[2];
+  return year+'-'+month+'-'+day;
   }
+  
 };

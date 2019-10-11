@@ -143,10 +143,10 @@
                     "alertTextLoad": "* Validating, please wait"
                 },
 				     "ajaxCheckUniqueLicence": {
-                    "url": HOSTNAME+"users/CheckUniqueName",
+                    "url": HOSTNAME+"users/CheckUniqueNameMultilevel",
                     // you may want to pass extra data on the ajax call
-                     "extraData": "controller_name=driver_licenses",
-					"extraDataDynamic": ['#record_id',"#field_name"],
+                     //"extraData": "controller_name=driver_licenses",
+					"extraDataDynamic": ['#record_id',"#field_name",'#check_record_id',"#check_field_name","#controller_name"],
 					 "alertTextOk": "* This is available",
                     "alertText": "* This is already taken",
                     "alertTextLoad": "* Validating, please wait"

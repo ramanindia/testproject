@@ -12,13 +12,13 @@
                     <h3>{{PAGETITLE}}</h3>
                   </div>
 				    <div class="col-md-2">
-                    <a href="/vehicle-types/add-type" class="btn btn-primary"> Add New Type<i class="icon-plus icon-white"></i></a>
+                    <a href="/vehicles/add-vehicle" class="btn btn-primary"> Add New Vehicle<i class="icon-plus icon-white"></i></a>
                   </div>
                   <div class="col-md-4">
                     <div id="reportrange" class="pull-right">
-					<form method='get' action="{{ HOST_URL }}vehicle-types/{{PageSlug}}">
+					<form method='get' action="{{ HOST_URL }}vehicles/{{PageSlug}}">
 						 <div class="input-group">
-						<input type="text" class="form-control" value="{{QueryStringData.search}}" name="search" placeholder="Search for...">
+						<input type="text" class="form-control" value="{{QueryStringData.search}}" name="search" placeholder="Search for vehicle...">
 					<span class="input-group-btn">
 						  <button class="btn btn-default" type="submit">Go!</button>
 						</span>
@@ -60,21 +60,62 @@
 						<input type="checkbox" id="selectall" value="all">
 						</th>
         				<th class="numeric">
-						<a href="{{ HOST_URL }}vehicle-types/{{PageSlug}}?
-						orderBy=vehicle_type&orderType={{sortType}}{{setSortingQueryString}}">
+						<a href="{{ HOST_URL }}vehicles/{{PageSlug}}?
+						orderBy=vehicle_no&orderType={{sortType}}{{setSortingQueryString}}">
 						
-						{% if QueryStringData.orderBy=='vehicle_type' %}
+						{% if QueryStringData.orderBy=='vehicle_no' %}
 						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
 						{% endif %}	
-						Group name</a>
+					    Vehicle No</a>
 						</th>
-								<th class="numeric"><a title="Click for sort results" href="{{ HOST_URL }}vehicle-types/{{PageSlug}}?
+						
+						<th class="numeric">
+						<a href="{{ HOST_URL }}vehicles/{{PageSlug}}?
+						orderBy=vehicle_type_id&orderType={{sortType}}{{setSortingQueryString}}">
+						
+						{% if QueryStringData.orderBy=='vehicle_type_id' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}	
+					    Vehicle Type</a>
+						</th>
+						
+						<th class="numeric">
+						<a href="{{ HOST_URL }}vehicles/{{PageSlug}}?
+						orderBy=vehicle_group_id&orderType={{sortType}}{{setSortingQueryString}}">
+						
+						{% if QueryStringData.orderBy=='vehicle_group_id' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}	
+					    Vehicle Group</a>
+						</th>
+						
+						<th class="numeric">
+						<a href="{{ HOST_URL }}vehicles/{{PageSlug}}?
+						orderBy=account_id&orderType={{sortType}}{{setSortingQueryString}}">
+						
+						{% if QueryStringData.orderBy=='account_id' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}	
+					    Vehicle Account</a>
+						</th>
+						
+						<th class="numeric">
+						<a href="{{ HOST_URL }}vehicles/{{PageSlug}}?
+						orderBy=RTO&orderType={{sortType}}{{setSortingQueryString}}">
+						
+						{% if QueryStringData.orderBy=='RTO' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}	
+					    RTO</a>
+						</th>
+						
+						<th class="numeric"><a title="Click for sort results" href="{{ HOST_URL }}vehicles/{{PageSlug}}?
 						orderBy=status&orderType={{sortType}}{{setSortingQueryString}}">
 						{% if QueryStringData.orderBy=='status' %}
 						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
 						{% endif %}						
 						Status </th>
-						<th class="numeric"><a title="Click for sort results" title="Click for sort results" href="{{ HOST_URL }}vehicle-types/{{PageSlug}}?
+						<th class="numeric"><a title="Click for sort results" title="Click for sort results" href="{{ HOST_URL }}vehicles/{{PageSlug}}?
 						orderBy=created&orderType={{sortType}}{{setSortingQueryString}}">
 						{% if QueryStringData.orderBy=='created' %}
 						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
@@ -86,19 +127,28 @@
         		</thead>
         		<tbody>
 				 {% if results|length %}
-				  <form method='post' id="statusChangeform" action="/vehicle-types/change-status">	
+				  <form method='post' id="statusChangeform" action="/vehicles/change-status">	
 				  <input type="hidden" name="_csrf" value="{{csrfToken}}">
 				  <input type="hidden" name="reirectURL" value="{{redirectOriginalUrl}}">
 					{% for item in results %}
 					 <tr>					    
 						<td data-title="Status Change">
-						<input type="checkbox" class="records_id" name="records_id" value="{{item.vehicle_type_id}}"></td>
-        				<td data-title="Group Name">{{item.vehicle_type}}</td>
+						<input type="checkbox" class="records_id" name="records_id" value="{{item.vehicle_id}}"></td>
+        				<td data-title="Vehicle no">{{item.vehicle_no}}</td>
+						<td data-title="Vehicle type">{{item.vehicle_type}}</td>
+						<td data-title="Vehicle group">{{item.vehicle_group}}</td>
+						<td data-title="Account Account">{{item.account_name}}</td>
+						<td data-title="RTO">{{item.RTO}}</td>
 						<td data-title="Status">{{Status[item.status]}}</td>
 						<td data-title="Created at">{{ moment(item.created).format('DD-MM-YYYY hh:mm a')}}</td>							
 						<td  data-title="Action" class="numeric">
-                        <a class="btn btn-default" href="{{ HOST_URL }}vehicle-types/edit/{{item.vehicle_type_id}}?redirectURL={{redirctURL}}" title="Edit Cargo"><em class="fa fa-pencil"></em></a>
-                        <a class="btn btn-danger"  href="{{ HOST_URL }}vehicle-types/delete-record/{{item.vehicle_type_id}}?redirectURL={{redirctURL}}" onclick="return confirmDelete('Are you sure want to delete this item?');" title="Delete Group"><em class="fa fa-trash"></em></a>
+						<a class="btn btn-default" href="{{ HOST_URL }}vehicles/rto/{{item.vehicle_id}}?page_action=new&redirectURL={{redirctURL}}" 
+						   title="Click for RTO">RTO</a>
+						   <a class="btn btn-default" href="{{ HOST_URL }}vehicles/driver/{{item.vehicle_id}}?page_action=new&redirectURL={{redirctURL}}" 
+						   title="Click for Drivers">Drivers</a>
+						   
+                        <a class="btn btn-default" href="{{ HOST_URL }}vehicles/edit/{{item.vehicle_id}}?redirectURL={{redirctURL}}" title="Edit vehicle"><em class="fa fa-pencil"></em></a>
+                        <a class="btn btn-danger"  href="{{ HOST_URL }}vehicles/delete-record/{{item.vehicle_id}}?redirectURL={{redirctURL}}" onclick="return confirmDelete('Are you sure want to delete this item?');" title="Delete vehicle"><em class="fa fa-trash"></em></a>
 						</td>
         			</tr>
 					{% endfor %}

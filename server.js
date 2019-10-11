@@ -5,6 +5,8 @@
 var express = require('express');
 var nunjucks  = require('nunjucks');
 var csrf = require('csurf');
+//global.multer = require('multer');
+var fileUpload = require('express-fileupload');
 var path  = require('path');
 var bodyParser = require('body-parser');
 var flash = require('express-flash');
@@ -37,11 +39,14 @@ global.csrfProtection = csrf({ cookie: true })
 global.parseForm = bodyParser.urlencoded({ extended: false })
 
 
-
-
 const port = process.env.PORT || 3001;
 
 var app = express();
+	// enable files upload
+	app.use(fileUpload({
+		createParentPath: true,
+		tempFileDir : '/tmp/'
+	}));
 	app.use(flash());
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({extended: true}));

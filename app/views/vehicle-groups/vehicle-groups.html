@@ -8,22 +8,18 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
 				<div class="row x_title">
-                  <div class="col-md-4">
-                    <h3>{{PAGETITLE}}</h3> 
+                  <div class="col-md-6">
+                    <h3>{{PAGETITLE}}</h3>
                   </div>
-				   <div class="col-md-4">
-                    <a href="/drivers/licence/{{driverID}}?page_action=new" class="btn btn-primary"> Add New License<i class="icon-plus icon-white"></i></a>
-                    <a href="/drivers/index" class="btn btn-primary align-right"> All Drivers<i class="icon-plus icon-white"></i></a>
-		
-				  </div>
+				    <div class="col-md-2">
+                    <a href="/vehicle-groups/add-group" class="btn btn-primary"> Add New Group<i class="icon-plus icon-white"></i></a>
+                  </div>
                   <div class="col-md-4">
                     <div id="reportrange" class="pull-right">
-					<form method='get' action="{{ HOST_URL }}drivers/licence/{{driverID}}?page_action=all">
+					<form method='get' action="{{ HOST_URL }}vehicle-groups/{{PageSlug}}">
 						 <div class="input-group">
-						<input type="text" class="form-control" value="{{QueryStringData.search}}" name="search" placeholder="Search for License name,License no,issue date,expire date ....">
-					    <input type="hidden" class="form-control" value="all" name="page_action">
-					    
-						<span class="input-group-btn">
+						<input type="text" class="form-control" value="{{QueryStringData.search}}" name="search" placeholder="Search for vehicle group...">
+					<span class="input-group-btn">
 						  <button class="btn btn-default" type="submit">Go!</button>
 						</span>
 					  </div>
@@ -63,61 +59,22 @@
 					    <th class="numeric"> 
 						<input type="checkbox" id="selectall" value="all">
 						</th>
-						<th class="numeric">
-						<a href="{{ HOST_URL }}drivers/licence/{{driverID}}/{{PageSlug}}?
-						orderBy=driver_id&orderType={{sortType}}{{setSortingQueryString}}">
-						{% if QueryStringData.orderBy=='driver_id' %}
+        				<th class="numeric">
+						<a href="{{ HOST_URL }}vehicle-groups/{{PageSlug}}?
+						orderBy=vehicle_group&orderType={{sortType}}{{setSortingQueryString}}">
+						
+						{% if QueryStringData.orderBy=='vehicle_group' %}
 						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
 						{% endif %}	
-						Driver Name</a>
+						Vehicle Group</a>
 						</th>
-						<th class="numeric">
-						<a href="{{ HOST_URL }}drivers/licence/{{driverID}}/{{PageSlug}}?
-						orderBy=license_name&orderType={{sortType}}{{setSortingQueryString}}">
-						
-						{% if QueryStringData.orderBy=='license_name' %}
-						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
-						{% endif %}	
-						License Name</a>
-						</th>
-							
-						<th class="numeric">
-						<a href="{{ HOST_URL }}drivers/licence/{{driverID}}/{{PageSlug}}?
-						orderBy=license_no&orderType={{sortType}}{{setSortingQueryString}}">
-						
-						{% if QueryStringData.orderBy=='license_no' %}
-						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
-						{% endif %}	
-						License No</a>
-						</th>
-						
-							<th class="numeric">
-						<a href="{{ HOST_URL }}drivers/licence/{{driverID}}/{{PageSlug}}?
-						orderBy=license_issue_date&orderType={{sortType}}{{setSortingQueryString}}">
-						{% if QueryStringData.orderBy=='license_issue_date' %}
-						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
-						{% endif %}	
-						Issue date</a>
-						</th>
-							<th class="numeric">
-						<a href="{{ HOST_URL }}drivers/licence/{{driverID}}/{{PageSlug}}?
-						orderBy=license_expire_date&orderType={{sortType}}{{setSortingQueryString}}">
-						
-						{% if QueryStringData.orderBy=='license_expire_date' %}
-						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
-						{% endif %}	
-						Expire date</a>
-						</th>
-						
-						<th class="numeric"><a title="Click for sort results" 
-						href="{{ HOST_URL }}drivers/licence/{{driverID}}/{{PageSlug}}?
+								<th class="numeric"><a title="Click for sort results" href="{{ HOST_URL }}vehicle-groups/{{PageSlug}}?
 						orderBy=status&orderType={{sortType}}{{setSortingQueryString}}">
 						{% if QueryStringData.orderBy=='status' %}
 						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
 						{% endif %}						
 						Status </th>
-						<th class="numeric"><a title="Click for sort results" title="Click for sort results" 
-						href="{{ HOST_URL }}drivers/licence/{{driverID}}/{{PageSlug}}?
+						<th class="numeric"><a title="Click for sort results" title="Click for sort results" href="{{ HOST_URL }}vehicle-groups/{{PageSlug}}?
 						orderBy=created&orderType={{sortType}}{{setSortingQueryString}}">
 						{% if QueryStringData.orderBy=='created' %}
 						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
@@ -129,32 +86,25 @@
         		</thead>
         		<tbody>
 				 {% if results|length %}
-				  <form method='post' id="statusChangeform" action="/drivers/change-licence-status">	
+				  <form method='post' id="statusChangeform" action="/vehicle-groups/change-status">	
 				  <input type="hidden" name="_csrf" value="{{csrfToken}}">
 				  <input type="hidden" name="reirectURL" value="{{redirectOriginalUrl}}">
 					{% for item in results %}
 					 <tr>					    
 						<td data-title="Status Change">
-						<input type="checkbox" class="records_id" name="records_id" value="{{item.driver_license_id}}"></td>
-						<td data-title="Driver Name">{{item.driver_name}}</td>
-						<td data-title="License Name">{{item.license_name}}</td>
-        				<td data-title="License No">{{item.license_no}}</td>
-						<td data-title="Issue Date">{{ moment(item.license_issue_date).format('DD-MM-YYYY')}}</td>
-						<td data-title="Expire Date">{{ moment(item.license_expire_date).format('DD-MM-YYYY')}}</td>
+						<input type="checkbox" class="records_id" name="records_id" value="{{item.vehicle_group_id}}"></td>
+        				<td data-title="Group Name">{{item.vehicle_group}}</td>
 						<td data-title="Status">{{Status[item.status]}}</td>
-						<td data-title="Created">{{ moment(item.created).format('DD-MM-YYYY hh:mm a')}}</td>							
+						<td data-title="Created at">{{ moment(item.created).format('DD-MM-YYYY hh:mm a')}}</td>							
 						<td  data-title="Action" class="numeric">
-                        <a class="btn btn-default" href="{{ HOST_URL }}drivers/licence-edit/{{item.driver_license_id}}/{{item.driver_id}}?redirectURL={{redirctURL}}" 
-						   title="Edit item"><em class="fa fa-pencil"></em></a>
-                        <a class="btn btn-danger"  href="{{ HOST_URL }}drivers/delete-licence-record/{{item.driver_license_id}}?redirectURL={{redirctURL}}" 
-						onclick="return confirmDelete('Are you sure want to delete this item?');" title="Delete item">
-						<em class="fa fa-trash"></em></a>
+                        <a class="btn btn-default" href="{{ HOST_URL }}vehicle-groups/edit/{{item.vehicle_group_id}}?redirectURL={{redirctURL}}" title="Edit Vehicle Group"><em class="fa fa-pencil"></em></a>
+                        <a class="btn btn-danger"  href="{{ HOST_URL }}vehicle-groups/delete-record/{{item.vehicle_group_id}}?redirectURL={{redirctURL}}" onclick="return confirmDelete('Are you sure want to delete this item?');" title="Delete Vehicle Group"><em class="fa fa-trash"></em></a>
 						</td>
         			</tr>
 					{% endfor %}
 					{% else %} 
 					 <tr>
-					  <td colspan="15" >Records not found.</td>
+					  <td colspan="9" >Records not found.</td>
 					 </tr>
 				 	{% endif %}  				
         		</tbody>

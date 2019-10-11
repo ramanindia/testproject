@@ -10,6 +10,8 @@ var WEB_MESSAGES = {
 	//SOMETHINGWENTWRONG:"Something went wrong. Please try again.",
 	ALLREADYEXITS :"is already exits",
 	PLZCREATEFIRSTCOUNTRY: "Please create country and active",
+	PLZCREATEVEHICLEGROUP :"Please create veicle group and active",
+	PLZCREATEVEHICLETYPE :"Please create veicle type and active",
 	
 	ADMIN_LOGIN_FORM_HEADING:" Login",
 	LOGIN_FORM_USERNAME_PLACEHOLDER:"Username/email-id",
@@ -45,9 +47,7 @@ var WEB_MESSAGES = {
 	ADDVEHICLETITLE:"Add Vehicle Type",
 	EDITVEHICLETITLE:"Edit Vehicle Type",
 	
-	ALLVEHILES:"All Vehicles",
-	ADDVEHICLE:"Add Vehicle",
-	EDITVEHICLE:"Edit Vehicle",
+	
 	
 	ALLFROMDESTINATION:"All From Destination",
 	ADDFROMDESTINATIONTITLE:"Add From Destination",
@@ -64,12 +64,43 @@ var WEB_MESSAGES = {
 	EDITACCOUNTTITLE:"Edit Account",
 	PLZCREATEACCGROUP :"Please create Account group and active",
 	
+	ALLVEHICLE:"All Vehicles",
+	ACTIVEVEHICLE :"Active Vehicle",
+	DEACTIVEVEHICLE :"Deactive Vehicle",
+	ADDVEHICLETITLE:"Add Vehicle",
+	EDITVEHICLETITLE:"Edit Vehicle",
+	
+	
+	ALLVEHICLEDRIVER:"All Vehicle Drivers",
+	ADDVEHICLEDRIVERTITLE:"Add Vehicle Driver",
+	EDITVEHICLEDRIVERTITLE:"Edit Vehicle Drive",
+	
+	
+	
+	//ALLVEHILES:"All Vehicles",
+	//ADDVEHICLE:"Add Vehicle",
+	//EDITVEHICLE:"Edit Vehicle",
+	
+	
+	
 	ALLDRIVER:"All Drivers",
 	ACTIVEDRIVER :"Active Driver",
 	DEACTIVEDRIVER :"Deactive Driver",
 	ADDDRIVERTITLE:"Add Driver",
 	EDITDRIVERTITLE:"Edit Driver",
 	PLZCREATEACC :"Please create Account and active",
+	PLZCREATEVEH :"Please create Vehicle and active",
+	PLZCREATEDRIVER :"Please create Driver and active",
+	
+   
+     ALLRTO:"All RTO Documents",
+	ACTIVERTO :"Active RTO Documents",
+	DEACTIVERTO:"Deactive RTO Documents",
+	ADDRTOTITLE:"Add RTO Document",
+	EDITRTOTITLE:"Edit RTO Document",
+	
+	
+	
 	
 	ALLLICENCE:"All Licence",
 	ACTIVELICENCE :"Active Licence",
@@ -77,6 +108,14 @@ var WEB_MESSAGES = {
 	ADDLICENCETITLE:"Add Licence",
 	EDITLICENCETITLE:"Edit Licence",
 	PLZCREATELICENCE :"Please create Driver",
+	
+	
+	
+	ALLGROUP:"All Group Type",
+	ADDGROUPTITLE:"Add Group Type",
+	EDITGROUPTITLE:"Edit Group Type",
+	ACTIVEGROUP :"Active Group",
+	DEACTIVGROUP :"Deactive Group",
 	
 	
 	ALLCOUNTRIES:"All Users",
@@ -89,8 +128,10 @@ var WEB_MESSAGES = {
 	ALL_RIGHT_RESERVED_TEXT:"All Rights Reserved. ! is a Bootstrap 3 template. Privacy and Terms",
 	LOGINPAGETITLE:"Login | ",
 	DASHBOARDTITLE:"User Dashboard",
-	ALLREADYEXITS:"All ready exits",
+	ALLREADYEXITS:"all ready exits",
+	
 	ACTIVERECORDS:"You can not delete this records. Firstly you do deactive then delete this",
+	
 	DELETEDMESSAGE:"You have successfully delete this item",
 	ALLREADYUSED:"You are using this item in other module.So you can not delete this item",
 	REGERROR:"Fix this error:-",

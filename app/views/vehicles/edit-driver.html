@@ -1,0 +1,111 @@
+{% extends "layouts/default.html" %}
+{% block content %}
+   <!-- page content -->
+        <div class="right_col" role="main">
+		 <div class="">
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="row x_title">
+				    <div class="col-md-6">
+                    <h3>Edit Driver</h3>
+					</div>
+					<div class="col-md-6">
+					 <a href="/vehicles/driver/{{MAINID}}?page_action=all" class="btn btn-primary align-right"> All Vehicle Drivers<i class="icon-plus icon-white"></i></a>
+					 <a href="/vehicles/index" class="btn btn-primary align-right"> All Vehicles<i class="icon-plus icon-white"></i></a>
+				</div>
+                  </div>
+                  <div class="x_content">
+					   {% if errordata %}
+						{% for item in errordata %}
+		  <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <strong>Error ! </strong>{{item.msg}}
+                  </div>
+				  	{% endfor %}	
+				 {% endif %}
+                    <br />
+                    <form id="add-country" method="post" class="form-horizontal  form-label-left">
+					<input type="hidden" name="_csrf" value="{{csrfToken}}">
+					<input type="hidden" name="record_id" id="record_id" value="{{formData.vehicle_driver_id}}">
+					<input type="hidden" name="field_name" id="field_name" value="vehicle_driver_id">
+					<input type="hidden" name="check_record_id" id="check_record_id" value="{{MAINID}}">
+					<input type="hidden" name="check_field_name" id="check_field_name" value="vehicle_id">
+					<input type="hidden" name="controller_name" id="controller_name" value="vehicle_drivers">
+						
+						<div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="license-name">Vehicle No
+						<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-text">
+                        	<label class="vehicle_no">{{formData.vehicle_no}}</label>
+							</div>
+                         </div>
+					  
+					 <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="license-name">Driver Name
+						<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        	<select name="driver_id" id="driver_id"  class="listing-select2 form-control col-md-7 col-xs-12 validate[required,ajax[ajaxCheckUniqueLicence]]">
+							<option value="">Select Driver</option>
+							{% for item in drivers %}
+							<option value="{{item.driver_id}}" {% if item.driver_id==formData.driver_id %} selected  {% endif %}>{{item.driver_name}}</option>
+							{% endfor %}
+							</select> 
+							</div>
+                      </div>
+					  
+					  
+					   <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bank-code">From Date
+						<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" name="from_date"  value="{{ moment(item.from_date).format('DD-MM-YYYY')}}" id="from_date" placeholder="Select License Expiry Date" class="form-control basic_cal col-md-7 col-xs-12 validate[required]">
+                        </div>
+                      </div>
+					  
+					   <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bank-code">Remark
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                         <textarea name="remarks" id="remarks" placeholder="Enter Remarks" class="form-control">{{formData.remarks}}</textarea>
+						 </div>
+                      </div>
+					  	<div class="form-group">
+						 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bank-code">Status
+						 <span class="required">*</span>
+						  </label>
+						  <div class="col-md-6 col-sm-6 col-xs-12">
+								<select class="form-control" name="status">
+							{% for statusitem in Status %}
+							<option value="{{loop.index0}}" {% if loop.index0==formData.status %} selected  {% endif %}>{{statusitem}}</option>
+							{% endfor %}
+							</select>
+							</div>
+							</div>
+					  
+					   <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                           <button type="submit" class="btn btn-success">Submit</button>
+						  <button class="btn btn-primary" type="reset">Reset</button>
+						   <button class="btn btn-primary" type="button" onclick="return confirmCancle('Are you sure want to cancel','{{ HOST_URL }}vehicles/driver/{{VEHICLEID}}?page_action=all');">Cancel</button>
+						 
+                         
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+		 </div>           
+        </div>
+        <!-- /page content -->
+		
+{% endblock %}

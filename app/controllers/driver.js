@@ -53,7 +53,7 @@ exports.changeStatus = function(req, res)
 exports.changeLicenceStatus = function(req, res) 
 {  								
      let requestData = req.body;
-	  console.log("requestData====",requestData);
+	  //console.log("requestData====",requestData);
 	if (Object.keys(requestData).length !==0)
 	{ 
 		let updateIds = requestData.records_id;
@@ -430,7 +430,7 @@ exports.DriverLicenseEdit = function(req, res)
 
 	 let actualredirectURL='/drivers/licence/'+recordID+'?page_action=all';
 	 
-	 Genernal.findAll('select driver_id,driver_name from drivers where status=1 and driver_id="'+driverID+'"',function(err,results)
+	 Genernal.findAll('select driver_id,driver_name from drivers where status=1 and user_id="'+req.session.user.id+'" and driver_id="'+driverID+'"',function(err,results)
 	 {
 		
 		 if(Object.keys(results).length ==0)
@@ -497,7 +497,9 @@ exports.DriverLicenseEdit = function(req, res)
 							else
 							{
 								
-							Genernal.checkUquieFieldWithUser('license_name',requestData.license_name,'driver_licenses',req.session.user.id,recordID,'driver_license_id',function(err, checkresults) 
+								
+								
+							Genernal.checkUquieMultipleFieldWithUser('license_name',requestData.license_name,requestData.check_field_name, requestData.check_record_id,'driver_licenses',req.session.user.id,recordID,'driver_license_id',function(err, checkresults) 
 							{
 								 if(err)
 								 {	
@@ -517,6 +519,10 @@ exports.DriverLicenseEdit = function(req, res)
 									 {					 delete requestData._csrf;
 														 delete requestData.record_id;
 														 delete requestData.field_name;
+														 delete requestData.check_field_name;
+														 delete requestData.check_record_id;
+														 delete requestData.controller_name;
+
 														let conditions = {driver_license_id:recordID,user_id:req.session.user.id};
 														Genernal.update(requestData,'driver_licenses',conditions,function(err,resultdata)
 														{
@@ -818,8 +824,10 @@ exports.Licence = function(req, res)
 		 
 
 	 }
-	 else  if(queryAction=='new' || queryAction=='edit') 
+	 else  if(queryAction=='new') 
 	 {
+		 
+		
 		if (Object.keys(requestData).length !==0)
 		{
 			req.checkBody('license_name', 'License name is required.').notEmpty()
@@ -834,6 +842,8 @@ exports.Licence = function(req, res)
 			res.render(renderHtml,
 				 {
 					formData :requestData,
+					moment:moment,
+					DRIVERID:recordID,
 					PAGETITLE:LANGTEXT.ADDLICENCETITLE,csrfToken: req.csrfToken(),
 					errordata : errors
 				});
@@ -846,13 +856,17 @@ exports.Licence = function(req, res)
 					  var recordLICID =recordID;
 					 var fieldID ='driver_license_id';
 				 }
-				Genernal.checkUquieFieldWithUser('license_name', requestData.license_name,'driver_licenses',req.session.user.id,recordLICID,fieldID, function(err, checkresults) 
+				
+				 
+				Genernal.checkUquieMultipleFieldWithUser('license_name', requestData.license_name,requestData.check_field_name, requestData.check_record_id,'driver_licenses',req.session.user.id,recordLICID,fieldID, function(err, checkresults) 
 				{
 					 if(err)
 					 {	
 						 res.render(renderHtml,
 						 {
 							formData :requestData,
+							moment:moment,
+							DRIVERID:recordID,
 							PAGETITLE:LANGTEXT.ADDLICENCETITLE,csrfToken: req.csrfToken(),
 							errordata : [ { msg: 'License name '+LANGTEXT.ALLREADYEXITS }],
 						});
@@ -861,24 +875,26 @@ exports.Licence = function(req, res)
 					 {
 						 if(checkresults)
 						 {		
-						if(queryAction=='edit')
-						 {
-							 
-						 }
-						 else 
-						 {
+						
 									 delete requestData._csrf;
+									  delete requestData.check_field_name;
+									 delete requestData.check_record_id;
+									 delete requestData.controller_name;
+									 
 									 requestData.driver_license_id=UID();
 									 requestData.driver_id=recordID;
 									 requestData.user_id = req.session.user.id;
 									 
 							Genernal.save(requestData,'driver_licenses',function(err,result)
 								{
+									//console.log("err====",err);
 									if(err)
 									{
 										res.render(renderHtml,
 										{
 											formData :requestData,
+											moment:moment,
+											DRIVERID:recordID,
 											PAGETITLE:LANGTEXT.ADDLICENCETITLE,csrfToken: req.csrfToken(),
 											errordata : [ { msg: LANGTEXT.PLZTRY }],
 										});
@@ -892,13 +908,15 @@ exports.Licence = function(req, res)
 									}
 									
 								});	
-						    }								
+						 								
 						 }
 						 else
 						 {
 							 res.render(renderHtml,
 							 {
 								formData :requestData,
+								moment:moment,
+								DRIVERID:recordID,
 								PAGETITLE:LANGTEXT.ADDLICENCETITLE,csrfToken: req.csrfToken(),
 								errordata : [ { msg:LANGTEXT.SOMETHINGWENTWRONG}],
 							}); 
@@ -912,7 +930,7 @@ exports.Licence = function(req, res)
 		{
 			res.render(renderHtml,
 			{
-				PAGETITLE:LANGTEXT.ADDLICENCETITLE,DRIVERID:recordID,csrfToken: req.csrfToken()
+				PAGETITLE:LANGTEXT.ADDLICENCETITLE,moment:moment,DRIVERID:recordID,csrfToken: req.csrfToken()
 			});
 		}
 	 }

@@ -4330,3 +4330,8 @@ table thead .checkbox.radio { margin-top:-7px;margin-top:-21px; }
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+
+.form-text {
+    padding-top: 7px;
+}

@@ -117,6 +117,49 @@ exports.CheckUniqueName = function(req, res)
 	 });
 	
 }
+/**
+ * define CheckMultiLevelUniqueName function
+  * @param {object} req - all request object.
+   * @param {object} res - all response object.
+ */
+exports.CheckMultiLevelUniqueName = function(req, res) 
+{  
+	//console.log("req.params===",req.params);
+     let QureyData = req.query;
+	 
+	 //console.log("QureyData==",QureyData);
+	// console.log(QureyData);
+	 
+	 let recordId='';
+	 let recordField='';
+	 
+	 if(typeof req.query.record_id !== 'undefined' || typeof req.query.field_name !=='undefined')
+	 {
+		 recordId = QureyData.record_id;
+		 recordField = QureyData.field_name;
+	 }
+	 //console.log("recordId==",recordId);
+	// console.log("recordField==",recordField);
+	 
+	 let controllerName = QureyData.controller_name;
+	Genernal.checkUquieMultipleFieldWithUser(QureyData.fieldId, QureyData.fieldValue, QureyData.check_field_name,QureyData.check_record_id,controllerName,req.session.user.id,recordId,recordField,function(err, user) 
+	{
+		 if(err)
+		 {
+			res.send([QureyData.fieldId,false]);
+		 }
+		 else
+		 {
+			 if(user)
+			 {
+			 res.send([QureyData.fieldId,true]);
+			 }			 
+		 }
+	 });
+	
+}
+
+
  /**
  * define checkUsername function
   * @param {object} req - all request object.

@@ -8,18 +8,22 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
 				<div class="row x_title">
-                  <div class="col-md-6">
-                    <h3>{{PAGETITLE}}</h3>
+                  <div class="col-md-4">
+                    <h3>{{PAGETITLE}}</h3> 
                   </div>
-				    <div class="col-md-2">
-                    <a href="/vehicle-types/add-type" class="btn btn-primary"> Add New Type<i class="icon-plus icon-white"></i></a>
-                  </div>
+				   <div class="col-md-4">
+                    <a href="/vehicles/driver/{{RECORDID}}?page_action=new&redirectURL={{redirctURL}}" class="btn btn-primary"> Add New vehicle Driver<i class="icon-plus icon-white"></i></a>
+                    <a href="/vehicles/index" class="btn btn-primary align-right"> All vehicle Drivers<i class="icon-plus icon-white"></i></a>
+		
+				  </div>
                   <div class="col-md-4">
                     <div id="reportrange" class="pull-right">
-					<form method='get' action="{{ HOST_URL }}vehicle-types/{{PageSlug}}">
+					<form method='get' action="{{ HOST_URL }}vehicles/driver/{{RECORDID}}?page_action=all">
 						 <div class="input-group">
-						<input type="text" class="form-control" value="{{QueryStringData.search}}" name="search" placeholder="Search for...">
-					<span class="input-group-btn">
+						<input type="text" class="form-control" value="{{QueryStringData.search}}" name="search" placeholder="Search for driver ....">
+					    <input type="hidden" class="form-control" value="all" name="page_action">
+					    
+						<span class="input-group-btn">
 						  <button class="btn btn-default" type="submit">Go!</button>
 						</span>
 					  </div>
@@ -59,22 +63,50 @@
 					    <th class="numeric"> 
 						<input type="checkbox" id="selectall" value="all">
 						</th>
-        				<th class="numeric">
-						<a href="{{ HOST_URL }}vehicle-types/{{PageSlug}}?
-						orderBy=vehicle_type&orderType={{sortType}}{{setSortingQueryString}}">
-						
-						{% if QueryStringData.orderBy=='vehicle_type' %}
+						<th class="numeric">
+						<a href="{{ HOST_URL }}vehicles/driver/{{RECORDID}}/{{PageSlug}}?
+						orderBy=vehicle_id&orderType={{sortType}}{{setSortingQueryString}}">
+						{% if QueryStringData.orderBy=='vehicle_id' %}
 						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
 						{% endif %}	
-						Group name</a>
+						Vehicle no</a>
 						</th>
-								<th class="numeric"><a title="Click for sort results" href="{{ HOST_URL }}vehicle-types/{{PageSlug}}?
+						
+						<th class="numeric">
+						<a href="{{ HOST_URL }}vehicles/driver/{{RECORDID}}/{{PageSlug}}?
+						orderBy=driver_id&orderType={{sortType}}{{setSortingQueryString}}">
+						{% if QueryStringData.orderBy=='driver_id' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}	
+						Driver Name</a>
+						</th>
+						<th class="numeric">
+						<a href="{{ HOST_URL }}vehicles/driver/{{RECORDID}}/{{PageSlug}}?
+						orderBy=from_date&orderType={{sortType}}{{setSortingQueryString}}">
+						
+						{% if QueryStringData.orderBy=='from_date' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}	
+						From Date</a>
+						</th>
+							
+						<th class="numeric">
+						<a href="{{ HOST_URL }}vehicles/driver/{{RECORDID}}/{{PageSlug}}?
+						orderBy=from_date&orderType={{sortType}}{{setSortingQueryString}}">						
+						{% if QueryStringData.orderBy=='from_date' %}
+						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
+						{% endif %}	
+						Remarks</a>
+						</th>
+						<th class="numeric"><a title="Click for sort results" 
+						href="{{ HOST_URL }}vehicles/driver/{{RECORDID}}/{{PageSlug}}?
 						orderBy=status&orderType={{sortType}}{{setSortingQueryString}}">
 						{% if QueryStringData.orderBy=='status' %}
 						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
 						{% endif %}						
 						Status </th>
-						<th class="numeric"><a title="Click for sort results" title="Click for sort results" href="{{ HOST_URL }}vehicle-types/{{PageSlug}}?
+						<th class="numeric"><a title="Click for sort results" title="Click for sort results" 
+						href="{{ HOST_URL }}vehicles/driver/{{RECORDID}}/{{PageSlug}}?
 						orderBy=created&orderType={{sortType}}{{setSortingQueryString}}">
 						{% if QueryStringData.orderBy=='created' %}
 						<span class="glyphicon glyphicon-arrow-{{className}}"></span>
@@ -86,25 +118,31 @@
         		</thead>
         		<tbody>
 				 {% if results|length %}
-				  <form method='post' id="statusChangeform" action="/vehicle-types/change-status">	
+				  <form method='post' id="statusChangeform" action="/vehicles/change-driver-status">	
 				  <input type="hidden" name="_csrf" value="{{csrfToken}}">
 				  <input type="hidden" name="reirectURL" value="{{redirectOriginalUrl}}">
 					{% for item in results %}
 					 <tr>					    
 						<td data-title="Status Change">
-						<input type="checkbox" class="records_id" name="records_id" value="{{item.vehicle_type_id}}"></td>
-        				<td data-title="Group Name">{{item.vehicle_type}}</td>
+						<input type="checkbox" class="records_id" name="records_id" value="{{item.vehicle_driver_id}}"></td>
+						<td data-title="Vehicle No">{{item.vehicle_no}}</td>
+						<td data-title="Driver Name">{{item.driver_name}}</td>
+						<td data-title="From Date">{{ moment(item.from_date).format('DD-MM-YYYY')}}</td>
+						<td data-title="Remarks">{{item.remarks}}</td>
 						<td data-title="Status">{{Status[item.status]}}</td>
-						<td data-title="Created at">{{ moment(item.created).format('DD-MM-YYYY hh:mm a')}}</td>							
+						<td data-title="Created">{{ moment(item.created).format('DD-MM-YYYY hh:mm a')}}</td>							
 						<td  data-title="Action" class="numeric">
-                        <a class="btn btn-default" href="{{ HOST_URL }}vehicle-types/edit/{{item.vehicle_type_id}}?redirectURL={{redirctURL}}" title="Edit Cargo"><em class="fa fa-pencil"></em></a>
-                        <a class="btn btn-danger"  href="{{ HOST_URL }}vehicle-types/delete-record/{{item.vehicle_type_id}}?redirectURL={{redirctURL}}" onclick="return confirmDelete('Are you sure want to delete this item?');" title="Delete Group"><em class="fa fa-trash"></em></a>
+                        <a class="btn btn-default" href="{{ HOST_URL }}vehicles/driver-edit/{{item.vehicle_driver_id}}/{{item.vehicle_id}}?redirectURL={{redirctURL}}" 
+						   title="Edit item"><em class="fa fa-pencil"></em></a>
+                        <a class="btn btn-danger"  href="{{ HOST_URL }}vehicles/delete-driver-record/{{item.vehicle_driver_id}}?redirectURL={{redirctURL}}" 
+						onclick="return confirmDelete('Are you sure want to delete this item?');" title="Delete item">
+						<em class="fa fa-trash"></em></a>
 						</td>
         			</tr>
 					{% endfor %}
 					{% else %} 
 					 <tr>
-					  <td colspan="9" >Records not found.</td>
+					  <td colspan="15" >Records not found.</td>
 					 </tr>
 				 	{% endif %}  				
         		</tbody>

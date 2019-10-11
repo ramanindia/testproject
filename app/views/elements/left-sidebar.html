@@ -107,12 +107,23 @@
                       <li {% if (action == 'deactive') and (controller == 'vehicle-types') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}vehicle-types/deactive">Deactive Type</a></li>
 					   </ul>
                   </li>
+				  
+				    <li {% if (controller == 'vehicle-groups') %} class="active" {% endif %}><a><i class="fa fa-sitemap"></i> Vehicle Groups<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li {% if (action == 'add-group') and (controller == 'vehicle-groups') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}vehicle-groups/add-group">Add Group</a></li>
+					  <li {% if (action == 'index') and (controller == 'vehicle-groups') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}vehicle-groups/index">All Groups</a></li>         
+					 <li {% if (action == 'active') and (controller == 'vehicle-groups') %} class="current-page" {% endif %}  ><a href="{{ HOST_URL }}vehicle-groups/active">Active Group</a></li>
+                      <li {% if (action == 'deactive') and (controller == 'vehicle-groups') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}vehicle-groups/deactive">Deactive Group</a></li>
+					   </ul>
+                  </li>
+				  
+				  
 				     <li {% if (controller == 'vehicle') %} class="active" {% endif %}><a><i class="fa fa-sitemap"></i> Vehicles<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li {% if (action == 'add-vechile') and (controller == 'vehicle') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}vehicles/add-vechile">Add Vechile</a></li>
-					  <li {% if (action == 'index') and (controller == 'vehicle') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}vehicles/index">All Vechiles</a></li>         
-					 <li {% if (action == 'active') and (controller == 'vehicle') %} class="current-page" {% endif %}  ><a href="{{ HOST_URL }}vehicles/active">Active Vechile</a></li>
-                      <li {% if (action == 'deactive') and (controller == 'vehicle') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}vehicles/deactive">Deactive Vechile</a></li>
+                      <li {% if (action == 'add-vechile') and (controller == 'vehicle') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}vehicles/add-vehicle">Add Vehicle</a></li>
+					  <li {% if (action == 'index') and (controller == 'vehicle') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}vehicles/index">All Vehicles</a></li>         
+					 <li {% if (action == 'active') and (controller == 'vehicle') %} class="current-page" {% endif %}  ><a href="{{ HOST_URL }}vehicles/active">Active Vehicle</a></li>
+                      <li {% if (action == 'deactive') and (controller == 'vehicle') %} class="current-page" {% endif %} ><a href="{{ HOST_URL }}vehicles/deactive">Deactive Vehicle</a></li>
 					   </ul>
                   </li>
 				  

@@ -24,7 +24,7 @@
     "ejs-mate": "^3.0.0",
     "esdoc": "^1.1.0",
     "express": "^4.16.4",
-    "express-fileupload": "^1.1.6-alpha.5",
+    "express-fileupload": "^1.1.9",
     "express-flash": "0.0.2",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
